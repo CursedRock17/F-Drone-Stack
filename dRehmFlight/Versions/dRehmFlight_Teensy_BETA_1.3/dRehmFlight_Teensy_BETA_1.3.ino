@@ -189,7 +189,7 @@ const int PPM_Pin = 23;
 //OneShot125 ESC pin outputs:
 const int mPin[6] = {0, 1, 2, 3, 4, 5};
 // PWM servo or ESC outputs:
-const int servoPin[7] = {6, 7, 8, 9, 10, 11, 12}
+const int servoPin[7] = {6, 7, 8, 9, 10, 11, 12};
 // Create servo objects to control a servo or ESC with PWM
 PWMServo servos[7];
 
@@ -247,11 +247,11 @@ float error_yaw, error_yaw_prev, integral_yaw, integral_yaw_prev, derivative_yaw
 
 //Mixer
 float m_command_scaled[6];
-float s_command_scaled[6];
+int m_command_PWM[6];
 
-// PWM Signals
-int m_command_PWM[6]
-int s_command_PWM[6];
+// Servo Commands
+float s_command_scaled[7];
+int s_command_PWM[7];
 
 //Flight status
 bool armedFly = false;
@@ -302,7 +302,7 @@ void setup() {
   // Keep these at 0 if you are using servo outputs for motors
   for (int i = 0; i < 6; i++)
   {
-    servos[i] = 0;
+    servos[i].write(0);
   }
   delay(5);
 
@@ -1068,7 +1068,7 @@ void scaleCommands() {
   // Scaled to 125us - 250us for oneshot125 protocol
   for (int i = 0; i < 5; i++)
   {
-    m_command_PWM[i] = m_command_scaled * 125 + 125;
+    m_command_PWM[i] = m_command_scaled[i] * 125 + 125;
   }
 
   // Constrain commands to motors within oneshot125 bounds
@@ -1327,15 +1327,15 @@ void switchRollYaw(int reverseRoll, int reverseYaw) {
 void throttleCut() {
   //DESCRIPTION: Directly set actuator outputs to minimum value if triggered
   /*
-      Monitors the state of radio command channel_5_pwm and directly sets the mx_command_PWM values to minimum (120 is
+      Monitors the state of radio command channel_pwm[5] and directly sets the mx_command_PWM values to minimum (120 is
       minimum for oneshot125 protocol, 0 is minimum for standard PWM servo library used) if channel 5 is high. This is the last function
       called before commandMotors() is called so that the last thing checked is if the user is giving permission to command
       the motors to anything other than minimum value. Safety first.
 
-      channel_5_pwm is LOW then throttle cut is OFF and throttle value can change. (ThrottleCut is DEACTIVATED)
-      channel_5_pwm is HIGH then throttle cut is ON and throttle value = 120 only. (ThrottleCut is ACTIVATED), (drone is DISARMED)
+      channel_pwm[5] is LOW then throttle cut is OFF and throttle value can change. (ThrottleCut is DEACTIVATED)
+      channel_pwm[5] is HIGH then throttle cut is ON and throttle value = 120 only. (ThrottleCut is ACTIVATED), (drone is DISARMED)
   */
-  if ((channel_5_pwm > 1500) || (armedFly == false)) {
+  if ((channel_pwm[4] > 1500) || (armedFly == false)) {
     armedFly = false;
     for (int i = 0; i < 5; i++)
     {
@@ -1450,7 +1450,7 @@ void printRadioData() {
     print_counter = micros();
     for (int i = 0; i < 5; i++)
     {
-      Serial.print(F(" CH" + i + ":"));
+      Serial.print(F(" CH:"));
       Serial.println(channel_pwm[i]);
     }
   }
@@ -1535,7 +1535,7 @@ void printMotorCommands() {
     print_counter = micros();
     for (int i = 0; i < 5; i++)
     {
-      Serial.print(F("m_command[" + i + "]:"));
+      Serial.print(F("m_command:"));
       Serial.println(m_command_PWM[i]);
     }
   }
@@ -1546,7 +1546,7 @@ void printServoCommands() {
     print_counter = micros();
     for (int i = 0; i < 6; i++)
     {
-      Serial.print(F("s_command[" + i + "]:"));
+      Serial.print(F("s_command:"));
       Serial.println(s_command_PWM[i]);
     }
   }
