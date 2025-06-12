@@ -75,8 +75,8 @@ void serialEvent3(void)
 void getPPM() 
 {
   unsigned long dt_ppm;
-  int trig = digitalRead(PPM_Pin);
-  if (trig == 1) { //Only care about rising edge
+  int trigger = digitalRead(PPM_Pin);
+  if (trigger) { //Only care about rising edge
     dt_ppm = micros() - time_ms;
     time_ms = micros();
     
@@ -87,7 +87,7 @@ void getPPM()
 
     // Check pulse for each channel
     for (int i = 0; i < 6; i++) {
-      if (ppm_counter = i) {
+      if (ppm_counter == i) {
         channel_raw[i] = dt_ppm;
       }
     }
