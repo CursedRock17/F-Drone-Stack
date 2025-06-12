@@ -1,5 +1,3 @@
-#include <micro_ros_arduino.h>
-
 //Arduino/Teensy Flight Controller - dRehmFlight
 //Author: Nicholas Rehm
 //Project Start: 1/6/2020
@@ -180,12 +178,8 @@ float Kd_yaw = 0.00015;       //Yaw D-gain (be careful when increasing too high,
 //NOTE: Pin 13 is reserved for onboard LED, pins 18 and 19 are reserved for the MPU6050 IMU for default setup
 //Radio:
 //Note: If using SBUS, connect to pin 21 (RX5), if using DSM, connect to pin 15 (RX3)
-const int ch1Pin = 15; //throttle
-const int ch2Pin = 16; //ail
-const int ch3Pin = 17; //ele
-const int ch4Pin = 20; //rudd
-const int ch5Pin = 21; //gear (throttle cut)
-const int ch6Pin = 22; //aux1 (free aux channel)
+//// Pinout Meanings:     throttle, ail, elevation, rudd, gear, aux1
+const int channelPins[6] = {15,     16,  17,        20,    21,  22};
 const int PPM_Pin = 23;
 
 //OneShot125 ESC pin outputs:
@@ -268,12 +262,12 @@ void setup() {
   
   // Initialize all pins
   pinMode(13, OUTPUT); //Pin 13 LED blinker on board, do not modify 
-  for (int i = 0; i < 5; i++)
+  for (int i = 0; i < 6; i++)
   {
     pinMode(mPin[i], OUTPUT);
   }
   // Pin, min PWM value, max PWM value
-  for (int i = 0; i < 6; i++)
+  for (int i = 0; i < 7; i++)
   {
     servos[i].attach(servoPin[i], 900, 2100);
   }
@@ -286,7 +280,7 @@ void setup() {
   radioSetup();
   
   //Set radio channels to default (safe) values before entering main loop
-  for (int i = 0; i < 5; i++)
+  for (int i = 0; i < 6; i++)
   {
     channel_pwm[i] = channel_fs[i];
   }
@@ -302,7 +296,7 @@ void setup() {
   // Command servo angle from 0-180 degrees (1000 to 2000 PWM)
   // Set these to 90 for servos if you do not want them to briefly max out on startup
   // Keep these at 0 if you are using servo outputs for motors
-  for (int i = 0; i < 6; i++)
+  for (int i = 0; i < 7; i++)
   {
     servos[i].write(0);
   }
@@ -374,7 +368,7 @@ void loop() {
 
   //Command actuators
   commandMotors(); //Sends command pulses to each motor pin using OneShot125 protocol
-  for (int i = 0; i < 6; i++)
+  for (int i = 0; i < 7; i++)
   {
     servos[i].write(s_command_PWM[i]);
   }
@@ -1066,24 +1060,24 @@ void scaleCommands() {
    * which are used to command the servos.
    */
   // Scaled to 125us - 250us for oneshot125 protocol
-  for (int i = 0; i < 5; i++)
+  for (int i = 0; i < 6; i++)
   {
     m_command_PWM[i] = m_command_scaled[i] * 125 + 125;
   }
 
   // Constrain commands to motors within oneshot125 bounds
-  for (int i = 0; i < 5; i++)
+  for (int i = 0; i < 6; i++)
   {
     m_command_PWM[i] = constrain(m_command_PWM[i], 125, 250);
   }
 
   // Scaled to 0-180 for servo library
-  for (int i = 0; i < 6; i++)
+  for (int i = 0; i < 7; i++)
   {
     s_command_PWM[i] = s_command_scaled[i] * 180;
   }
   // Constrain commands to servos within servo library bounds
-  for (int i = 0; i < 6; i++)
+  for (int i = 0; i < 7; i++)
   {
     s_command_PWM[i] = constrain(s_command_PWM[i], 0, 180);
   }
@@ -1099,9 +1093,9 @@ void getCommands() {
    */
 
   #if defined USE_PPM_RX || defined USE_PWM_RX
-    for (int i = 0; i < 5; i++)
+    for (int i = 0; i < 6; i++)
     {
-      channel_pwm[i] = getRadioPWM(i + 1);
+      channel_pwm[i] = getRadioPWM(i);
     }
     
   #elif defined USE_SBUS_RX
@@ -1110,7 +1104,7 @@ void getCommands() {
       //sBus scaling below is for Taranis-Plus and X4R-SB
       const float scale = 0.615;  
       const float bias  = 895.0; 
-      for (int i = 0; i < 5; i++) 
+      for (int i = 0; i < 6; i++) 
       {
         channel_pwm[i] = sbusChannels[i] * scale + bias;
       }
@@ -1124,7 +1118,7 @@ void getCommands() {
         uint16_t dsm_values[num_DSM_channels];
         DSM.getChannelValues(dsm_values, num_DSM_channels);
 
-        for (int i = 0; i < 5; i++)
+        for (int i = 0; i < 6; i++)
         {
           channel_pwm[i] = dsm_values[i];
         }
@@ -1154,7 +1148,7 @@ void failSafe() {
   bool check_fs = false;
 
   // Triggers for failure criteria
-  for (int i = 0; i < 5; i++)
+  for (int i = 0; i < 6; i++)
   {
     if ((channel_pwm[i] > maxVal) || (channel_pwm[i] < minVal)) 
       check_fs = true;
@@ -1163,7 +1157,7 @@ void failSafe() {
   // If any failures, set to default failsafe values
   if (check_fs)
   {
-    for (int i = 0; i < 5; i++)
+    for (int i = 0; i < 6; i++)
     {
       channel_pwm[i] = channel_fs[i];
     }
@@ -1181,7 +1175,7 @@ void commandMotors() {
   int flagM[6] = {0, 0, 0, 0, 0, 0};
   
   //Write all motor pins high
-  for (int i = 0; i < 5; i++)
+  for (int i = 0; i < 6; i++)
   {
     digitalWrite(mPin[i], HIGH);
   }
@@ -1190,7 +1184,7 @@ void commandMotors() {
   //Write each motor pin low as correct pulse length is reached
   while (wentLow < 6 ) { //Keep going until final (6th) pulse is finished, then done
     timer = micros();
-    for (int i = 0; i < 5; i++)
+    for (int i = 0; i < 6; i++)
     {
       if ((m_command_PWM[i] <= timer - pulseStart) && (flagM[i] == 0)) {
         digitalWrite(mPin[i], LOW);
@@ -1235,11 +1229,11 @@ void calibrateESCs() {
       Madgwick(GyroX, -GyroY, -GyroZ, -AccX, AccY, AccZ, MagY, -MagX, MagZ, dt); //Updates roll_IMU, pitch_IMU, and yaw_IMU (degrees)
       getDesState(); //Convert raw commands to normalized values based on saturated control limits
       
-      for (int i = 0; i < 5; i++)
+      for (int i = 0; i < 6; i++)
       {
         m_command_scaled[i] = thro_des;
       }
-      for (int i = 0; i < 6; i++)
+      for (int i = 0; i < 7; i++)
       {
         s_command_scaled[i] = thro_des;
       }
@@ -1247,7 +1241,7 @@ void calibrateESCs() {
     
       //throttleCut(); //Directly sets motor commands to low based on state of ch5
       
-      for (int i = 0; i < 6; i++)
+      for (int i = 0; i < 7; i++)
       {
         servos[i].write(s_command_PWM[i]);
       }
@@ -1337,13 +1331,13 @@ void throttleCut() {
   */
   if ((channel_pwm[4] > 1500) || (armedFly == false)) {
     armedFly = false;
-    for (int i = 0; i < 5; i++)
+    for (int i = 0; i < 6; i++)
     {
       m_command_PWM[i] = 120;
     }
 
     //Uncomment if using servo PWM variables to control motor ESCs
-    // for (int i = 0; i < 6; i++)
+    // for (int i = 0; i < 7; i++)
     // {
     //   s_command_PWM[i] = 0;
     // }
@@ -1415,6 +1409,7 @@ void loopRate(int freq) {
   }
 }
 
+void setupBlink(int numBlinks,int upTime, int downTime) {
   // DESCRIPTION: Simple function to make LED on board blink as desired
   for (int j = 1; j<= numBlinks; j++) {
     digitalWrite(13, LOW);
@@ -1427,7 +1422,7 @@ void loopRate(int freq) {
 void printRadioData() {
   if (current_time - print_counter > 10000) {
     print_counter = micros();
-    for (int i = 0; i < 5; i++)
+    for (int i = 0; i < 6; i++)
     {
       Serial.print(F(" CH"));
       Serial.print(F(i));
@@ -1515,7 +1510,7 @@ void printPIDoutput() {
 void printMotorCommands() {
   if (current_time - print_counter > 10000) {
     print_counter = micros();
-    for (int i = 0; i < 5; i++)
+    for (int i = 0; i < 6; i++)
     {
       Serial.print(F("m_command"));
       Serial.print(i);
@@ -1529,8 +1524,7 @@ void printMotorCommands() {
 void printServoCommands() {
   if (current_time - print_counter > 10000) {
     print_counter = micros();
-    for (int i = 0; i < 6; i++)
-    {
+    for (int i = 0; i < 7; i++) {
       Serial.print(F("s_command:"));
       Serial.println(s_command_PWM[i]);
     }
