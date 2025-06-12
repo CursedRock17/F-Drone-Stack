@@ -12,31 +12,58 @@ be used on quadrotors of any size or scale.
 ## Software Setup 
 
 ### Required External Resources (Libraries)
-    BLHeli [Github](https://github.com/bitdump/BLHeli) which will control our ESCs to control the motors
-    Vivavdo [Download](https://www.amd.com/en/products/software/adaptive-socs-and-fpgas/vivado/vivado-buy.html)
-    ARM [Cortex M3](https://developer.arm.com/documentation/101483/0000/introduction/directory-structure) replicable architecture for Artix A7 FPGA
+BLHeli [Github](https://github.com/bitdump/BLHeli) which will control our ESCs to control the motors
+Vivavdo [Download](https://www.amd.com/en/products/software/adaptive-socs-and-fpgas/vivado/vivado-buy.html)
+ARM [Cortex M3](https://developer.arm.com/documentation/101483/0000/introduction/directory-structure) replicable architecture for Artix A7 FPGA
+
+### First Steps 
+1) If you're not on Linux, [install GIT](https://git-scm.com/downloads)
+2) Clone this repository with the version you'd like: 'git clone https://github.com/CursedRock17/F-Drone-Stack.git -b kilted'
 
 ### Arduino Setup Steps
 
 #### Prerequiste Installs
-    1) Install [Arduino](https://www.arduino.cc/en/software/) for your respective system
-    2) Install the [Teensyduino](https://www.pjrc.com/teensy/td_download.html) add-on for your respective system
-    3) Create an install directory for the project, for the case of simplicity we will call ours “~/user/quadcopter/”
-    4) Navigate to the directory: “cd ~/user/quadcopter”
-    5) You have successfully installed the software stack!
+1) Install [Arduino](https://www.arduino.cc/en/software/) for your respective system
+2) Install the [Teensyduino](https://www.pjrc.com/teensy/td_download.html) add-on for your respective system
+3) Create an install directory for the project, for the case of simplicity we will call ours `mkdir ~/user/F-Drone-Stack/quadcopter/`
+4) Navigate to the directory: `cd ~/user/F-Drone-Stack/quadcopter`
+5) You have successfully installed the software stack!
     
 
 #### Running the Software
-    1) Clone this repository with the version you'd like: 'git clone https://github.com/CursedRock17/F-Drone-Stack.git -b kilted'
-    2) Open the Arduino IDE
-    3) We now need to open the correct version of the software to make adjustments: In the top left corner of the IDE go to “File > Open > ~/user/quadcopter/dRehmFlight/Versions/dRehmFlight_Teensy_BETA_1.3”
-    4) We now need to select the correct board, which in our case is the Teensy 4.1 (but 4.0 works just fine). Go to “Tools > Board > Teensy > Teensy 4.1”. Make sure CPU speed is “600 mHz” and USB type is “Serial”
-    5) At this point in time acquire a data transfer USB and plug it into the Teensy. We can hit “Sketch > Upload” and the board should flash the Arduino file
-        5.1) Note an error I came across was not having the rules for the Teensy board already installed. So if you come across this error do the following:
-        5.2) Open up a terminal window and go to the rules directory, on Linux: “cd /etc/udev/rules.d” or make the directory if it doesn’t exist “mkdir -p /etc/udev/rules.d”
-        5.3) We need to add the Teensy Rules File, now “touch 00-teensy.rules”
-        5.4) In the text editor of your choice, copy the entire file linked above and paste it into the file. Reflash dRehmFlight and the upload should complete
-    6) Enjoy! 
+1) Open the Arduino IDE
+2) We now need to open the correct version of the software to make adjustments: In the top left corner of the IDE go to “File > Open > ~/user/F-Drone-Stack/dRehmFlight/Versions/dRehmFlight_Teensy_BETA_1.3”
+3) We now need to select the correct board, which in our case is the Teensy 4.1 (but 4.0 works just fine). Go to “Tools > Board > Teensy > Teensy 4.1”. Make sure CPU speed is “600 mHz” and USB type is “Serial”
+4) At this point in time acquire a data transfer USB and plug it into the Teensy. We can hit “Sketch > Upload” and the board should flash the Arduino file
+    4.1) Note an error I came across was not having the rules for the Teensy board already installed. So if you come across this error do the following:
+    4.2) Open up a terminal window and go to the rules directory, on Linux: “cd /etc/udev/rules.d” or make the directory if it doesn’t exist “mkdir -p /etc/udev/rules.d”
+    4.3) We need to add the Teensy Rules File, now “touch 00-teensy.rules”
+    4.4) In the text editor of your choice, copy the entire file linked above and paste it into the file. Reflash dRehmFlight and the upload should complete
+5) Enjoy! 
+
+
+### Vivado Setup Steps
+** Be Warned Vivado is a **FAT** install **
+1) Install [Vivado](https://www.xilinx.com/support/download/index.html/content/xilinx/en/downloadNav/vivado-design-tools.html) for your OS
+    1.1) For Linux: Download the `.bin` file, open up a terminal, `cd ~/Downloads`
+    1.2) Make the file installable: `chmod +x <installer_name>.bin`
+    1.3) Run install: `sudo <installer_name>.bin`
+2) Go through the setup manager, you only need the free version for this project 
+    2.1) In Detail: Sign-in with your AMD account
+    2.2) Install Vivado ML Standard
+    2.3) In Devices, add "7-Series > Artix-7 FPGAs"
+    2.4) Agree to all the licenses, scrolling to the bottom
+    2.5) Install in the "/tools/Xilinx" directory, or wherever's best for you
+    2.6) Cry as you watch your RAM wither away
+        2.6.1) If you're on Linux, install the cable drivers, so we can program it: `cd /tools/Xilinx/data/xicom/cable_drivers/lin64/install_script/install_drivers`
+        2.6.2) Make sure you're added, sudo adduser $USER dialout
+    2.7) Source the install: "source /tools/Xilinx/<version>/settings64.sh"
+    2.8) Run the program, (Linux): `vivado` (Windows): double click app
+3) Install the [ARM Cortex IP](https://developer.arm.com/documentation/101483/0000/?lang=en) 
+    3.1) See if you're respective university/company already has it (UMD does!), if not apply for the [DesignStart program](https://www.arm.com/resources/program-reg/flexible-access-designstart-tier)
+    3.2) Once you gain access go to [ARM Developer's Product Hub](https://developer.arm.com/downloads/)
+    3.3) Go to [DesignStart Physical IP](https://developer.arm.com/downloads/search?programme=DesignStart&term=Cortex-M3+Processor&entitled=false) and grab the `Cortex M3`
+4) Boot up Vivado, we can do so by sourcing the shell script:
 
 ### Flight Controller Setup Steps 
 TODO

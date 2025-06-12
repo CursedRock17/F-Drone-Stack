@@ -1,3 +1,5 @@
+#include <micro_ros_arduino.h>
+
 //Arduino/Teensy Flight Controller - dRehmFlight
 //Author: Nicholas Rehm
 //Project Start: 1/6/2020
@@ -335,8 +337,6 @@ void loop() {
   prev_time = current_time;      
   current_time = micros();      
   dt = (current_time - prev_time)/1000000.0;
-
-  loopBlink(); //Indicate we are in main loop with short blink every 1.5 seconds
 
   //Print data at 100hz (uncomment one at a time for troubleshooting) - SELECT ONE:
   //printRadioData();     //Prints radio pwm values (expected: 1000 to 2000)
@@ -1415,28 +1415,7 @@ void loopRate(int freq) {
   }
 }
 
-void loopBlink() {
-  //DESCRIPTION: Blink LED on board to indicate main loop is running
-  /*
-   * It looks cool.
-   */
-  if (current_time - blink_counter > blink_delay) {
-    blink_counter = micros();
-    digitalWrite(13, blinkAlternate); //Pin 13 is built in LED
-    
-    if (blinkAlternate == 1) {
-      blinkAlternate = 0;
-      blink_delay = 100000;
-      }
-    else if (blinkAlternate == 0) {
-      blinkAlternate = 1;
-      blink_delay = 2000000;
-      }
-  }
-}
-
-void setupBlink(int numBlinks,int upTime, int downTime) {
-  //DESCRIPTION: Simple function to make LED on board blink as desired
+  // DESCRIPTION: Simple function to make LED on board blink as desired
   for (int j = 1; j<= numBlinks; j++) {
     digitalWrite(13, LOW);
     delay(downTime);
@@ -1450,9 +1429,12 @@ void printRadioData() {
     print_counter = micros();
     for (int i = 0; i < 5; i++)
     {
-      Serial.print(F(" CH:"));
-      Serial.println(channel_pwm[i]);
+      Serial.print(F(" CH"));
+      Serial.print(F(i));
+      Serial.print(F(": "));
+      Serial.print(channel_pwm[i]);
     }
+    Serial.println(F(""));
   }
 }
 
@@ -1535,9 +1517,12 @@ void printMotorCommands() {
     print_counter = micros();
     for (int i = 0; i < 5; i++)
     {
-      Serial.print(F("m_command:"));
-      Serial.println(m_command_PWM[i]);
+      Serial.print(F("m_command"));
+      Serial.print(i);
+      Serial.print(F(": "));
+      Serial.print(m_command_PWM[i]);
     }
+    Serial.println(F(""));
   }
 }
 
