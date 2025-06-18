@@ -16,6 +16,10 @@ be used on quadrotors of any size or scale.
  - Vivavdo [Download](https://www.amd.com/en/products/software/adaptive-socs-and-fpgas/vivado/vivado-buy.html)
  - ARM [Cortex M3](https://developer.arm.com/documentation/101483/0000/introduction/directory-structure) replicable architecture for Artix A7 FPGA
 
+### CRSF Protocol Overview
+ - CRSF Telemetry [PX4 Guide](https://docs.px4.io/main/en/telemetry/crsf_telemetry.html)
+ - Telemtry [Messages](https://docs.px4.io/main/en/telemetry/crsf_telemetry.html#telemetry-messages)
+
 ### First Steps 
 1. If you're not on Linux, [install GIT](https://git-scm.com/downloads)
 2. Clone this repository with the version you'd like: `git clone https://github.com/CursedRock17/F-Drone-Stack.git -b kilted`

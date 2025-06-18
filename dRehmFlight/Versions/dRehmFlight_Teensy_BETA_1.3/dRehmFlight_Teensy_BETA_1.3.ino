@@ -24,10 +24,11 @@ Everyone that sends me pictures and videos of your flying creations! -Nick
 //========================================================================================================================//
 
 // Uncomment only one receiver type
-#define USE_PWM_RX
+//#define USE_PWM_RX
 //#define USE_PPM_RX
 //#define USE_SBUS_RX
 //#define USE_DSM_RX
+#define USE_CRSF_RX
 static const uint8_t num_DSM_channels = 6; //If using DSM RX, change this to match the number of transmitter channels you have
 
 #define USE_MPU6050_I2C //Default
@@ -57,6 +58,10 @@ static const uint8_t num_DSM_channels = 6; //If using DSM RX, change this to mat
 
 #if defined USE_DSM_RX
   #include "src/DSMRX/DSMRX.h"  
+#endif
+
+#if defined USE_CRSF_RX
+  #include <AlfredoCRSF.h>
 #endif
 
 #if defined USE_MPU6050_I2C
@@ -170,19 +175,17 @@ const int channelPins[6] = {15,     16,  17,        20,    21,  22};
 const int PPM_Pin = 23;
 
 //OneShot125 ESC pin outputs:
-const int mPin[6] = {0, 1, 2, 3, 4, 5};
+const int mPin[4] = {0, 1, 2, 3};
 // PWM servo or ESC outputs:
-const int servoPin[7] = {6, 7, 8, 9, 10, 11, 12};
+const int servoPin[4] = {6, 7, 8, 9};
 // Create servo objects to control a servo or ESC with PWM
-PWMServo servos[7];
+PWMServo servos[4];
 
 
 
 //========================================================================================================================//
 
-
-
-//DECLARE GLOBAL VARIABLES
+// GLOBAL VARIABLES
 
 //General stuff
 float dt;
@@ -195,6 +198,10 @@ bool blinkAlternate;
 unsigned long channel_pwm [6];
 unsigned long channel_pwm_prev[4];
 
+#if defined USE_CRSF_RX
+  // CRSF Pins: RX = 21, TX = 20
+  AlfredoCRSF crsf;
+#endif
 #if defined USE_SBUS_RX
   SBUS sbus(Serial5);
   uint16_t sbusChannels[16];
@@ -226,13 +233,13 @@ float error_roll, error_roll_prev, roll_des_prev, integral_roll, integral_roll_i
 float error_pitch, error_pitch_prev, pitch_des_prev, integral_pitch, integral_pitch_il, integral_pitch_ol, integral_pitch_prev, integral_pitch_prev_il, integral_pitch_prev_ol, derivative_pitch, pitch_PID = 0;
 float error_yaw, error_yaw_prev, integral_yaw, integral_yaw_prev, derivative_yaw, yaw_PID = 0;
 
-//Mixer
-float m_command_scaled[6];
-int m_command_PWM[6];
+// Mixer (Motors)
+float m_command_scaled[4];
+int m_command_PWM[4];
 
 // Servo Commands
-float s_command_scaled[7];
-int s_command_PWM[7];
+float s_command_scaled[4];
+int s_command_PWM[4];
 
 //Flight status
 bool armedFly = false;
@@ -244,15 +251,15 @@ bool armedFly = false;
 void setup() {
   Serial.begin(500000); //USB serial
   delay(500);
-  
+    
   // Initialize all pins
   pinMode(13, OUTPUT); //Pin 13 LED blinker on board, do not modify 
-  for (int i = 0; i < 6; i++)
+  for (int i = 0; i < 4; i++)
   {
     pinMode(mPin[i], OUTPUT);
   }
   // Pin, min PWM value, max PWM value
-  for (int i = 0; i < 7; i++)
+  for (int i = 0; i < 4; i++)
   {
     servos[i].attach(servoPin[i], 900, 2100);
   }
@@ -281,7 +288,7 @@ void setup() {
   // Command servo angle from 0-180 degrees (1000 to 2000 PWM)
   // Set these to 90 for servos if you do not want them to briefly max out on startup
   // Keep these at 0 if you are using servo outputs for motors
-  for (int i = 0; i < 7; i++)
+  for (int i = 0; i < 4; i++)
   {
     servos[i].write(0);
   }
@@ -291,7 +298,7 @@ void setup() {
   // Code will not proceed past here if this function is uncommented!
 
   // Command ARM OneShot125 ESC from 125 to 250us pulse length
-  for (int i = 0; i < 6; i++)
+  for (int i = 0; i < 4; i++)
   {
     m_command_PWM[i] = 125;
   }
@@ -348,7 +355,7 @@ void loop() {
 
   //Command actuators
   commandMotors(); //Sends command pulses to each motor pin using OneShot125 protocol
-  for (int i = 0; i < 7; i++)
+  for (int i = 0; i < 4; i++)
   {
     servos[i].write(s_command_PWM[i]);
   }
@@ -391,18 +398,12 @@ void controlMixer() {
   m_command_scaled[1] = thro_des - pitch_PID - roll_PID - yaw_PID; //Front Right
   m_command_scaled[2] = thro_des + pitch_PID - roll_PID + yaw_PID; //Back Right
   m_command_scaled[3] = thro_des + pitch_PID + roll_PID - yaw_PID; //Back Left
-  m_command_scaled[4] = 0;
-  m_command_scaled[5] = 0;
 
   // 0.5 is centered servo, 0.0 is zero throttle if connecting to ESC for conventional PWM, 1.0 is max throttle
   s_command_scaled[0] = 0;
   s_command_scaled[1] = 0;
   s_command_scaled[2] = 0;
   s_command_scaled[3] = 0;
-  s_command_scaled[4] = 0;
-  s_command_scaled[5] = 0;
-  s_command_scaled[6] = 0;
- 
 }
 
 void armedStatus() {
@@ -873,24 +874,24 @@ void scaleCommands() {
    * which are used to command the servos.
    */
   // Scaled to 125us - 250us for oneshot125 protocol
-  for (int i = 0; i < 6; i++)
+  for (int i = 0; i < 4; i++)
   {
     m_command_PWM[i] = m_command_scaled[i] * 125 + 125;
   }
 
   // Constrain commands to motors within oneshot125 bounds
-  for (int i = 0; i < 6; i++)
+  for (int i = 0; i < 4; i++)
   {
     m_command_PWM[i] = constrain(m_command_PWM[i], 125, 250);
   }
 
   // Scaled to 0-180 for servo library
-  for (int i = 0; i < 7; i++)
+  for (int i = 0; i < 4; i++)
   {
     s_command_PWM[i] = s_command_scaled[i] * 180;
   }
   // Constrain commands to servos within servo library bounds
-  for (int i = 0; i < 7; i++)
+  for (int i = 0; i < 4; i++)
   {
     s_command_PWM[i] = constrain(s_command_PWM[i], 0, 180);
   }
@@ -917,11 +918,22 @@ void getCommands() {
       //sBus scaling below is for Taranis-Plus and X4R-SB
       const float scale = 0.615;  
       const float bias  = 895.0; 
-      for (int i = 0; i < 6; i++) 
+      for (int i =sbus 0; i < 6; i++) 
       {
         channel_pwm[i] = sbusChannels[i] * scale + bias;
       }
     }
+
+  #elif defined USE_CRSF_RX
+    crsf.update();
+    // Call some sort of handling IN function to get radio data : 16 channels
+    for (int i = 0; i < 6; i++)
+    {
+      channel_pwm[i] = crsf.getChannel(i);
+    }
+    // Two pin wiring on 20 (TX), 21(RX) (Serial5), which is already done underneath
+    // Call each respective function on data we want to send to radio, using Alfredo lib
+    //sendAttitude(roll_IMU, pitch_IMU, yaw_IMU);
 
   #elif defined USE_DSM_RX
     if (DSM.timedOut(micros())) {
@@ -985,19 +997,19 @@ void commandMotors() {
    */
   int wentLow = 0;
   int pulseStart, timer;
-  int flagM[6] = {0, 0, 0, 0, 0, 0};
+  int flagM[4] = {0, 0, 0, 0};
   
   //Write all motor pins high
-  for (int i = 0; i < 6; i++)
+  for (int i = 0; i < 4; i++)
   {
     digitalWrite(mPin[i], HIGH);
   }
   pulseStart = micros();
 
   //Write each motor pin low as correct pulse length is reached
-  while (wentLow < 6 ) { //Keep going until final (6th) pulse is finished, then done
+  while (wentLow < 4 ) { //Keep going until final (4th) pulse is finished, then done
     timer = micros();
-    for (int i = 0; i < 6; i++)
+    for (int i = 0; i < 4; i++)
     {
       if ((m_command_PWM[i] <= timer - pulseStart) && (flagM[i] == 0)) {
         digitalWrite(mPin[i], LOW);
@@ -1042,11 +1054,11 @@ void calibrateESCs() {
       Madgwick(GyroX, -GyroY, -GyroZ, -AccX, AccY, AccZ, dt); //Updates roll_IMU, pitch_IMU, and yaw_IMU (degrees)
       getDesState(); //Convert raw commands to normalized values based on saturated control limits
       
-      for (int i = 0; i < 6; i++)
+      for (int i = 0; i < 4; i++)
       {
         m_command_scaled[i] = thro_des;
       }
-      for (int i = 0; i < 7; i++)
+      for (int i = 0; i < 4; i++)
       {
         s_command_scaled[i] = thro_des;
       }
@@ -1054,7 +1066,7 @@ void calibrateESCs() {
     
       //throttleCut(); //Directly sets motor commands to low based on state of ch5
       
-      for (int i = 0; i < 7; i++)
+      for (int i = 0; i < 4; i++)
       {
         servos[i].write(s_command_PWM[i]);
       }
@@ -1144,13 +1156,13 @@ void throttleCut() {
   */
   if ((channel_pwm[4] > 1500) || (armedFly == false)) {
     armedFly = false;
-    for (int i = 0; i < 6; i++)
+    for (int i = 0; i < 4; i++)
     {
       m_command_PWM[i] = 120;
     }
 
     //Uncomment if using servo PWM variables to control motor ESCs
-    // for (int i = 0; i < 7; i++)
+    // for (int i = 0; i < 4; i++)
     // {
     //   s_command_PWM[i] = 0;
     // }
@@ -1264,7 +1276,7 @@ void printPIDoutput() {
 void printMotorCommands() {
   if (current_time - print_counter > 10000) {
     print_counter = micros();
-    for (int i = 0; i < 6; i++)
+    for (int i = 0; i < 4; i++)
     {
       Serial.print(F("m_command"));
       Serial.print(i);
@@ -1278,7 +1290,7 @@ void printMotorCommands() {
 void printServoCommands() {
   if (current_time - print_counter > 10000) {
     print_counter = micros();
-    for (int i = 0; i < 7; i++) {
+    for (int i = 0; i < 4; i++) {
       Serial.print(F("s_command:"));
       Serial.println(s_command_PWM[i]);
     }
@@ -1295,26 +1307,7 @@ void printLoopRate() {
 
 //=========================================================================================//
 
-//HELPER FUNCTIONS
-
+// HELPER FUNCTIONS
 float invSqrt(float x) {
-  //Fast inverse sqrt for madgwick filter
-  /*
-  float halfx = 0.5f * x;
-  float y = x;
-  long i = *(long*)&y;
-  i = 0x5f3759df - (i>>1);
-  y = *(float*)&i;
-  y = y * (1.5f - (halfx * y * y));
-  y = y * (1.5f - (halfx * y * y));
-  return y;
-  */
-  /*
-  //alternate form:
-  unsigned int i = 0x5F1F1412 - (*(unsigned int*)&x >> 1);
-  float tmp = *(float*)&i;
-  float y = tmp * (1.69000231f - 0.714158168f * x * tmp * tmp);
-  return y;
-  */
   return 1.0/sqrtf(x); //Teensy is fast enough to just take the compute penalty lol suck it arduino nano
 }

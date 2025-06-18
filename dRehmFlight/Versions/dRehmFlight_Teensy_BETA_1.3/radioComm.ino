@@ -38,11 +38,16 @@ void radioSetup() {
     }
     delay(20);
 
-  //SBUS Recevier 
+  // CRSF Receiver - Prefers 115,200 or 400,000 Baud Rate
+  #elif defined USE_CRSF_RX
+    Serial5.begin(115000);
+    crsf.begin(Serial5);
+
+  // SBUS Recevier 
   #elif defined USE_SBUS_RX
     sbus.begin();
 
-  //DSM receiver
+  // DSM receiver
   #elif defined USE_DSM_RX
     Serial3.begin(115000);
   #else
@@ -105,4 +110,16 @@ void getCh()
   } else if (!trigger) {
     channel_raw[currentPin] = micros() - rising_edge_start[currentPin];
   }
+}
+
+// CRSF Functions
+void sendAttitude(float roll, float pitch, float yaw)
+{
+  crsf_sensor_attitude_t crsfAttitude = {0};
+  
+  // Values must be in BigEndian form
+  crsfAttitude.roll = htobe16((uint16_t)(roll*10000.0f));
+  crsfAttitude.pitch = htobe16((uint16_t)(pitch*10000.0f));
+  crsfAttitude.yaw = htobe16((uint16_t)(yaw*10000.0f));
+  crsf.queuePacket(CRSF_SYNC_BYTE, CRSF_FRAMETYPE_ATTITUDE, &crsfAttitude, sizeof(crsfAttitude));
 }
