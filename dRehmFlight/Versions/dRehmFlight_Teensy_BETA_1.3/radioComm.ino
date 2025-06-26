@@ -40,8 +40,22 @@ void radioSetup() {
 
   // CRSF Receiver - Prefers 115,200 or 400,000 Baud Rate
   #elif defined USE_CRSF_RX
-    Serial5.begin(115000);
-    crsf.begin(Serial5);
+    Serial5.begin(400000);
+    crsf = new CRSFforArduino(&Serial5);
+    if (!crsf->begin())
+    {
+      crsf->end();
+      delete crsf;
+      crsf = nullptr;
+      Serial.println("CRSF Instance Failed");
+      // Repeat Until We Find Connection, this works as a callback
+      while (1)
+        delay(10);
+    }
+
+    // CRSF Library is based on callbacks that are called within "update()"
+    crsf->setRcChannelsCallback(prepareChannelsCallback);
+    Serial.println("CRSF Instance Ready");
 
   // SBUS Recevier 
   #elif defined USE_SBUS_RX
@@ -68,8 +82,8 @@ unsigned long getRadioPWM(int ch_num)
 void serialEvent3(void)
 {
   #if defined USE_DSM_RX
-    while (Serial3.available()) {
-        DSM.handleSerialEvent(Serial3.read(), micros());
+    while (Serial5.available()) {
+        DSM.handleSerialEvent(Serial5.read(), micros());
     }
   #endif
 }
@@ -113,13 +127,25 @@ void getCh()
 }
 
 // CRSF Functions
-void sendAttitude(float roll, float pitch, float yaw)
+void prepareChannelsCallback(serialReceiverLayer::rcChannels_t * rcChannels)
 {
-  crsf_sensor_attitude_t crsfAttitude = {0};
-  
-  // Values must be in BigEndian form
-  crsfAttitude.roll = htobe16((uint16_t)(roll*10000.0f));
-  crsfAttitude.pitch = htobe16((uint16_t)(pitch*10000.0f));
-  crsfAttitude.yaw = htobe16((uint16_t)(yaw*10000.0f));
-  crsf.queuePacket(CRSF_SYNC_BYTE, CRSF_FRAMETYPE_ATTITUDE, &crsfAttitude, sizeof(crsfAttitude));
+  // If we don't have the active failsafe values, we can proceed with printing
+  if (rcChannels->failsafe == false)
+  {
+    unsigned long currentTime = millis();
+    static unsigned long lastTime = millis();
+    if (currentTime < lastTime)
+    {
+      lastTime = currentTime;
+    }
+    if (currentTime - lastTime >= 100)
+    {
+      lastTime = currentTime;
+      // RC Channels are on 1-based index - Print the Values
+      for (int i = 1; i <= crsfChannels; i++)
+      {
+        channel_pwm[i - 1] = crsf->getChannel(i);
+      }
+    }
+  }
 }

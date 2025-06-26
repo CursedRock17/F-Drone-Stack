@@ -61,7 +61,7 @@ static const uint8_t num_DSM_channels = 6; //If using DSM RX, change this to mat
 #endif
 
 #if defined USE_CRSF_RX
-  #include <AlfredoCRSF.h>
+  #include <CRSFforArduino.hpp>
 #endif
 
 #if defined USE_MPU6050_I2C
@@ -119,8 +119,8 @@ static const uint8_t num_DSM_channels = 6; //If using DSM RX, change this to mat
 //========================================================================================================================//
 
 // Radio failsafe values for every channel in the event that bad reciever data is detected. Recommended defaults:
-// Defined: Throttle, Ail, Elevation, Rudder, Gear, Aux1
-unsigned long channel_fs[6] = {1000, 1500, 1500, 1500, 2000, 2000};
+// Defined: Throttle, Ail, Elevation, Rudder, Arm 1, Aux2
+unsigned long channel_fs[6] = {1000, 1500, 1500, 1500, 1000, 1000};
 
 //Filter parameters - Defaults tuned for 2kHz loop rate; Do not touch unless you know what you are doing:
 float B_madgwick = 0.04;  //Madgwick filter parameter
@@ -158,7 +158,7 @@ float Ki_pitch_rate = 0.2;    //Pitch I-gain - rate mode
 float Kd_pitch_rate = 0.0002; //Pitch D-gain - rate mode (be careful when increasing too high, motors will begin to overheat!)
 
 float Kp_yaw = 0.3;           //Yaw P-gain
-float Ki_yaw = 0.05;          //Yaw I-gain
+float Ki_yaw = 0.05;          //Yawcrsf.upd I-gain
 float Kd_yaw = 0.00015;       //Yaw D-gain (be careful when increasing too high, motors will begin to overheat!)
 
 
@@ -170,6 +170,7 @@ float Kd_yaw = 0.00015;       //Yaw D-gain (be careful when increasing too high,
 //NOTE: Pin 13 is reserved for onboard LED, pins 18 and 19 are reserved for the MPU6050 IMU for default setup
 //Radio:
 //Note: If using SBUS, connect to pin 21 (RX5), if using DSM, connect to pin 15 (RX3)
+// CRSF Pins: RX = 21, TX = 20
 //// Pinout Meanings:     throttle, ail, elevation, rudd, gear, aux1
 const int channelPins[6] = {15,     16,  17,        20,    21,  22};
 const int PPM_Pin = 23;
@@ -177,7 +178,7 @@ const int PPM_Pin = 23;
 //OneShot125 ESC pin outputs:
 const int mPin[4] = {0, 1, 2, 3};
 // PWM servo or ESC outputs:
-const int servoPin[4] = {6, 7, 8, 9};
+const int servoPin[4] = {4, 5, 6, 7};
 // Create servo objects to control a servo or ESC with PWM
 PWMServo servos[4];
 
@@ -199,8 +200,8 @@ unsigned long channel_pwm [6];
 unsigned long channel_pwm_prev[4];
 
 #if defined USE_CRSF_RX
-  // CRSF Pins: RX = 21, TX = 20
-  AlfredoCRSF crsf;
+  CRSFforArduino * crsf = nullptr;
+  const int crsfChannels = 5;  // Move as needed based on Handheld
 #endif
 #if defined USE_SBUS_RX
   SBUS sbus(Serial5);
@@ -294,9 +295,9 @@ void setup() {
   }
   delay(5);
 
-  // calibrateESCs(); //PROPS OFF. Uncomment this to calibrate your ESCs by setting throttle stick to max, powering on, and lowering throttle to zero after the beeps
+  //calibrateESCs(); //PROPS OFF. Uncomment this to calibrate your ESCs by setting throttle stick to max, powering on, and lowering throttle to zero after the beeps
   // Code will not proceed past here if this function is uncommented!
-
+  
   // Command ARM OneShot125 ESC from 125 to 250us pulse length
   for (int i = 0; i < 4; i++)
   {
@@ -327,7 +328,7 @@ void loop() {
   //printAccelData();     //Prints filtered accelerometer data direct from IMU (expected: ~ -2 to 2; x,y 0 when level, z 1 when level)
   //printRollPitchYaw();  //Prints roll, pitch, and yaw angles in degrees from Madgwick filter (expected: degrees, 0 when level)
   //printPIDoutput();     //Prints computed stabilized PID variables from controller and desired setpoint (expected: ~ -1 to 1)
-  //printMotorCommands(); //Prints the values being written to the motors (expected: 120 to 250)
+  printMotorCommands(); //Prints the values being written to the motors (expected: 120 to 250)
   //printServoCommands(); //Prints the values being written to the servos (expected: 0 to 180)
   //printLoopRate();      //Prints the time between loops in microseconds (expected: microseconds between loop iterations)
 
@@ -348,7 +349,7 @@ void loop() {
 
   //Actuator mixing and scaling to PWM values
   controlMixer(); //Mixes PID outputs to scaled actuator commands -- custom mixing assignments done here
-  scaleCommands(); //Scales motor commands to 125 to 250 range (oneshot125 protocol) and servo PWM commands to 0 to 180 (for servo library)
+  scaleCommands(); //Scales motor commands to 125 to 250 range (OneShot125 protocol) and servo PWM commands to 0 to 180 (for servo library)
 
   //Throttle cut check
   throttleCut(); //Directly sets motor commands to low based on state of ch5
@@ -393,22 +394,22 @@ void controlMixer() {
    *channel_6_pwm - free auxillary channel, can be used to toggle things with an 'if' statement
    */
    
-  // Quad mixing - EXAMPLE in "X" Format
+  // Quad mixing - in "X" Format - Remeber these are 1-indexed so subtract 1
+  /*
+      B       - Battery Cables
+    1   3
+      X
+    2   4
+  */
   m_command_scaled[0] = thro_des - pitch_PID + roll_PID + yaw_PID; //Front Left
   m_command_scaled[1] = thro_des - pitch_PID - roll_PID - yaw_PID; //Front Right
   m_command_scaled[2] = thro_des + pitch_PID - roll_PID + yaw_PID; //Back Right
   m_command_scaled[3] = thro_des + pitch_PID + roll_PID - yaw_PID; //Back Left
-
-  // 0.5 is centered servo, 0.0 is zero throttle if connecting to ESC for conventional PWM, 1.0 is max throttle
-  s_command_scaled[0] = 0;
-  s_command_scaled[1] = 0;
-  s_command_scaled[2] = 0;
-  s_command_scaled[3] = 0;
 }
 
 void armedStatus() {
   //DESCRIPTION: Check if the throttle cut is off and the throttle input is low to prepare for flight.
-  if ((channel_pwm[4] < 1500) && (channel_pwm[0] < 1050)) {
+  if ((channel_pwm[4] > 1500) && (channel_pwm[0] < 1050)) {
     armedFly = true;
   }
 }
@@ -659,10 +660,10 @@ void getDesState() {
    * (rate mode). yaw_des is scaled to be within max yaw in degrees/sec. Also creates roll_passthru, pitch_passthru, and
    * yaw_passthru variables, to be used in commanding motors/servos with direct unstabilized commands in controlMixer().
    */
-  thro_des = (channel_pwm[0] - 1000.0)/1000.0; //Between 0 and 1
-  roll_des = (channel_pwm[1] - 1500.0)/500.0; //Between -1 and 1
-  pitch_des = (channel_pwm[2] - 1500.0)/500.0; //Between -1 and 1
-  yaw_des = (channel_pwm[3] - 1500.0)/500.0; //Between -1 and 1
+  thro_des = (channel_pwm[0] - channel_fs[0])/1000.0; //Between 0 and 1
+  roll_des = (channel_pwm[1] - channel_fs[1])/500.0; //Between -1 and 1
+  pitch_des = (channel_pwm[2] - channel_fs[2])/500.0; //Between -1 and 1
+  yaw_des = (channel_pwm[3] - channel_fs[3])/500.0; //Between -1 and 1
   roll_passthru = roll_des/2.0; //Between -0.5 and 0.5
   pitch_passthru = pitch_des/2.0; //Between -0.5 and 0.5
   yaw_passthru = yaw_des/2.0; //Between -0.5 and 0.5
@@ -873,13 +874,13 @@ void scaleCommands() {
    * mX_command_PWM are updated here which are used to command the motors in commandMotors(). sX_command_PWM are updated 
    * which are used to command the servos.
    */
-  // Scaled to 125us - 250us for oneshot125 protocol
+  // Scaled to 125us - 250us for OneShot125 protocol
   for (int i = 0; i < 4; i++)
   {
     m_command_PWM[i] = m_command_scaled[i] * 125 + 125;
   }
 
-  // Constrain commands to motors within oneshot125 bounds
+  // Constrain commands to motors within OneShot125 bounds
   for (int i = 0; i < 4; i++)
   {
     m_command_PWM[i] = constrain(m_command_PWM[i], 125, 250);
@@ -925,15 +926,7 @@ void getCommands() {
     }
 
   #elif defined USE_CRSF_RX
-    crsf.update();
-    // Call some sort of handling IN function to get radio data : 16 channels
-    for (int i = 0; i < 6; i++)
-    {
-      channel_pwm[i] = crsf.getChannel(i);
-    }
-    // Two pin wiring on 20 (TX), 21(RX) (Serial5), which is already done underneath
-    // Call each respective function on data we want to send to radio, using Alfredo lib
-    //sendAttitude(roll_IMU, pitch_IMU, yaw_IMU);
+    crsf->update();  // Check Callback Function in RadioComm file
 
   #elif defined USE_DSM_RX
     if (DSM.timedOut(micros())) {
@@ -990,7 +983,7 @@ void failSafe() {
 }
 
 void commandMotors() {
-  //DESCRIPTION: Send pulses to motor pins, oneshot125 protocol
+  //DESCRIPTION: Send pulses to motor pins, OneShot125 protocol
   /*
    * My crude implimentation of OneShot125 protocol which sends 125 - 250us pulses to the ESCs (mXPin). The pulselengths being
    * sent are mX_command_PWM, computed in scaleCommands(). This may be replaced by something more efficient in the future.
@@ -1062,7 +1055,7 @@ void calibrateESCs() {
       {
         s_command_scaled[i] = thro_des;
       }
-      scaleCommands(); //Scales motor commands to 125 to 250 range (oneshot125 protocol) and servo PWM commands to 0 to 180 (for servo library)
+      scaleCommands(); //Scales motor commands to 125 to 250 range (OneShot125 protocol) and servo PWM commands to 0 to 180 (for servo library)
     
       //throttleCut(); //Directly sets motor commands to low based on state of ch5
       
@@ -1072,6 +1065,7 @@ void calibrateESCs() {
       }
       commandMotors(); //Sends command pulses to each motor pin using OneShot125 protocol
       
+      printMotorCommands();
       //printRadioData(); //Radio pwm values (expected: 1000 to 2000)
       
       loopRate(2000); //Do not exceed 2000Hz, all filter parameters tuned to 2000Hz by default
@@ -1147,25 +1141,19 @@ void throttleCut() {
   //DESCRIPTION: Directly set actuator outputs to minimum value if triggered
   /*
       Monitors the state of radio command channel_pwm[5] and directly sets the mx_command_PWM values to minimum (120 is
-      minimum for oneshot125 protocol, 0 is minimum for standard PWM servo library used) if channel 5 is high. This is the last function
+      minimum for OneShot125 protocol, 0 is minimum for standard PWM servo library used) if channel 5 is high. This is the last function
       called before commandMotors() is called so that the last thing checked is if the user is giving permission to command
       the motors to anything other than minimum value. Safety first.
 
       channel_pwm[5] is LOW then throttle cut is OFF and throttle value can change. (ThrottleCut is DEACTIVATED)
       channel_pwm[5] is HIGH then throttle cut is ON and throttle value = 120 only. (ThrottleCut is ACTIVATED), (drone is DISARMED)
   */
-  if ((channel_pwm[4] > 1500) || (armedFly == false)) {
+  if ((channel_pwm[4] < 1500) || (armedFly == false)) {
     armedFly = false;
     for (int i = 0; i < 4; i++)
     {
       m_command_PWM[i] = 120;
     }
-
-    //Uncomment if using servo PWM variables to control motor ESCs
-    // for (int i = 0; i < 4; i++)
-    // {
-    //   s_command_PWM[i] = 0;
-    // }
   }
 }
 
@@ -1200,14 +1188,14 @@ void setupBlink(int numBlinks,int upTime, int downTime) {
 void printRadioData() {
   if (current_time - print_counter > 10000) {
     print_counter = micros();
-    for (int i = 0; i < 6; i++)
-    {
-      Serial.print(F(" CH"));
-      Serial.print(F(i));
-      Serial.print(F(": "));
+        
+    // Channels Index From 1 Not 0
+    for (int i = 0; i < (1 + crsfChannels); i++) {
+      Serial.print(F("CH: "));
       Serial.print(channel_pwm[i]);
+      Serial.print(F(" "));
     }
-    Serial.println(F(""));
+    Serial.println(F("\n"));
   }
 }
 
@@ -1282,6 +1270,7 @@ void printMotorCommands() {
       Serial.print(i);
       Serial.print(F(": "));
       Serial.print(m_command_PWM[i]);
+      Serial.print(F(" "));
     }
     Serial.println(F(""));
   }
