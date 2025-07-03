@@ -6,13 +6,14 @@ building. It utilizes dRehmFlight (by nickrehm) as a flight controller.
 
 The intent of the project is to create a stack for replicable, autonmous
 drones. These drones utilize a soft-core ARM Cortex M3 on an FPGA to
-allow the software to not be restricted to any certain chip which can 
+allow the software to not be restricted to any certain chip which can
 be used on quadrotors of any size or scale.
 
-## Software Setup 
+ Clone this repository with the version you'd like: `git clone https://github.com/CursedRock17/F-Drone-Stack.git -b kilted`
 
+## Software Setup
+--------------------------------------------
 ### Required External Resources (Libraries)
- - BLHeli [Github](https://github.com/bitdump/BLHeli) which will control our ESCs to control the motors
  - Vivavdo [Download](https://www.amd.com/en/products/software/adaptive-socs-and-fpgas/vivado/vivado-buy.html)
  - ARM [Cortex M3](https://developer.arm.com/documentation/101483/0000/introduction/directory-structure) replicable architecture for Artix A7 FPGA
 
@@ -20,39 +21,24 @@ be used on quadrotors of any size or scale.
  - CRSF Telemetry [PX4 Guide](https://docs.px4.io/main/en/telemetry/crsf_telemetry.html)
  - Telemtry [Messages](https://docs.px4.io/main/en/telemetry/crsf_telemetry.html#telemetry-messages)
 
-### First Steps 
-1. If you're not on Linux, [install GIT](https://git-scm.com/downloads)
-2. Clone this repository with the version you'd like: `git clone https://github.com/CursedRock17/F-Drone-Stack.git -b kilted`
-
-### Arduino Setup Steps
-
+<details>
+<summary> ### Arduino Setup Steps </summary>
 #### Prerequiste Installs
 1. Install [Arduino](https://www.arduino.cc/en/software/) for your respective system
 2. Install the [Teensyduino](https://www.pjrc.com/teensy/td_download.html) add-on for your respective system
-3. Create an install directory for the project, for the case of simplicity we will call ours `mkdir ~/user/F-Drone-Stack/quadcopter/`
-4. Navigate to the directory: `cd ~/user/F-Drone-Stack/quadcopter`
+3. Install the [CRSFforArduino](https://github.com/ZZ-Cat/CRSFforArduino) library
+4. Navigate to the directory in which you cloned the repo: `cd ~/user/F-Drone-Stack`
 5. You have successfully installed the software stack!
-    
+</details>
 
-#### Running the Software
-1. Open the Arduino IDE
-2. We now need to open the correct version of the software to make adjustments: In the top left corner of the IDE go to “File > Open > ~/user/F-Drone-Stack/dRehmFlight/Versions/dRehmFlight_Teensy_BETA_1.3”
-3. We now need to select the correct board, which in our case is the Teensy 4.1 (but 4.0 works just fine). Go to “Tools > Board > Teensy > Teensy 4.1”. Make sure CPU speed is “600 mHz” and USB type is “Serial”
-4. At this point in time acquire a data transfer USB and plug it into the Teensy. We can hit “Sketch > Upload” and the board should flash the Arduino file
-    1. Note an error I came across was not having the rules for the Teensy board already installed. So if you come across this error do the following:
-    2. Open up a terminal window and go to the rules directory, on Linux: “cd /etc/udev/rules.d” or make the directory if it doesn’t exist “mkdir -p /etc/udev/rules.d”
-    3. We need to add the Teensy Rules File, now “touch 00-teensy.rules”
-    4. In the text editor of your choice, copy the entire file linked above and paste it into the file. Reflash dRehmFlight and the upload should complete
-5. Enjoy! 
-
-
-### Vivado Setup Steps
+<details>
+<summary> ### Vivado Setup Steps </summary>
 ** Be Warned Vivado is a **FAT** install **
 1. Install [Vivado](https://www.xilinx.com/support/download/index.html/content/xilinx/en/downloadNav/vivado-design-tools.html) for your OS
     1. For Linux: Download the `.bin` file, open up a terminal, `cd ~/Downloads`
     2. Make the file installable: `chmod +x <installer_name>.bin`
     3. Run install: `sudo <installer_name>.bin`
-2. Go through the setup manager, you only need the free version for this project 
+2. Go through the setup manager, you only need the free version for this project
     1. In Detail: Sign-in with your AMD account
     2. Install Vivado ML Standard
     3. In Devices, add "7-Series > Artix-7 FPGAs"
@@ -63,13 +49,33 @@ be used on quadrotors of any size or scale.
         2. Make sure you're added, sudo adduser $USER dialout
     7. Source the install: "source /tools/Xilinx/<version>/settings64.sh"
     8. Run the program, (Linux): `vivado` (Windows): double click app
-3. Install the [ARM Cortex IP](https://developer.arm.com/documentation/101483/0000/?lang=en) 
+3. Install the [ARM Cortex IP](https://developer.arm.com/documentation/101483/0000/?lang=en)
     1. See if you're respective university/company already has it (UMD does!), if not apply for the [DesignStart program](https://www.arm.com/resources/program-reg/flexible-access-designstart-tier)
     2. Once you gain access go to [ARM Developer's Product Hub](https://developer.arm.com/downloads/)
     3. Go to [DesignStart Physical IP](https://developer.arm.com/downloads/search?programme=DesignStart&term=Cortex-M3+Processor&entitled=false) and grab the `Cortex M3`
 4. Boot up Vivado, we can do so by sourcing the shell script:
+</details>
 
-### Flight Controller Setup Steps 
+### Running the Software
+1. Open the Arduino IDE
+2. We now need to open the correct version of the software to make adjustments: In the top left corner of the IDE go to “File > Open > ~/user/F-Drone-Stack/dRehmFlight/Versions/dRehmFlight_Teensy_BETA_1.3”
+3. We now need to select the correct board, which in our case is the Teensy 4.1 (but 4.0 works just fine). Go to “Tools > Board > Teensy > Teensy 4.1”. Make sure CPU speed is “600 mHz” and USB type is “Serial”
+4. At this point in time acquire a data transfer USB and plug it into the Teensy. We can hit “Sketch > Upload” and the board should flash the Arduino file
+    1. Note an error I came across was not having the rules for the Teensy board already installed. So if you come across this error do the following:
+    2. Open up a terminal window and go to the rules directory, on Linux: “cd /etc/udev/rules.d” or make the directory if it doesn’t exist “mkdir -p /etc/udev/rules.d”
+    3. We need to add the Teensy Rules File, now “touch 00-teensy.rules”
+    4. In the text editor of your choice, copy the entire file linked above and paste it into the file. Reflash dRehmFlight and the upload should complete
+5. Enjoy!
+
+### Flight Controller Setup Steps
 TODO
 
+Channel Ranges: Low (-100) -> Mid (0) -> High (100), if 2 numbers, no low
+Throttle: 996 -> 1186
+Ail: 1194 -> 1376 -> 1562
+Elevation: 1194 -> 1370 -> 1557
+Rudder: 1194 -> 1381 -> 1570
+Armed: 1000 -> 1792
+
 ## Hardware Setup
+

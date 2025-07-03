@@ -1,0 +1,161 @@
+(session freerouting.ses
+  (base_design freerouting.dsn)
+  (placement
+    (resolution um 10)
+    (component "Jumper:SolderJumper-2_P1.3mm_Open_Pad1.0x1.5mm"
+      (place R11 2098150 -1205250 front 90)
+    )
+    (component "Potentiometer_THT:Potentiometer_ACP_CA6-H2,5_Horizontal"
+      (place R1 2014050 -1235000 front 180)
+    )
+    (component Connector_PinHeader_1.00mm:PinHeader_1x02_P1.00mm_Vertical
+      (place J4 1945000 -1352500 front 180)
+      (place J3 1945000 -1217500 front 180)
+      (place J2 2162500 -1347500 front 0)
+      (place J1 2162500 -1202500 front 0)
+    )
+    (component MP1584EN:MP1584EN
+      (place U1 2062500 -1247500 front 0)
+    )
+    (component Resistor_SMD:R_0201_0603Metric
+      (place R6 2055000 -1197500 front 0)
+      (place R5 2055000 -1207500 front 0)
+      (place R4 2075000 -1207500 front 0)
+      (place R3 2095000 -1247500 front 90)
+      (place R2 2095000 -1227500 front 90)
+      (place C21 1994050 -1232500 front 0)
+      (place C11 2074300 -1197500 front 0)
+      (place C4 2012500 -1232500 front 0)
+      (place C3 2095000 -1268200 front 90)
+    )
+    (component "Inductor_SMD:L_Neosid_SM-PIC0512H"
+      (place L1 1995000 -1272500 front 0)
+    )
+    (component Diode_SMD:D_0805_2012Metric
+      (place D1 2065625 -1292500 front 0)
+    )
+    (component Capacitor_SMD:C_0805_2012Metric
+      (place C2 1942500 -1275500 front 90)
+      (place C1 2162500 -1270500 front 90)
+    )
+  )
+  (was_is
+  )
+  (routes 
+    (resolution um 10)
+    (parser
+      (host_cad "KiCad's Pcbnew")
+      (host_version "9.0.2-9.0.2-0~ubuntu22.04.1")
+    )
+    (library_out 
+      (padstack "Via[0-1]_800:400_um"
+        (shape
+          (circle F.Cu 8000 0 0)
+        )
+        (shape
+          (circle B.Cu 8000 0 0)
+        )
+        (attach off)
+      )
+      (padstack "Via[0-1]_800:400_um"
+        (shape
+          (circle F.Cu 8000 0 0)
+        )
+        (shape
+          (circle B.Cu 8000 0 0)
+        )
+        (attach off)
+      )
+    )
+    (network_out 
+      (net "Net-(J1-Pin_1)"
+        (wire
+          (path F.Cu 2500
+            2057500 -1222500
+            2057500 -1216101
+            2051800 -1210401
+            2051800 -1207500
+          )
+        )
+      )
+      (net "Net-(D1-A)"
+        (wire
+          (path F.Cu 2500
+            1997250 -1232500
+            1997250 -1235101
+            1982466 -1249885
+            1958615 -1249885
+            1942500 -1266000
+          )
+        )
+      )
+      (net "Net-(J3-Pin_1)"
+        (wire
+          (path F.Cu 2500
+            1945000 -1217500
+            1952517 -1217500
+          )
+        )
+        (wire
+          (path F.Cu 2500
+            1990850 -1232500
+            1967517 -1232500
+            1952517 -1217500
+          )
+        )
+        (wire
+          (path F.Cu 2500
+            2020000 -1272500
+            2006733 -1272500
+          )
+        )
+        (wire
+          (path F.Cu 2500
+            1942500 -1285000
+            1945767 -1288267
+            1990966 -1288267
+            2006733 -1272500
+          )
+        )
+      )
+      (net "Net-(D1-K)"
+        (wire
+          (path F.Cu 2500
+            2056250 -1292500
+            2047500 -1283750
+            2047500 -1272500
+          )
+        )
+      )
+      (net Feedback
+        (wire
+          (path F.Cu 2500
+            2077500 -1272500
+            2077500 -1248200
+            2095000 -1230700
+          )
+        )
+      )
+      (net "Net-(U1-FREQ)"
+        (wire
+          (path F.Cu 2500
+            2071800 -1207500
+            2067500 -1211800
+            2067500 -1222500
+          )
+        )
+      )
+      (net "Net-(U1-EN)"
+        (wire
+          (path F.Cu 2500
+            2057500 -1272500
+            2057500 -1249862
+            2041126 -1233488
+            2041126 -1208174
+            2051800 -1197500
+          )
+        )
+      )
+    )
+  )
+)

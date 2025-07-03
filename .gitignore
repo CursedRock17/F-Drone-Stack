@@ -2,3 +2,8 @@ FlightComputer/microros_ws/install
 FlightComputer/microros_ws/build
 FlightComputer/microros_ws/log
 FlightComputer/microros_ws
+
+Hardware/TeensyDrone/TeensyDrone-backups/
+Hardware/TeensyDrone/freerouting.dsn
+Hardware/TeensyDrone/fp-info-cache
+

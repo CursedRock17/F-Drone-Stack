@@ -295,7 +295,7 @@ void setup() {
   }
   delay(5);
 
-  //calibrateESCs(); //PROPS OFF. Uncomment this to calibrate your ESCs by setting throttle stick to max, powering on, and lowering throttle to zero after the beeps
+  calibrateESCs(); //PROPS OFF. Uncomment this to calibrate your ESCs by setting throttle stick to max, powering on, and lowering throttle to zero after the beeps
   // Code will not proceed past here if this function is uncommented!
   
   // Command ARM OneShot125 ESC from 125 to 250us pulse length
@@ -328,9 +328,7 @@ void loop() {
   //printAccelData();     //Prints filtered accelerometer data direct from IMU (expected: ~ -2 to 2; x,y 0 when level, z 1 when level)
   //printRollPitchYaw();  //Prints roll, pitch, and yaw angles in degrees from Madgwick filter (expected: degrees, 0 when level)
   //printPIDoutput();     //Prints computed stabilized PID variables from controller and desired setpoint (expected: ~ -1 to 1)
-  printMotorCommands(); //Prints the values being written to the motors (expected: 120 to 250)
-  //printServoCommands(); //Prints the values being written to the servos (expected: 0 to 180)
-  //printLoopRate();      //Prints the time between loops in microseconds (expected: microseconds between loop iterations)
+  //printMotorCommands(); //Prints the values being written to the motors (expected: 120 to 250)
 
   // Get arming status
   armedStatus(); //Check if the throttle cut is off and throttle is low.
@@ -399,7 +397,7 @@ void controlMixer() {
       B       - Battery Cables
     1   3
       X
-    2   4
+    2   400000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000
   */
   m_command_scaled[0] = thro_des - pitch_PID + roll_PID + yaw_PID; //Front Left
   m_command_scaled[1] = thro_des - pitch_PID - roll_PID - yaw_PID; //Front Right
@@ -660,10 +658,10 @@ void getDesState() {
    * (rate mode). yaw_des is scaled to be within max yaw in degrees/sec. Also creates roll_passthru, pitch_passthru, and
    * yaw_passthru variables, to be used in commanding motors/servos with direct unstabilized commands in controlMixer().
    */
-  thro_des = (channel_pwm[0] - channel_fs[0])/1000.0; //Between 0 and 1
-  roll_des = (channel_pwm[1] - channel_fs[1])/500.0; //Between -1 and 1
-  pitch_des = (channel_pwm[2] - channel_fs[2])/500.0; //Between -1 and 1
-  yaw_des = (channel_pwm[3] - channel_fs[3])/500.0; //Between -1 and 1
+  thro_des = (channel_pwm[0] - 1000.0)/1000.0; //Between 0 and 1
+  roll_des = (channel_pwm[1] - 1500.0)/500.0; //Between -1 and 1
+  pitch_des = (channel_pwm[2] - 1500.0)/500.0; //Between -1 and 1
+  yaw_des = (channel_pwm[3] - 1500.0)/500.0; //Between -1 and 1
   roll_passthru = roll_des/2.0; //Between -0.5 and 0.5
   pitch_passthru = pitch_des/2.0; //Between -0.5 and 0.5
   yaw_passthru = yaw_des/2.0; //Between -0.5 and 0.5

@@ -1,0 +1,4 @@
+(sym_lib_table
+  (version 7)
+  (lib (name "MiniF30")(type "KiCad")(uri "${KIPRJMOD}/MiniF30.kicad_sym")(options "")(descr ""))
+)
