@@ -22,17 +22,21 @@ be used on quadrotors of any size or scale.
  - Telemtry [Messages](https://docs.px4.io/main/en/telemetry/crsf_telemetry.html#telemetry-messages)
 
 <details>
-<summary> ### Arduino Setup Steps </summary>
-#### Prerequiste Installs
+<summary> Arduino Setup Steps </summary>
+
+Prerequiste Installs
+
 1. Install [Arduino](https://www.arduino.cc/en/software/) for your respective system
 2. Install the [Teensyduino](https://www.pjrc.com/teensy/td_download.html) add-on for your respective system
 3. Install the [CRSFforArduino](https://github.com/ZZ-Cat/CRSFforArduino) library
 4. Navigate to the directory in which you cloned the repo: `cd ~/user/F-Drone-Stack`
 5. You have successfully installed the software stack!
+
 </details>
 
 <details>
-<summary> ### Vivado Setup Steps </summary>
+<summary> Vivado Setup Steps </summary>
+
 ** Be Warned Vivado is a **FAT** install **
 1. Install [Vivado](https://www.xilinx.com/support/download/index.html/content/xilinx/en/downloadNav/vivado-design-tools.html) for your OS
     1. For Linux: Download the `.bin` file, open up a terminal, `cd ~/Downloads`
@@ -54,6 +58,7 @@ be used on quadrotors of any size or scale.
     2. Once you gain access go to [ARM Developer's Product Hub](https://developer.arm.com/downloads/)
     3. Go to [DesignStart Physical IP](https://developer.arm.com/downloads/search?programme=DesignStart&term=Cortex-M3+Processor&entitled=false) and grab the `Cortex M3`
 4. Boot up Vivado, we can do so by sourcing the shell script:
+
 </details>
 
 ### Running the Software
