@@ -1,5 +1,0 @@
-(sym_lib_table
-  (version 7)
-  (lib (name "Teensy 4.0")(type "KiCad")(uri "${KIPRJMOD}/Components/Teensy 4.0/DEV-15583/DEV-15583.kicad_sym")(options "")(descr ""))
-  (lib (name "MatekOpticalFlow")(type "KiCad")(uri "${KIPRJMOD}/Components/MatekOpticalFlow/MatekOpticalFlow.kicad_sym")(options "")(descr ""))
-)

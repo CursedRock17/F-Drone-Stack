@@ -1,5 +1,0 @@
-(fp_lib_table
-  (version 7)
-  (lib (name "DEV-15583")(type "KiCad")(uri "${KIPRJMOD}/Components/Teensy 4.0/DEV-15583")(options "")(descr ""))
-  (lib (name "MatekOpticalFlow")(type "KiCad")(uri "${KIPRJMOD}/Components/MatekOpticalFlow/MatekOpticalFlow.pretty")(options "")(descr ""))
-)
