@@ -13,8 +13,7 @@
 
 ### Board Future Checklist
 - [] Update from pads to JST-SH 01x08 shrouded male Connector
-- [] Try to reduce length from 97.5mm to 90mm to fit drone frame perfectly
-- [] Try to reduce width from 42mm to 30mm to fit drone frame perfectly
+- [] Try to reduce from 97.5mm to 90mm to fit drone frame perfectly
 
 ### Parts List
 
@@ -27,6 +26,3 @@
 | BEC (5V)    | MP1584EN Mini           | [Datasheet](https://www.makerfabs.com/desfile/files/MP1584.pdf) | [Link](https://www.amazon.com/MP1584EN-DC-DC-Converter-Adjustable-Module/dp/B01MQGMOKI)
 | Battery (2S)| GNB Li-ion 2S           | None                                                            | [Link](https://www.gaoneng.shop/products/gaoneng-gnb-2s-7.4v-3000mah-10c-xt60-li-ion-battery-made-with-sony-18650-vtc6)
 | Motors (x4) | HGLRC 11000KV Brushless | [Datasheet](https://www.hglrc.com/products/specter-1202-5-11000kv-brushless-motor?srsltid=AfmBOoqW-ta1qVEoeQz9RS-2Xiud78sCV2YQTAbIZQbJYDzdP6lwds6F) | [Link](https://www.hglrc.com/products/specter-1202-5-11000kv-brushless-motor?srsltid=AfmBOoqW-ta1qVEoeQz9RS-2Xiud78sCV2YQTAbIZQbJYDzdP6lwds6F)
-| Optical Flow| Matek 3901-L0X          | [Datasheet](https://www.mateksys.com/?portfolio=3901-l0x#tab-id-2) | [Link](https://www.getfpv.com/mateksys-optical-flow-lidar-sensor-3901-l0x.html?utm_source=google&utm_medium=cpc&utm_campaign=DM+-+NB+-+PMax+-+Shop+-+No-index+-+SM+-+ALL+%7C+Full+Funnel&utm_content=pmax_x&utm_keyword=&utm_matchtype=&campaign_id=20799936859&network=x&device=c&gc_id=20799936859&gad_source=1&gad_campaignid=20796067361&gclid=CjwKCAjwg7PDBhBxEiwAf1CVu5J9NG6OtZcLzF9Gt-jSDHbckIvNjY7H0FQzeP1tNwYG2YqhNJe9JxoCZTMQAvD_BwE)
-| Screws(x10) | M3 Hex Top              | None                                                            | None
-| Drone Frame | Carbon Fiber Micro UAS  | None                                                            | None

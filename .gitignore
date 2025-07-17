@@ -7,6 +7,3 @@ Hardware/TeensyDrone/TeensyDrone-backups/
 Hardware/TeensyDrone/freerouting.dsn
 Hardware/TeensyDrone/fp-info-cache
 
-Hardware/TeensyDrone/*.gbr
-Hardware/TeensyDrone/*.rpt
-Hardware/TeensyDrone/*.drl
