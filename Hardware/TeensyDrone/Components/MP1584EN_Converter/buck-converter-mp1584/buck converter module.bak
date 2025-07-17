@@ -6,8 +6,8 @@
 		(exclude_from_sim no)
 		(in_bom yes)
 		(on_board yes)
-		(property "Reference" "U"
-			(at -8.382 -2.54 0)
+		(property "Reference" "5V_BEC"
+			(at 9.906 -7.874 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -51,8 +51,8 @@
 		)
 		(symbol "5V-BEC_0_1"
 			(rectangle
-				(start -2.54 6.35)
-				(end 8.89 -10.16)
+				(start 0 0)
+				(end 20.32 -15.24)
 				(stroke
 					(width 0)
 					(type default)
@@ -63,10 +63,10 @@
 			)
 		)
 		(symbol "5V-BEC_1_1"
-			(pin input line
-				(at -5.08 5.08 0)
+			(pin power_in line
+				(at -2.54 -2.54 0)
 				(length 2.54)
-				(name "IN+"
+				(name "GND"
 					(effects
 						(font
 							(size 1.27 1.27)
@@ -81,10 +81,10 @@
 					)
 				)
 			)
-			(pin input line
-				(at -5.08 2.54 0)
+			(pin power_in line
+				(at -2.54 -5.08 0)
 				(length 2.54)
-				(name "IN+"
+				(name "GND"
 					(effects
 						(font
 							(size 1.27 1.27)
@@ -99,10 +99,10 @@
 					)
 				)
 			)
-			(pin input line
-				(at -5.08 -6.35 0)
+			(pin power_in line
+				(at -2.54 -11.43 0)
 				(length 2.54)
-				(name "IN-"
+				(name "VBat"
 					(effects
 						(font
 							(size 1.27 1.27)
@@ -117,10 +117,10 @@
 					)
 				)
 			)
-			(pin input line
-				(at -5.08 -8.89 0)
+			(pin power_in line
+				(at -2.54 -13.97 0)
 				(length 2.54)
-				(name "IN-"
+				(name "VBat"
 					(effects
 						(font
 							(size 1.27 1.27)
@@ -135,10 +135,10 @@
 					)
 				)
 			)
-			(pin output line
-				(at 11.43 5.08 180)
+			(pin power_out line
+				(at 22.86 -2.54 180)
 				(length 2.54)
-				(name "Out+"
+				(name "GND"
 					(effects
 						(font
 							(size 1.27 1.27)
@@ -153,10 +153,10 @@
 					)
 				)
 			)
-			(pin output line
-				(at 11.43 2.54 180)
+			(pin power_out line
+				(at 22.86 -5.08 180)
 				(length 2.54)
-				(name "Out+"
+				(name "GND"
 					(effects
 						(font
 							(size 1.27 1.27)
@@ -171,10 +171,10 @@
 					)
 				)
 			)
-			(pin output line
-				(at 11.43 -6.35 180)
+			(pin power_out line
+				(at 22.86 -11.43 180)
 				(length 2.54)
-				(name "Out-"
+				(name "5V"
 					(effects
 						(font
 							(size 1.27 1.27)
@@ -189,10 +189,10 @@
 					)
 				)
 			)
-			(pin output line
-				(at 11.43 -8.89 180)
+			(pin power_out line
+				(at 22.86 -13.97 180)
 				(length 2.54)
-				(name "Out-"
+				(name "5V"
 					(effects
 						(font
 							(size 1.27 1.27)

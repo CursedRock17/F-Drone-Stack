@@ -37,9 +37,9 @@
         "other_text_thickness": 0.15,
         "other_text_upright": false,
         "pads": {
-          "drill": 1.0,
-          "height": 2.0,
-          "width": 2.0
+          "drill": 1.02,
+          "height": 1.53,
+          "width": 1.53
         },
         "silk_line_width": 0.1,
         "silk_text_italic": false,
@@ -68,7 +68,7 @@
         "connection_width": "warning",
         "copper_edge_clearance": "error",
         "copper_sliver": "warning",
-        "courtyards_overlap": "error",
+        "courtyards_overlap": "ignore",
         "creepage": "error",
         "diff_pair_gap_out_of_range": "error",
         "diff_pair_uncoupled_length_too_long": "error",
@@ -135,9 +135,9 @@
         "min_silk_clearance": 0.0,
         "min_text_height": 1.5,
         "min_text_thickness": 0.08,
-        "min_through_hole_diameter": 0.25,
+        "min_through_hole_diameter": 0.5,
         "min_track_width": 0.5,
-        "min_via_annular_width": 0.5,
+        "min_via_annular_width": 0.25,
         "min_via_diameter": 1.0,
         "solder_mask_to_copper_clearance": 0.0,
         "use_height_for_length_calcs": true
@@ -473,7 +473,7 @@
     "classes": [
       {
         "bus_width": 12,
-        "clearance": 0.2,
+        "clearance": 0.5,
         "diff_pair_gap": 0.25,
         "diff_pair_via_gap": 0.25,
         "diff_pair_width": 0.2,
@@ -490,13 +490,13 @@
         "wire_width": 6
       },
       {
-        "clearance": 0.1,
+        "clearance": 0.5,
         "diff_pair_gap": 0.75,
         "diff_pair_width": 0.5,
         "microvia_diameter": 0.5,
         "microvia_drill": 0.1,
         "name": "GND",
-        "pcb_color": "rgb(0, 0, 0)",
+        "pcb_color": "rgba(0, 0, 0, 0.000)",
         "priority": 0,
         "schematic_color": "rgba(0, 0, 0, 0.000)",
         "track_width": 1.0,
@@ -504,13 +504,13 @@
         "via_drill": 0.5
       },
       {
-        "clearance": 0.1,
+        "clearance": 0.5,
         "diff_pair_gap": 0.75,
         "diff_pair_width": 0.5,
         "microvia_diameter": 0.5,
         "microvia_drill": 0.1,
         "name": "Power",
-        "pcb_color": "rgba(0, 0, 0, 0.000)",
+        "pcb_color": "rgb(255, 0, 0)",
         "priority": 1,
         "schematic_color": "rgba(0, 0, 0, 0.000)",
         "track_width": 1.0,
@@ -747,7 +747,7 @@
       "version": 1
     },
     "net_format_name": "",
-    "page_layout_descr_file": "",
+    "page_layout_descr_file": "Teensy Drone",
     "plot_directory": "",
     "space_save_all_events": true,
     "spice_current_sheet_as_root": false,
