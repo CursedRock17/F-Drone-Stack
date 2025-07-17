@@ -75,12 +75,14 @@ Prerequiste Installs
 ### Flight Controller Setup Steps
 TODO
 
-Channel Ranges: Low (-100) -> Mid (0) -> High (100), if 2 numbers, no low
-Throttle: 996 -> 1186
-Ail: 1194 -> 1376 -> 1562
-Elevation: 1194 -> 1370 -> 1557
-Rudder: 1194 -> 1381 -> 1570
-Armed: 1000 -> 1792
+Channel Ranges:
+- Low (-100) -> Mid (0) -> High (100), if 2 numbers, no low
+- Throttle: 996 -> 1186
+- Ail: 1194 -> 1376 -> 1562
+- Elevation: 1194 -> 1370 -> 1557
+- Rudder: 1194 -> 1381 -> 1570
+- Armed: 1000 -> 1792
 
 ## Hardware Setup
 
+[In Hardware Section](../Hardware)
