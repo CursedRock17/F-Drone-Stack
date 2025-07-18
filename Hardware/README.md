@@ -11,15 +11,6 @@
 - Min Through Hole: 0.25mm
 - Hole -> Hole Clearance: 1.0mm
 
-### Board Future Checklist
-- [] Update from pads to JST-SH 01x08 shrouded male Connector (Vertical)
-- [] Possible move IMU Mounting Hole to stay away from connector
-- [] Rotate to just 3 mounting holes (can't go underneath Teensy)
-- [] Update Tx/Rx pins on optical flow sensor to have easier connection
-- [] Only add the optical flow sensor, no more
-- [] Use Vertical facing JST (ZH/SH) connectors to save more space
-- [] Ensure no loose GND planes
-
 ### Parts List
 
 | Item        | Part                    | Datasheet                                             | Link                                                                                                                                                                                                   |
@@ -32,7 +23,36 @@
 | Battery (2S)| GNB Li-ion 2S           | None                                                            | [Link](https://www.gaoneng.shop/products/gaoneng-gnb-2s-7.4v-3000mah-10c-xt60-li-ion-battery-made-with-sony-18650-vtc6)
 | Motors (x4) | HGLRC 11000KV Brushless | [Datasheet](https://www.hglrc.com/products/specter-1202-5-11000kv-brushless-motor?srsltid=AfmBOoqW-ta1qVEoeQz9RS-2Xiud78sCV2YQTAbIZQbJYDzdP6lwds6F) | [Link](https://www.hglrc.com/products/specter-1202-5-11000kv-brushless-motor?srsltid=AfmBOoqW-ta1qVEoeQz9RS-2Xiud78sCV2YQTAbIZQbJYDzdP6lwds6F)
 | Optical Flow| Matek 3901-L0X          | [Datasheet](https://www.mateksys.com/?portfolio=3901-l0x#tab-id-2) | [Link](https://www.getfpv.com/mateksys-optical-flow-lidar-sensor-3901-l0x.html?utm_source=google&utm_medium=cpc&utm_campaign=DM+-+NB+-+PMax+-+Shop+-+No-index+-+SM+-+ALL+%7C+Full+Funnel&utm_content=pmax_x&utm_keyword=&utm_matchtype=&campaign_id=20799936859&network=x&device=c&gc_id=20799936859&gad_source=1&gad_campaignid=20796067361&gclid=CjwKCAjwg7PDBhBxEiwAf1CVu5J9NG6OtZcLzF9Gt-jSDHbckIvNjY7H0FQzeP1tNwYG2YqhNJe9JxoCZTMQAvD_BwE)
+| Mechanical  | Parts                   | None                                                            | None
 | Screws(x10) | M3 Hex Top              | None                                                            | None
 | Drone Frame | Carbon Fiber Micro UAS  | None                                                            | None
+| Custom PCB  | Copper Board            | The PCB in the Hardware Section                                 | None
+| Mount       | Battery Holder          | None                                                            | None
+| JST SH      | 8-Pin Vertical Shrouded | [Datasheet](https://www.jst-mfg.com/product/pdf/eng/eSH.pdf)                                                            | [Link](https://www.digikey.com/en/products/detail/jst-sales-america-inc/BM08B-SRSS-TB/926700)
+| JST Connect | 4-Pin Vertical Shrouded | None                                                            | None
 
 ### Assembly
+
+1) Grab your drone Frame, electrical components, and turn on your soldering iron
+2) Use helping hands to hold the PCB still, start by soldering pinouts to tracks
+    1) Start with the BEC, ensure it's in the correct orientation, arrow points left
+    and solder pins 3 & 7, using the PCB editor as a guide
+    2) Next we solder the Teensy 4.0 going in the clockwise direction, starting
+    with Vin (the top right pin), the USB port should face the BEC, skip 4pins,
+    then solder pins 21, 20, (skip 2), 17, 16, (skip 6), 3.3V, (skip 4), 9,
+    8, 7, 6, (skip 4), 1, 0
+    3) Solder all 3 JST headers, the 8-pin on the left, two 4 pins in the middle
+    4) We can now solder the ELRS Reciever which doesn't have large pads, so
+    be careful
+3) Mount the PCB to the drone frame itself, using two M2 (2") screws, they
+   should lie underneath the ESC, so taking it off must be done in reverse
+4) After we've solder all the components onto the board, we can mount things to the PCB
+    1) Mount the ESC to the PCB using 4 M2 (2") screws with nylon for bending
+    2) The other component being mounted to the PCB is the IMU, with two 3" screws
+5) The last step is soldering x-awg wire with connectors to the components
+   There are 3 components which are wired in this way:
+     - ESC (8 pin connector, using 6, left side)
+     - Optical Flow (4 pin connector, top right)
+     - IMU (4 pin connector, middle)
+6) We must now screw in the battery pack, to the bottom with the holder
+7) The drone is now assembled!
