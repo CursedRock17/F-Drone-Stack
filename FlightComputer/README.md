@@ -18,11 +18,12 @@ may find it to be a bit more difficult.
 source /opt/ros/humble/setup.bash
 
 # Create A Working Directory from which we have a stable micro-ROS setup
-mkdir microros_ws && cd microros_ws
-git clone -b humble https://github.com/micro-ROS/micro_ros_setup.git src/micro_ros_setup
+mkdir -p microros_ws/src && cd microros_ws/src
+git clone https://github.com/micro-ROS/micro_ros_setup.git src/micro_ros_setup -b humble
 
 # Ensure Our dependencies are in line with the version
 sudo apt update && rosdep update
+
 rosdep install --from-paths src --ignore-src -y
 
 # Use the colcon buildchain tool to set up our resources
@@ -32,6 +33,16 @@ This install provides us with a setup agent for micro-ROS which will walk
 us through some install steps
 ```
 ros2 run micro_ros_setup create_agent_ws.sh
+# Then
+source install/local_setup.bash
+# Then
 ros2 run micro_ros_setup build_agent.sh
+# Then
 source install/local_setup.bash
 ```
+At this point in time plug in your choice of Teensy into the board and ensure
+it has the ability to flash, *Note* ensure the USB Micro-B Cable can do data transfer
+```
+ros2 run micro_ros_agent micro_ros_agent serial --dev /dev/ttyACM0
+```
+

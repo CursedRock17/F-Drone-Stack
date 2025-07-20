@@ -85,4 +85,4 @@ Channel Ranges:
 
 ## Hardware Setup
 
-[In Hardware Section](../Hardware)
+[In Hardware Section](./Hardware)
