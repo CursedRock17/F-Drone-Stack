@@ -9,7 +9,7 @@ drones. These drones utilize a soft-core ARM Cortex M3 on an FPGA to
 allow the software to not be restricted to any certain chip which can
 be used on quadrotors of any size or scale.
 
- Clone this repository with the version you'd like: `git clone https://github.com/CursedRock17/F-Drone-Stack.git -b kilted`
+Clone this repository with the version you'd like: `git clone https://github.com/CursedRock17/F-Drone-Stack.git -b kilted`
 
 ## Software Setup
 --------------------------------------------
@@ -73,7 +73,8 @@ Prerequiste Installs
 5. Enjoy!
 
 ### Flight Controller Setup Steps
-TODO
+
+[In Flight Controller Section](./FlightComputer)
 
 Channel Ranges:
 - Low (-100) -> Mid (0) -> High (100), if 2 numbers, no low
@@ -83,6 +84,9 @@ Channel Ranges:
 - Rudder: 1194 -> 1381 -> 1570
 - Armed: 1000 -> 1792
 
-## Hardware Setup
+### Hardware Setup
 
-[In Hardware Section](./Hardware)
+[In Hardware Section](./Hardware), steps to find needed parts, assemble,
+and troubleshoot the mechanical and electrical parts to a sample drone
+
+You can also find any CAD Files and eCAD files pertaining to the drone

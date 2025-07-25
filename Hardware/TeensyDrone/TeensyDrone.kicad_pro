@@ -38,8 +38,8 @@
         "other_text_upright": false,
         "pads": {
           "drill": 1.02,
-          "height": 2.02,
-          "width": 2.02
+          "height": 2.04,
+          "width": 2.04
         },
         "silk_line_width": 0.1,
         "silk_text_italic": false,
@@ -559,7 +559,7 @@
       "gencad": "",
       "idf": "",
       "netlist": "",
-      "plot": "./",
+      "plot": "../../../FDroneHardware/",
       "pos_files": "",
       "specctra_dsn": "",
       "step": "",
