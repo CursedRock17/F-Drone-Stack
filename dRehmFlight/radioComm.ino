@@ -42,7 +42,7 @@ void radioSetup() {
   // CRSF Receiver - Prefers 115,200 or 400,000 Baud Rate
   #elif defined USE_CRSF_RX
     Serial5.begin(400000);
-    crsf = new CRSFforArduino(&Serial5);
+    crsf = new CRSFforArduino(&Serial3);
     if (!crsf->begin())
     {
       crsf->end();
