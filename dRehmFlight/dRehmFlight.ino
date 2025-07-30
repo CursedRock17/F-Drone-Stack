@@ -125,13 +125,13 @@ float AccErrorX = 0.11;
 float AccErrorY = 0.03;
 float AccErrorZ = 0.06;
 float GyroErrorX = -2.06;
-float GyroErrorY= -0.59;
+float GyroErrorY = -0.59;
 float GyroErrorZ = -1.81;
 
 // Controller parameters (take note of defaults before modifying!):
 float i_limit = 25.0;     // Integrator saturation level, mostly for safety (default 25.0)
-float maxRoll = 30.0;     // Max roll angle in degrees for angle mode (maximum ~70 degrees), deg/sec for rate mode
-float maxPitch = 30.0;    // Max pitch angle in degrees for angle mode (maximum ~70 degrees), deg/sec for rate mode
+float maxRoll = 150.0;     // Max roll angle in degrees for angle mode (maximum ~70 degrees), deg/sec for rate mode
+float maxPitch = 150.0;    // Max pitch angle in degrees for angle mode (maximum ~70 degrees), deg/sec for rate mode
 float maxYaw = 160.0;     // Max yaw rate in deg/sec
 
 float Kp_roll_angle = 0.2;    //Roll P-gain - angle mode
@@ -144,7 +144,7 @@ float Kd_pitch_angle = 0.05;  //Pitch D-gain - angle mode (has no effect on cont
 float B_loop_pitch = 0.9;     //Pitch damping term for controlANGLE2(), lower is more damping (must be between 0 to 1)
 
 float Kp_roll_rate = 0.15;    //Roll P-gain - rate mode
-float Ki_roll_rate = 0.2;     //Roll I-gain - rate mode
+float Ki_roll_rate = 0.05;     //Roll I-gain - rate mode
 float Kd_roll_rate = 0.0002;  //Roll D-gain - rate mode (be careful when increasing too high, motors will begin to overheat!)
 float Kp_pitch_rate = 0.15;   //Pitch P-gain - rate mode
 float Ki_pitch_rate = 0.2;    //Pitch I-gain - rate mode
@@ -158,7 +158,14 @@ float Kd_yaw = 0.00015;       //Yaw D-gain (be careful when increasing too high,
 // Radio failsafe values for every channel in the event that bad reciever
 // data is detected. Recommended defaults:
 // Defined: Throttle, Ail, Elevation, Rudder, Arm 1, Aux2
-unsigned long channel_fs[6] = {1000, 1500, 1500, 1500, 1000, 1000};
+// TODO: Add parameters.yaml file to allow user to set
+unsigned long thro_range[2] = {991, 1807};        // Amount of Power
+unsigned long ail_range[3] = {1194, 1500, 1807};  // Roll 
+unsigned long ele_range[3] = {1194, 1500, 1807};  // Pitch 
+unsigned long rud_range[3] = {1194, 1500, 1807};  // Yaw
+unsigned long arm_range[2] = {1000, 1792};        // Off/On
+unsigned long channel_fs[6] = { thro_range[0], ail_range[1], ele_range[1], rud_range[1], 
+                                arm_range[0], 1000 };
 
 //==========================================================================//
 //                                DECLARE PINS            channel_pwm                  //
@@ -170,6 +177,7 @@ unsigned long channel_fs[6] = {1000, 1500, 1500, 1500, 1000, 1000};
 // CRSF Pins: RX = 15, TX = 14
 // Optical Flow Pins: RX = 16, TX = 17
 //// Pinout Meanings:     throttle, ail, elevation, rudd, gear, aux1
+// TODO: Add extra pins for certain flight modes using handset
 const int channelPins[6] = {15,     16,  17,        20,    21,  22};
 const int PPM_Pin = 23;
 
@@ -306,10 +314,10 @@ void loop() {
   getDesState();
 
   // PID Controller - SELECT ONE:
-  controlANGLE();    // Stabilize on angle setpoint
+  //controlANGLE();    // Stabilize on angle setpoint
   //controlANGLE2(); // Stabilize on angle setpoint using cascaded method.
                      // Rate controller must be tuned well first!
-  //controlRATE();   // Stabilize on rate setpoint
+  controlRATE();   // Stabilize on rate setpoint
 
   // Actuator mixing and scaling to PWM values
   controlMixer();  // Mixes PID outputs to scaled actuator commands -- custom mixing assignments done here
@@ -321,6 +329,7 @@ void loop() {
   // Command actuators
   commandMotors();  // Sends command pulses to each motor pin using OneShot125
   printMotorCommands();
+  //printPIDoutput();
 
   // Get vehicle commands for next loop iteration
   getCommands(); //Pulls current available radio commands
@@ -482,7 +491,8 @@ void controlRATE() {
    * See explanation for controlANGLE(). Everything is the same here except the error is now the desired rate - raw gyro reading.
    */
   //Roll
-  error_roll = roll_des - GyroX;
+  // TODO (CursedRock17): Flip Gyro values when IMU is in correct orientation
+  error_roll = roll_des - GyroY;
   integral_roll = integral_roll_prev + error_roll*dt;
   if (channel_pwm[0] < 1060) {   //Don't let integrator build if throttle is too low
     integral_roll = 0;
@@ -492,7 +502,7 @@ void controlRATE() {
   roll_PID = .01*(Kp_roll_rate*error_roll + Ki_roll_rate*integral_roll + Kd_roll_rate*derivative_roll); //Scaled by .01 to bring within -1 to 1 range
 
   //Pitch
-  error_pitch = pitch_des - GyroY;
+  error_pitch = pitch_des + GyroX;
   integral_pitch = integral_pitch_prev + error_pitch*dt;
   if (channel_pwm[0] < 1060) {   //Don't let integrator build if throttle is too low
     integral_pitch = 0;
@@ -551,6 +561,7 @@ void controlMixer() {
     3   1
       Back       - Battery Cables
   */
+
   m_command_scaled[0] = thro_des - pitch_PID - roll_PID - yaw_PID; //Front Right
   m_command_scaled[1] = thro_des + pitch_PID - roll_PID + yaw_PID; //Back Right
   m_command_scaled[2] = thro_des - pitch_PID + roll_PID + yaw_PID; //Front Left
@@ -811,15 +822,15 @@ void getDesState() {
    * yaw_passthru variables, to be used in commanding motors/servos with direct unstabilized commands in controlMixer().
    */
   thro_des = (channel_pwm[0] - 1000.0)/1000.0; //Between 0 and 1
-  roll_des = (channel_pwm[1] - 1500.0)/500.0; //Between -1 and 1
-  pitch_des = (channel_pwm[2] - 1500.0)/500.0; //Between -1 and 1
-  yaw_des = (channel_pwm[3] - 1500.0)/500.0; //Between -1 and 1
+  roll_des = (channel_pwm[1] - 1500.0)/307.0; //Between -1 and 1
+  pitch_des = (channel_pwm[2] - 1500.0)/307.0; //Between -1 and 1
+  yaw_des = (channel_pwm[3] - 1500.0)/307.0; //Between -1 and 1
   roll_passthru = roll_des/2.0; //Between -0.5 and 0.5
   pitch_passthru = pitch_des/2.0; //Between -0.5 and 0.5
   yaw_passthru = yaw_des/2.0; //Between -0.5 and 0.5
 
   //Constrain within normalized bounds
-  thro_des = constrain(thro_des, 0.0, 1.0); //Between 0 and 1
+  thro_des = constrain(thro_des, 0.1, 1.0); //Between 0 and 1
   roll_des = constrain(roll_des, -1.0, 1.0)*maxRoll; //Between -maxRoll and +maxRoll
   pitch_des = constrain(pitch_des, -1.0, 1.0)*maxPitch; //Between -maxPitch and +maxPitch
   yaw_des = constrain(yaw_des, -1.0, 1.0)*maxYaw; //Between -maxYaw and +maxYaw
@@ -845,7 +856,7 @@ void scaleCommands() {
   {
     m_command_PWM[i] = constrain(m_command_PWM[i], 125, 250);
   }
-}
+ }
 
 void getCommands() {
   //DESCRIPTION: Get raw PWM values for every channel from the radio
@@ -1006,7 +1017,6 @@ void calibrateESCs() {
       commandMotors(); //Sends command pulses to each motor pin using OneShot125 protocol
 
       printMotorCommands();
-      //printRadioData(); //Radio pwm values (expected: 1000 to 2000)
       //printDesiredState();
 
       loopRate(2000); //Do not exceed 2000Hz, all filter parameters tuned to 2000Hz by default

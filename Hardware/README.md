@@ -119,3 +119,4 @@ air would flow if it made contact with the prop
 - [] Reverse order pins for IMU since not enough space
 - [] Smaller Pitch Surface MNT connectors
 - [] Enable Clearance for Props (maybe create design of frame and all)
+- [] Rotate IMU so that it faces front (X points to front)
