@@ -276,7 +276,7 @@ void setup() {
   // Get IMU error to zero accelerometer and gyro readings, assuming vehicle is level when powered up
   //calculate_IMU_error(); //Calibration parameters printed to serial monitor. Paste these in the user specified variables section, then comment this out forever.
 
-  calibrateESCs(); //PROPS OFF. Uncomment this to calibrate your ESCs by setting throttle stick to max, powering on, and lowering throttle to zero after the beeps
+  //calibrateESCs(); //PROPS OFF. Uncomment this to calibrate your ESCs by setting throttle stick to max, powering on, and lowering throttle to zero after the beeps
   // Code will not proceed past here if this function is uncommented!
 
   // Command ARM OneShot125 ESC from 125 to 250us pulse length
@@ -328,7 +328,8 @@ void loop() {
 
   // Command actuators
   commandMotors();  // Sends command pulses to each motor pin using OneShot125
-  printMotorCommands();
+  //printMotorCommands();
+  printRadioData();
   //printPIDoutput();
 
   // Get vehicle commands for next loop iteration
@@ -830,7 +831,7 @@ void getDesState() {
   yaw_passthru = yaw_des/2.0; //Between -0.5 and 0.5
 
   //Constrain within normalized bounds
-  thro_des = constrain(thro_des, 0.1, 1.0); //Between 0 and 1
+  thro_des = constrain(thro_des, 0.2, 0.8); //Between 0 and 1
   roll_des = constrain(roll_des, -1.0, 1.0)*maxRoll; //Between -maxRoll and +maxRoll
   pitch_des = constrain(pitch_des, -1.0, 1.0)*maxPitch; //Between -maxPitch and +maxPitch
   yaw_des = constrain(yaw_des, -1.0, 1.0)*maxYaw; //Between -maxYaw and +maxYaw
@@ -854,7 +855,7 @@ void scaleCommands() {
   // Constrain commands to motors within OneShot125 bounds
   for (int i = 0; i < 4; i++)
   {
-    m_command_PWM[i] = constrain(m_command_PWM[i], 125, 250);
+    m_command_PWM[i] = constrain(m_command_PWM[i], 150, 200);
   }
  }
 
@@ -1016,8 +1017,8 @@ void calibrateESCs() {
       //throttleCut(); //Directly sets motor commands to low based on state of ch5
       commandMotors(); //Sends command pulses to each motor pin using OneShot125 protocol
 
-      printMotorCommands();
-      //printDesiredState();
+      //printMotorCommands();
+      printRadioData();
 
       loopRate(2000); //Do not exceed 2000Hz, all filter parameters tuned to 2000Hz by default
    }
