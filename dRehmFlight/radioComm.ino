@@ -145,7 +145,19 @@ void prepareChannelsCallback(serialReceiverLayer::rcChannels_t * rcChannels)
       for (int i = 1; i <= crsfChannels; i++)
       {
         channel_pwm[i - 1] = crsf->getChannel(i);
+        // TODO: Fix Arm Channel
+        if (i == 5){
+          channel_pwm[i - 1] += 809;
+        }
+        
+        /*
+        Serial.print(" Ch");
+        Serial.print(i);
+        Serial.print(": ");
+        Serial.print(channel_pwm[i - 1]);
+        */
       }
+      //Serial.println("");
     }
   }
 }
