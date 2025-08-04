@@ -9,7 +9,7 @@ drones. These drones utilize a soft-core ARM Cortex M3 on an FPGA to
 allow the software to not be restricted to any certain chip which can
 be used on quadrotors of any size or scale.
 
- Clone this repository with the version you'd like: `git clone https://github.com/CursedRock17/F-Drone-Stack.git -b kilted`
+Clone this repository with the version you'd like: `git clone https://github.com/CursedRock17/F-Drone-Stack.git -b humble`
 
 ## Software Setup
 --------------------------------------------
@@ -72,15 +72,48 @@ Prerequiste Installs
     4. In the text editor of your choice, copy the entire file linked above and paste it into the file. Reflash dRehmFlight and the upload should complete
 5. Enjoy!
 
-### Flight Controller Setup Steps
-TODO
+### Flight Computer Setup Steps (Intelligence Stack)
 
-Channel Ranges: Low (-100) -> Mid (0) -> High (100), if 2 numbers, no low
-Throttle: 996 -> 1186
-Ail: 1194 -> 1376 -> 1562
-Elevation: 1194 -> 1370 -> 1557
-Rudder: 1194 -> 1381 -> 1570
-Armed: 1000 -> 1792
+Provides to sort of intelligence like waypoint provision, pose estimation,
+and path planning access.
 
-## Hardware Setup
+[In Flight Computer Section](./FlightComputer).
 
+### Hardware Setup
+
+[In Hardware Section](./Hardware), steps to find needed parts, assemble,
+and troubleshoot the mechanical and electrical parts to a sample drone
+
+You can also find any CAD Files and eCAD files pertaining to the drone
+
+### Handset Setup 
+
+While this code will work autonomously, it's a good idea as always to 
+allow manual control via a human pilot, for the testing I used to the 
+[Radiomaster Zorro](https://radiomasterrc.com/collections/zorro-radio-control-series/products/zorro-radio-controller).
+We will flashing everything through UART and over Wifi.
+
+1) Download the [ExpressLRS Configurator](https://github.com/ExpressLRS/ExpressLRS-Configurator/releases/)
+it will make it easier to bind the Handset (Tx) to the ELRS Receiver (Rx)
+2) You can plug your Teensy into a computer to get 5V passing through the receiver 
+Once it is on, open that Configurator application. There will some options:
+  - Releases : Whatever version you installed 
+  - Device Category : BETAFPV 2.4 GHz 
+  - Device : BETAFPV 2400 RX Lite 
+  - Flashing Method : UART
+Now, hit `Build and Flash`, it might take a couple minutes.
+3) We can now flash the receiver over wifi, download the [ELRS Firmware](https://support.betafpv.com/hc/en-us/articles/24408930358169-Firmware-for-ELRS-Lite-Receiver-2-4GHz)
+before you actually flash, since you'll lose access to the internet. 
+After waiting about 30 secs there should be a new wifi network:
+`ExpressLRS RX` with the password "expresslrs". Join it! 
+4) It will automatically put you in the browser so that you can acccss 
+the `Firmware Update` section, *Select* the firmware you just downloaded.
+Now I had some trouble here where it would tell me there's a mismatch and kick me
+out, this happened a couple of times, just repeat it 3-4 times and it will download for you.
+5) We can now pair the handset, in the Zorro `Hardware` section (Page 6 in SYS) 
+there's a subgroup : `Bind Configuration`, use the right scroll wheel, then press in
+6) We will now do the same wifi style setup but with the TX instead.
+7) Congrats the two items should be paired!
+
+After you've paired the two together we should tune our controller for the drone.
+TODO : Insert Handset Values of Channels
