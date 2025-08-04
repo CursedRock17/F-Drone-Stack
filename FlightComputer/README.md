@@ -6,6 +6,7 @@
   - ROS 2 Humble [Installed](https://docs.ros.org/en/humble/Installation.html)
   - Python's Pip has been [Installed](https://pypi.org/project/pip/)
   - The virtual environment Pipenv has been [Installed](https://pipenv.pypa.io/en/latest/)
+  - MAVROS [Installed](https://github.com/mavlink/mavros/blob/ros2/mavros/README.md#installation)
 
 ### Installing micro-ROS
 We Need to install micro-ROS to allow our Teensy to communicate with its

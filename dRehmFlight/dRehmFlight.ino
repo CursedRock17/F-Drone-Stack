@@ -159,7 +159,7 @@ float Kd_yaw = 0.00015;       //Yaw D-gain (be careful when increasing too high,
 // data is detected. Recommended defaults:
 // Defined: Throttle, Ail, Elevation, Rudder, Arm 1, Aux2
 // TODO: Add parameters.yaml file to allow user to set
-unsigned long thro_range[2] = {800, 1807};        // Amount of Power
+unsigned long thro_range[2] = {991, 1807};        // Amount of Power
 unsigned long ail_range[3] = {1194, 1500, 1807};  // Roll 
 unsigned long ele_range[3] = {1194, 1500, 1807};  // Pitch 
 unsigned long rud_range[3] = {1194, 1500, 1807};  // Yaw
@@ -330,7 +330,7 @@ void loop() {
   commandMotors();  // Sends command pulses to each motor pin using OneShot125
   printMotorCommands();
   //printDesiredState();
-  //printPIDoutput();
+  //printRadioData();
 
   // Get vehicle commands for next loop iteration
   getCommands(); //Pulls current available radio commands
@@ -822,7 +822,7 @@ void getDesState() {
    * (rate mode). yaw_des is scaled to be within max yaw in degrees/sec. Also creates roll_passthru, pitch_passthru, and
    * yaw_passthru variables, to be used in commanding motors/servos with direct unstabilized commands in controlMixer().
    */
-  thro_des = (channel_pwm[0] - 800.0)/1000.0; //Between 0 and 1
+  thro_des = (channel_pwm[0] - 991)/1000.0; //Between 0 and 1
   roll_des = (channel_pwm[1] - 1500.0)/307.0; //Between -1 and 1
   pitch_des = (channel_pwm[2] - 1500.0)/307.0; //Between -1 and 1
   yaw_des = (channel_pwm[3] - 1500.0)/307.0; //Between -1 and 1
@@ -831,7 +831,7 @@ void getDesState() {
   yaw_passthru = yaw_des/2.0; //Between -0.5 and 0.5
 
   //Constrain within normalized bounds
-  thro_des = constrain(thro_des, 0.0, 0.8); //Between 0 and 1
+  thro_des = constrain(thro_des, 0.1, 1.0); //Between 0 and 1
   roll_des = constrain(roll_des, -1.0, 1.0)*maxRoll; //Between -maxRoll and +maxRoll
   pitch_des = constrain(pitch_des, -1.0, 1.0)*maxPitch; //Between -maxPitch and +maxPitch
   yaw_des = constrain(yaw_des, -1.0, 1.0)*maxYaw; //Between -maxYaw and +maxYaw
@@ -849,14 +849,14 @@ void scaleCommands() {
   // Scaled to 125us - 250us for OneShot125 protocol
   for (int i = 0; i < 4; i++)
   {
-    m_command_PWM[i] = m_command_scaled[i] * 155 + 155;
+    m_command_PWM[i] = m_command_scaled[i] * 125 + 125;
   }
 
   // Constrain commands to motors within OneShot125 bounds
   for (int i = 0; i < 4; i++)
   {
     // Throttle should start at a very slow speed
-    m_command_PWM[i] = constrain(m_command_PWM[i], 155, 200);
+    m_command_PWM[i] = constrain(m_command_PWM[i], 140, 225);
   }
  }
 
@@ -1008,7 +1008,7 @@ void calibrateESCs() {
       getIMUdata(); //Pulls raw gyro, accelerometer, and magnetometer data from IMU and LP filters to remove noise
       Madgwick(GyroX, -GyroY, -GyroZ, -AccX, AccY, AccZ, dt); //Updates roll_IMU, pitch_IMU, and yaw_IMU (degrees)
       getDesState(); //Convert raw commands to normalized values based on saturated control limits
-
+ 
       for (int i = 0; i < 4; i++)
       {
         m_command_scaled[i] = thro_des;
@@ -1018,6 +1018,7 @@ void calibrateESCs() {
       //throttleCut(); //Directly sets motor commands to low based on state of ch5
       commandMotors(); //Sends command pulses to each motor pin using OneShot125 protocol
 
+      //printRadioData();
       printMotorCommands();
       //printDesiredState();
 
