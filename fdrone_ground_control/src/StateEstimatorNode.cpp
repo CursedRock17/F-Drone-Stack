@@ -1,9 +1,10 @@
-#include "include/StateEstimatorNode.hpp"
+#include "fdrone_ground_control/StateEstimatorNode.hpp"
 
 StateEstimatorNode::StateEstimatorNode() : rclcpp::Node("state_estimator_node")
 {
   // Reference Frame Quality of Service to help us patch our topic info 
-  rclcpp::QoS frameQoS = rclcpp::Qos(10);
+  rclcpp::QoS frameQoS = rclcpp::QoS(10);
+  frameQoS.reliability(rclcpp::ReliabilityPolicy::Reliable);
   // Create our Subscriptions
   poseSub = this->create_subscription<geometry_msgs::msg::PoseStamped>(
     "/drone/odom/pose", frameQoS, std::bind(&StateEstimatorNode::PoseCallback, this, _1));
@@ -11,7 +12,7 @@ StateEstimatorNode::StateEstimatorNode() : rclcpp::Node("state_estimator_node")
     "/drone/odom/twist", frameQoS, std::bind(&StateEstimatorNode::TwistCallback, this, _1));
 
   // Acquire the name of a certain drone 
-  droneName_ = this->declare_parameters<std::string>("dronename", "drone");
+  droneName_ = this->declare_parameter<std::string>("dronename", "drone");
 
   // Initialize the Transform Broadcaster (Essentially just a publisher), based on the node
   tfBroadcaster = std::make_unique<tf2_ros::TransformBroadcaster>(*this);
@@ -22,7 +23,7 @@ StateEstimatorNode::~StateEstimatorNode()
 }
 
 void StateEstimatorNode::PoseCallback(
-  const std::shared_ptr<geometry_msgs::msg::PoseStamped> & pose) const 
+  std::shared_ptr<geometry_msgs::msg::PoseStamped> poseMsg) 
 {
   geometry_msgs::msg::TransformStamped transformMsg;
 
@@ -32,21 +33,21 @@ void StateEstimatorNode::PoseCallback(
   transformMsg.child_frame_id = droneName_.c_str();
 
   // Get the 3D coordinates of the current drone position 
-  transformMsg.transform.translation.x = pose->position.x;
-  transformMsg.transform.translation.y = pose->position.y;
-  transformMsg.transform.translation.z = pose->position.z;
+  transformMsg.transform.translation.x = poseMsg->pose.position.x;
+  transformMsg.transform.translation.y = poseMsg->pose.position.y;
+  transformMsg.transform.translation.z = poseMsg->pose.position.z;
 
   // Get the overall rotation of our current drone
-  transformMsg.transform.rotation.x = pose->orientation.x;
-  transformMsg.transform.rotation.y = pose->orientation.y;
-  transformMsg.transform.rotation.z = pose->orientation.z;
-  transformMsg.transform.rotation.w = pose->orientation.w;
+  transformMsg.transform.rotation.x = poseMsg->pose.orientation.x;
+  transformMsg.transform.rotation.y = poseMsg->pose.orientation.y;
+  transformMsg.transform.rotation.z = poseMsg->pose.orientation.z;
+  transformMsg.transform.rotation.w = poseMsg->pose.orientation.w;
 
   tfBroadcaster->sendTransform(transformMsg);
 }
 
 void StateEstimatorNode::TwistCallback(
-  const std::shared_ptr<geometry_msgs::msg::TwistStamped> & twist) const 
+  std::shared_ptr<geometry_msgs::msg::TwistStamped> twistMsg) 
 {
-
+  RCLCPP_WARN(this->get_logger(), "Hello Unused Twist");
 }

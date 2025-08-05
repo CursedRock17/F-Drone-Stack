@@ -1,6 +1,7 @@
 // ROS 2 Based Headers
 #include "rclcpp/rclcpp.hpp"
 #include "tf2_ros/transform_listener.h"
+#include "tf2_ros/transform_broadcaster.h"
 #include "tf2_ros/buffer.h"
 
 // C/C++ Standard Headers
@@ -34,6 +35,6 @@ std::string droneName_;
 std::unique_ptr<tf2_ros::TransformBroadcaster> tfBroadcaster;
 
 // All Callback Functions
-void PoseCallback(const geometry_msgs::msg::PoseStamped & pose);
-void TwistCallback(const geometry_msgs::msg::TwistStamped & twist);
+void PoseCallback(std::shared_ptr<geometry_msgs::msg::PoseStamped> poseMsg);
+void TwistCallback(std::shared_ptr<geometry_msgs::msg::TwistStamped> twistMsg);
 };
