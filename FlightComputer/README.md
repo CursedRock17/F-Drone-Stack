@@ -47,3 +47,11 @@ it has the ability to flash, *Note* ensure the USB Micro-B Cable can do data tra
 ros2 run micro_ros_agent micro_ros_agent serial --dev /dev/ttyACM0
 ```
 
+### Utilizing FlightComputer
+
+*Note* the actual library name is `micro_ros_f_drone`. Zip up the package to use it.
+```
+zip -r micro_ros_f_drone.zip micro_ros_f_drone
+```
+Then in the Arduino IDE import it to dreamFlight if it's not already there:
+`Sketch > Include Library > Add .ZIP Library`
