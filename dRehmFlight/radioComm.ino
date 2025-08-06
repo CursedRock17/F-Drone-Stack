@@ -20,7 +20,7 @@ void radioSetup() {
   #if defined USE_PPM_RX
     // Declare interrupt pin
     pinMode(PPM_Pin, INPUT_PULLUP);
-    delay(20);
+    delay(20);su
     // Attach interrupt and point to corresponding ISR function
     attachInterrupt(digitalPinToInterrupt(PPM_Pin), getPPM, CHANGE);
 

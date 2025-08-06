@@ -503,14 +503,14 @@ void controlRATE() {
   roll_PID = .01*(Kp_roll_rate*error_roll + Ki_roll_rate*integral_roll + Kd_roll_rate*derivative_roll); //Scaled by .01 to bring within -1 to 1 range
 
   //Pitch
-  error_pitch = pitch_des - GyroX;
+  error_pitch = pitch_des + GyroX;
   integral_pitch = integral_pitch_prev + error_pitch*dt;
   if (channel_pwm[0] < 1060) {   //Don't let integrator build if throttle is too low
     integral_pitch = 0;
   }
   integral_pitch = constrain(integral_pitch, -i_limit, i_limit); //Saturate integrator to prevent unsafe buildup
   derivative_pitch = (error_pitch - error_pitch_prev)/dt;
-  pitch_PID = .01*(Kp_pitch_rate*error_pitch + Ki_pitch_rate*integral_pitch + Kd_pitch_rate*derivative_pitch); //Scaled by .01 to bring within -1 to 1 range
+  pitch_PID = -.01*(Kp_pitch_rate*error_pitch + Ki_pitch_rate*integral_pitch + Kd_pitch_rate*derivative_pitch); //Scaled by .01 to bring within -1 to 1 range
 
   //Yaw, stablize on rate from GyroZ
   error_yaw = yaw_des + GyroZ;
@@ -563,10 +563,10 @@ void controlMixer() {
       Back       - Battery Cables
   */
 
-  m_command_scaled[2] = thro_des - pitch_PID + roll_PID + yaw_PID; //Front Left
-  m_command_scaled[3] = thro_des + pitch_PID + roll_PID - yaw_PID; //Back Left
-  m_command_scaled[0] = thro_des - pitch_PID - roll_PID - yaw_PID; //Front Right
-  m_command_scaled[1] = thro_des + pitch_PID - roll_PID + yaw_PID; //Back Right
+  m_command_scaled[0] = thro_des - pitch_PID + roll_PID + yaw_PID; //Front Left
+  m_command_scaled[1] = thro_des + pitch_PID + roll_PID - yaw_PID; //Back Left
+  m_command_scaled[2] = thro_des - pitch_PID - roll_PID - yaw_PID; //Front Right
+  m_command_scaled[3] = thro_des + pitch_PID - roll_PID + yaw_PID; //Back Right
 }
 
 void armedStatus() {
