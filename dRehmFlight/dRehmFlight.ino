@@ -121,38 +121,38 @@ float B_gyro = 0.1;       // Gyro LP filter paramter (default: 0.1)
 // IMU calibration parameters -
 // calibrate IMU using calculate_IMU_error() in the void setup() to get these
 // values, then comment out calculate_IMU_error()
-float AccErrorX = 0.11;
+float AccErrorX = -0.05;
 float AccErrorY = 0.03;
-float AccErrorZ = 0.06;
-float GyroErrorX = -2.06;
-float GyroErrorY = -0.59;
-float GyroErrorZ = -1.81;
+float AccErrorZ = 0.05;
+float GyroErrorX = -2.23;
+float GyroErrorY = 0.33;
+float GyroErrorZ = -1.01;
 
 // Controller parameters (take note of defaults before modifying!):
-float i_limit = 25.0;     // Integrator saturation level, mostly for safety (default 25.0)
-float maxRoll = 150.0;     // Max roll angle in degrees for angle mode (maximum ~70 degrees), deg/sec for rate mode
-float maxPitch = 150.0;    // Max pitch angle in degrees for angle mode (maximum ~70 degrees), deg/sec for rate mode
-float maxYaw = 160.0;     // Max yaw rate in deg/sec
+float i_limit = 2.5;     // Integrator saturation level, mostly for safety (default 25.0)
+float maxRoll = 15.0;     // Max roll angle in degrees for angle mode (maximum ~70 degrees), deg/sec for rate mode
+float maxPitch = 15.0;    // Max pitch angle in degrees for angle mode (maximum ~70 degrees), deg/sec for rate mode
+float maxYaw = 12.0;     // Max yaw rate in deg/sec
 
-float Kp_roll_angle = 0.2;    //Roll P-gain - angle mode
-float Ki_roll_angle = 0.3;    //Roll I-gain - angle mode
-float Kd_roll_angle = 0.05;   //Roll D-gain - angle mode (has no effect on controlANGLE2)
-float B_loop_roll = 0.9;      //Roll damping term for controlANGLE2(), lower is more damping (must be between 0 to 1)
-float Kp_pitch_angle = 0.2;   //Pitch P-gain - angle mode
-float Ki_pitch_angle = 0.3;   //Pitch I-gain - angle mode
-float Kd_pitch_angle = 0.05;  //Pitch D-gain - angle mode (has no effect on controlANGLE2)
-float B_loop_pitch = 0.9;     //Pitch damping term for controlANGLE2(), lower is more damping (must be between 0 to 1)
+float Kp_roll_angle = 0.02;    //Roll P-gain - angle mode
+float Ki_roll_angle = 0.03;    //Roll I-gain - angle mode
+float Kd_roll_angle = 0.005;   //Roll D-gain - angle mode (has no effect on controlANGLE2)
+float B_loop_roll = 0.09;      //Roll damping term for controlANGLE2(), lower is more damping (must be between 0 to 1)
+float Kp_pitch_angle = 0.02;   //Pitch P-gain - angle mode
+float Ki_pitch_angle = 0.03;   //Pitch I-gain - angle mode
+float Kd_pitch_angle = 0.005;  //Pitch D-gain - angle mode (has no effect on controlANGLE2)
+float B_loop_pitch = 0.09;     //Pitch damping term for controlANGLE2(), lower is more damping (must be between 0 to 1)
 
-float Kp_roll_rate = 0.15;    //Roll P-gain - rate mode
-float Ki_roll_rate = 0.05;     //Roll I-gain - rate mode
-float Kd_roll_rate = 0.0002;  //Roll D-gain - rate mode (be careful when increasing too high, motors will begin to overheat!)
-float Kp_pitch_rate = 0.15;   //Pitch P-gain - rate mode
-float Ki_pitch_rate = 0.2;    //Pitch I-gain - rate mode
-float Kd_pitch_rate = 0.0002; //Pitch D-gain - rate mode (be careful when increasing too high, motors will begin to overheat!)
+float Kp_roll_rate = 0.0075;    //Roll P-gain - rate mode
+float Ki_roll_rate = 0.0025;     //Roll I-gain - rate mode
+float Kd_roll_rate = 0.00001;  //Roll D-gain - rate mode (be careful when increasing too high, motors will begin to overheat!)
+float Kp_pitch_rate = 0.0075;   //Pitch P-gain - rate mode
+float Ki_pitch_rate = 0.0025;    //Pitch I-gain - rate mode
+float Kd_pitch_rate = 0.00001; //Pitch D-gain - rate mode (be careful when increasing too high, motors will begin to overheat!)
 
-float Kp_yaw = 0.3;           //Yaw P-gain
-float Ki_yaw = 0.05;          //Yawcrsf.upd I-gain
-float Kd_yaw = 0.00015;       //Yaw D-gain (be careful when increasing too high, motors will begin to overheat!)
+float Kp_yaw = 0.0075;           //Yaw P-gain
+float Ki_yaw = 0.0010;          //Yawcrsf.upd I-gain
+float Kd_yaw = 0.000002;       //Yaw D-gain (be careful when increasing too high, motors will begin to overheat!)
 
 
 // Radio failsafe values for every channel in the event that bad reciever
@@ -182,7 +182,8 @@ const int channelPins[6] = {15,     16,  17,        20,    21,  22};
 const int PPM_Pin = 23;
 
 //OneShot125 ESC pin outputs (Had to go in reverse):
-const int mPin[4] = {4, 3, 2, 1};
+// Motor 1, 2, 3, 4
+const int mPin[4] = {1, 2, 3, 4};
 
 //==========================================================================//
 //                            GLOBAL VARIABLES                              //
@@ -195,7 +196,7 @@ unsigned long print_counter, serial_counter;
 unsigned long blink_counter, blink_delay;
 bool blinkAlternate;
 
-//Radio communication:
+// Radio communication:
 unsigned long channel_pwm [6];
 unsigned long channel_pwm_prev[4];
 
@@ -314,10 +315,10 @@ void loop() {
   getDesState();
 
   // PID Controller - SELECT ONE:
-  //controlANGLE();    // Stabilize on angle setpoint
+  controlANGLE();    // Stabilize on angle setpoint
   //controlANGLE2(); // Stabilize on angle setpoint using cascaded method.
                      // Rate controller must be tuned well first!
-  controlRATE();   // Stabilize on rate setpoint
+  //controlRATE();   // Stabilize on rate setpoint
 
   // Actuator mixing and scaling to PWM values
   controlMixer();  // Mixes PID outputs to scaled actuator commands -- custom mixing assignments done here
@@ -328,9 +329,10 @@ void loop() {
 
   // Command actuators
   commandMotors();  // Sends command pulses to each motor pin using OneShot125
+  
   printMotorCommands();
   //printDesiredState();
-  //printRadioData();
+  //printPIDoutput();
 
   // Get vehicle commands for next loop iteration
   getCommands(); //Pulls current available radio commands
@@ -449,7 +451,7 @@ void controlANGLE2() {
   roll_PID = .01*(Kp_roll_rate*error_roll + Ki_roll_rate*integral_roll_il + Kd_roll_rate*derivative_roll); //Scaled by .01 to bring within -1 to 1 range
 
   //Pitch
-  error_pitch = pitch_des_ol - GyroY;
+  error_pitch = pitch_des_ol + GyroY;
   integral_pitch_il = integral_pitch_prev_il + error_pitch*dt;
   if (channel_pwm[1] < 1060) {   //Don't let integrator build if throttle is too low
     integral_pitch_il = 0;
@@ -487,39 +489,38 @@ void controlANGLE2() {
 }
 
 void controlRATE() {
-  //DESCRIPTION: Computes control commands based on state error (rate)
+    //DESCRIPTION: Computes control commands based on state error (rate)
   /*
    * See explanation for controlANGLE(). Everything is the same here except the error is now the desired rate - raw gyro reading.
    */
   //Roll
-  // TODO (CursedRock17): Flip Gyro values when IMU is in correct orientation
-  error_roll = roll_des - GyroY;
+  error_roll = roll_des - GyroX;
   integral_roll = integral_roll_prev + error_roll*dt;
-  if (channel_pwm[0] < 1060) {   //Don't let integrator build if throttle is too low
+  if (channel_1_pwm < 1060) {   //Don't let integrator build if throttle is too low
     integral_roll = 0;
   }
   integral_roll = constrain(integral_roll, -i_limit, i_limit); //Saturate integrator to prevent unsafe buildup
-  derivative_roll = (error_roll - error_roll_prev)/dt;
+  derivative_roll = (error_roll - error_roll_prev)/dt; 
   roll_PID = .01*(Kp_roll_rate*error_roll + Ki_roll_rate*integral_roll + Kd_roll_rate*derivative_roll); //Scaled by .01 to bring within -1 to 1 range
 
   //Pitch
-  error_pitch = pitch_des + GyroX;
+  error_pitch = pitch_des - GyroY;
   integral_pitch = integral_pitch_prev + error_pitch*dt;
-  if (channel_pwm[0] < 1060) {   //Don't let integrator build if throttle is too low
+  if (channel_1_pwm < 1060) {   //Don't let integrator build if throttle is too low
     integral_pitch = 0;
   }
   integral_pitch = constrain(integral_pitch, -i_limit, i_limit); //Saturate integrator to prevent unsafe buildup
-  derivative_pitch = (error_pitch - error_pitch_prev)/dt;
-  pitch_PID = -.01*(Kp_pitch_rate*error_pitch + Ki_pitch_rate*integral_pitch + Kd_pitch_rate*derivative_pitch); //Scaled by .01 to bring within -1 to 1 range
+  derivative_pitch = (error_pitch - error_pitch_prev)/dt; 
+  pitch_PID = .01*(Kp_pitch_rate*error_pitch + Ki_pitch_rate*integral_pitch + Kd_pitch_rate*derivative_pitch); //Scaled by .01 to bring within -1 to 1 range
 
   //Yaw, stablize on rate from GyroZ
-  error_yaw = yaw_des + GyroZ;
+  error_yaw = yaw_des - GyroZ;
   integral_yaw = integral_yaw_prev + error_yaw*dt;
-  if (channel_pwm[0] < 1060) {   //Don't let integrator build if throttle is too low
+  if (channel_1_pwm < 1060) {   //Don't let integrator build if throttle is too low
     integral_yaw = 0;
   }
   integral_yaw = constrain(integral_yaw, -i_limit, i_limit); //Saturate integrator to prevent unsafe buildup
-  derivative_yaw = (error_yaw - error_yaw_prev)/dt;
+  derivative_yaw = (error_yaw - error_yaw_prev)/dt; 
   yaw_PID = .01*(Kp_yaw*error_yaw + Ki_yaw*integral_yaw + Kd_yaw*derivative_yaw); //Scaled by .01 to bring within -1 to 1 range
 
   //Update roll variables
@@ -556,17 +557,17 @@ void controlMixer() {
 
   // Quad mixing - in "X" Format - Remeber these are armedStatus1-indexed so subtract 1
   /*
-      Front
-    0   2
+    Front
+    4   2
       X
-    1   3
-      Back       - Battery Cables
+    3   1 
+    Back       - Battery Cables
   */
 
-  m_command_scaled[0] = thro_des - pitch_PID + roll_PID + yaw_PID; //Front Left
-  m_command_scaled[1] = thro_des + pitch_PID + roll_PID - yaw_PID; //Back Left
-  m_command_scaled[2] = thro_des - pitch_PID - roll_PID - yaw_PID; //Front Right
-  m_command_scaled[3] = thro_des + pitch_PID - roll_PID + yaw_PID; //Back Right
+  m_command_scaled[3] = thro_des - pitch_PID + roll_PID + yaw_PID; //Front Left
+  m_command_scaled[2] = thro_des + pitch_PID + roll_PID - yaw_PID; //Back Left
+  m_command_scaled[1] = thro_des - pitch_PID - roll_PID - yaw_PID; //Front Right
+  m_command_scaled[0] = thro_des + pitch_PID - roll_PID + yaw_PID; //Back Right
 }
 
 void armedStatus() {
@@ -608,9 +609,7 @@ void getIMUdata() {
    */
   int16_t AcX,AcY,AcZ,GyX,GyY,GyZ;
 
-  #if defined USE_MPU6050_I2C
-    mpu6050.getMotion6(&AcX, &AcY, &AcZ, &GyX, &GyY, &GyZ);
-  #endif
+  mpu6050.getMotion6(&AcX, &AcY, &AcZ, &GyX, &GyY, &GyZ);
 
  //Accelerometer
   AccX = AcX / ACCEL_SCALE_FACTOR; //G's
@@ -831,7 +830,7 @@ void getDesState() {
   yaw_passthru = yaw_des/2.0; //Between -0.5 and 0.5
 
   //Constrain within normalized bounds
-  thro_des = constrain(thro_des, 0.1, 1.0); //Between 0 and 1
+  thro_des = constrain(thro_des, 0.03, 1.0); //Between 0 and 1
   roll_des = constrain(roll_des, -1.0, 1.0)*maxRoll; //Between -maxRoll and +maxRoll
   pitch_des = constrain(pitch_des, -1.0, 1.0)*maxPitch; //Between -maxPitch and +maxPitch
   yaw_des = constrain(yaw_des, -1.0, 1.0)*maxYaw; //Between -maxYaw and +maxYaw
@@ -849,14 +848,14 @@ void scaleCommands() {
   // Scaled to 125us - 250us for OneShot125 protocol
   for (int i = 0; i < 4; i++)
   {
-    m_command_PWM[i] = m_command_scaled[i] * 125 + 125;
+    m_command_PWM[i] = (m_command_scaled[i] * 125) + 125;
   }
 
   // Constrain commands to motors within OneShot125 bounds
   for (int i = 0; i < 4; i++)
   {
     // Throttle should start at a very slow speed
-    m_command_PWM[i] = constrain(m_command_PWM[i], 140, 225);
+    m_command_PWM[i] = constrain(m_command_PWM[i], 125, 225);
   }
  }
 
@@ -1040,10 +1039,9 @@ float floatFaderLinear(float param, float param_min, float param_max, float fade
   float diffParam = (param_max - param_min)/(fadeTime*loopFreq); //Difference to add or subtract from param for each loop iteration for desired fadeTime
 
   if (state == 1) { //Maximum param bound desired, increase param by diffParam for each loop iteration
-    param = param + diffParam;
-  }
-  else if (state == 0) { //Minimum param bound desired, decrease param by diffParam for each loop iteration
-    param = param - diffParam;
+    param += diffParam;
+  } else if (state == 0) { //Minimum param bound desired, decrease param by diffParam for each loop iteration
+    param -= diffParam;
   }
 
   param = constrain(param, param_min, param_max); //Constrain param within max bounds
@@ -1063,11 +1061,10 @@ float floatFaderLinear2(float param, float param_des, float param_lower, float p
    */
   if (param > param_des) { //Need to fade down to get to desired
     float diffParam = (param_upper - param_des)/(fadeTime_down*loopFreq);
-    param = param - diffParam;
-  }
-  else if (param < param_des) { //Need to fade up to get to desired
+    param -= diffParam;
+  } else if (param < param_des) { //Need to fade up to get to desired
     float diffParam = (param_des - param_lower)/(fadeTime_up*loopFreq);
-    param = param + diffParam;
+    param += diffParam;
   }
 
   param = constrain(param, param_lower, param_upper); //Constrain param within max bounds
