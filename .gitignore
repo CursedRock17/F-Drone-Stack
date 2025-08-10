@@ -10,3 +10,4 @@ Hardware/TeensyDrone/fp-info-cache
 Hardware/TeensyDrone/*.gbr
 Hardware/TeensyDrone/*.rpt
 Hardware/TeensyDrone/*.drl
+Hardware/*.env

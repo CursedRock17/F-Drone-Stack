@@ -1,0 +1,14 @@
+{
+    "configuration": "default",
+    "documentId": "08766ad7a989014629714482",
+    "documentMicroversion": "c8d3289f8fcafc665e3d6811",
+    "documentVersion": "940bd81371bae20e770b3214",
+    "elementId": "3a663d6e40d3fcedc1d0d67d",
+    "fullConfiguration": "default",
+    "id": "MRXkI7xBVcRAQL/Ki",
+    "isStandardContent": false,
+    "name": "IMU <1>",
+    "partId": "JHD",
+    "suppressed": false,
+    "type": "Part"
+}

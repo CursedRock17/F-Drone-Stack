@@ -1,0 +1,14 @@
+{
+    "configuration": "default",
+    "documentId": "6a843e9db76d8c23cf43be68",
+    "documentMicroversion": "340c856e63622e98bd8f2c31",
+    "documentVersion": "aa248cafde75fb5cb634a63b",
+    "elementId": "5afe88c0cd09df0268752624",
+    "fullConfiguration": "default",
+    "id": "MXq2gs41xOibgIlaa",
+    "isStandardContent": false,
+    "name": "MCU <1>",
+    "partId": "JHD",
+    "suppressed": false,
+    "type": "Part"
+}
