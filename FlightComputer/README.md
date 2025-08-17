@@ -47,3 +47,20 @@ it has the ability to flash, *Note* ensure the USB Micro-B Cable can do data tra
 ros2 run micro_ros_agent micro_ros_agent serial --dev /dev/ttyACM0
 ```
 
+### Issues/Resolutions
+
+<details>
+<summary> Teensy Hardware Issues </summary>
+
+You may stumble into ROS definitions not being recognized under the guise of 
+"no precompiled library support". First make sure you're using Teensy 1.57.3, which
+you can alter in the board manager by searching "teensy". We then need to upload 
+a new hardware patch, [found in](https://github.com/micro-ROS/micro_ros_arduino/blob/kilted/extras/patching_boards/platform_teensy.txt) the microROS github.
+
+Navigate to the original install location of the Teensy firmware :
+`cd ~/.arduino15/packages/teensy/hardware/avr/1.57.3`, then
+replace the `platform.txt` file with the contents of the micro_ros patch
+`curl https://raw.githubusercontent.com/micro-ROS/micro_ros_arduino/refs/heads/kilted/extras/patching_boards/platform_teensy.txt > platform.txt` should do the trick.
+
+
+</details>

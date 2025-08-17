@@ -5,7 +5,7 @@ from launch_ros.actions import Node
 def generate_launch_description():
     return LaunchDescription([
         Node(
-            package='FDroneGroundControl',
+            package='f_drone_ground_control',
             executable='visualization_process',
             name='tf_broadcaster'
         ),

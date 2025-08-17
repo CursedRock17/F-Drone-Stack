@@ -1,0 +1,480 @@
+<sdf version='1.11'>
+  <model name='Hardware'>
+    <link name='basic_link'>
+      <inertial>
+        <pose>0.00010427799999999999 0.0045317700000000001 0.00047249999999999999 0 0 0</pose>
+        <mass>0.0099244899999999994</mass>
+        <inertia>
+          <ixx>7.2680599999999997e-06</ixx>
+          <ixy>2.97785e-23</ixy>
+          <ixz>-1.19941e-23</ixz>
+          <iyy>1.3417e-06</iyy>
+          <iyz>-8.7168500000000004e-08</iyz>
+          <izz>8.5867399999999997e-06</izz>
+        </inertia>
+      </inertial>
+      <collision name='basic_link_collision'>
+        <pose>-0.027395699999999999 0.043154999999999999 -0.0010268600000000001 0 0 0</pose>
+        <geometry>
+          <mesh>
+            <scale>1 1 1</scale>
+            <uri>/home/cursedrock17/Documents/Electrical/Matrix_Lab/F-Drone-Stack/Hardware/assets/front_wing.stl</uri>
+          </mesh>
+        </geometry>
+      </collision>
+      <collision name='basic_link_collision_1'>
+        <pose>0.042104299999999997 -0.044957700000000003 0.00097313900000000004 0 0 1.7741499999999999e-16</pose>
+        <geometry>
+          <mesh>
+            <scale>1 1 1</scale>
+            <uri>/home/cursedrock17/Documents/Electrical/Matrix_Lab/F-Drone-Stack/Hardware/assets/motor.stl</uri>
+          </mesh>
+        </geometry>
+      </collision>
+      <collision name='basic_link_collision_2'>
+        <pose>-0.027395699999999999 -0.044845000000000003 -0.0010268600000000001 0 0 0</pose>
+        <geometry>
+          <mesh>
+            <scale>1 1 1</scale>
+            <uri>/home/cursedrock17/Documents/Electrical/Matrix_Lab/F-Drone-Stack/Hardware/assets/back_wing.stl</uri>
+          </mesh>
+        </geometry>
+      </collision>
+      <collision name='basic_link_collision_3'>
+        <pose>0.027604299999999998 -0.044845000000000003 0.00097313900000000004 3.1415899999999999 0 -3.1415899999999999</pose>
+        <geometry>
+          <mesh>
+            <scale>1 1 1</scale>
+            <uri>/home/cursedrock17/Documents/Electrical/Matrix_Lab/F-Drone-Stack/Hardware/assets/back_wing.stl</uri>
+          </mesh>
+        </geometry>
+      </collision>
+      <collision name='basic_link_collision_4'>
+        <pose>0.00010427799999999999 -0.00082180899999999995 0.00097313900000000004 0 0 0</pose>
+        <geometry>
+          <mesh>
+            <scale>1 1 1</scale>
+            <uri>/home/cursedrock17/Documents/Electrical/Matrix_Lab/F-Drone-Stack/Hardware/assets/imu.stl</uri>
+          </mesh>
+        </geometry>
+      </collision>
+      <collision name='basic_link_collision_5'>
+        <pose>0.042104299999999997 0.043042299999999999 0.00097313900000000004 0 0 1.7741499999999999e-16</pose>
+        <geometry>
+          <mesh>
+            <scale>1 1 1</scale>
+            <uri>/home/cursedrock17/Documents/Electrical/Matrix_Lab/F-Drone-Stack/Hardware/assets/motor.stl</uri>
+          </mesh>
+        </geometry>
+      </collision>
+      <collision name='basic_link_collision_6'>
+        <pose>0.00010427799999999999 -0.00095770200000000005 -0.0010268600000000001 0 0 0</pose>
+        <geometry>
+          <mesh>
+            <scale>1 1 1</scale>
+            <uri>/home/cursedrock17/Documents/Electrical/Matrix_Lab/F-Drone-Stack/Hardware/assets/basic_link.stl</uri>
+          </mesh>
+        </geometry>
+      </collision>
+      <collision name='basic_link_collision_7'>
+        <pose>0.00010427799999999999 0.0240713 0.00097313900000000004 0 0 0</pose>
+        <geometry>
+          <mesh>
+            <scale>1 1 1</scale>
+            <uri>/home/cursedrock17/Documents/Electrical/Matrix_Lab/F-Drone-Stack/Hardware/assets/mcu.stl</uri>
+          </mesh>
+        </geometry>
+      </collision>
+      <collision name='basic_link_collision_8'>
+        <pose>-0.041895700000000001 0.043042299999999999 0.00097313900000000004 7.9409300000000004e-23 7.9409300000000004e-23 -7.3478600000000006e-17</pose>
+        <geometry>
+          <mesh>
+            <scale>1 1 1</scale>
+            <uri>/home/cursedrock17/Documents/Electrical/Matrix_Lab/F-Drone-Stack/Hardware/assets/motor.stl</uri>
+          </mesh>
+        </geometry>
+      </collision>
+      <collision name='basic_link_collision_9'>
+        <pose>0.027604299999999998 0.043154999999999999 0.00097313900000000004 3.1415899999999999 0 -3.1415899999999999</pose>
+        <geometry>
+          <mesh>
+            <scale>1 1 1</scale>
+            <uri>/home/cursedrock17/Documents/Electrical/Matrix_Lab/F-Drone-Stack/Hardware/assets/front_wing.stl</uri>
+          </mesh>
+        </geometry>
+      </collision>
+      <collision name='basic_link_collision_10'>
+        <pose>-0.041895700000000001 -0.044957700000000003 0.00097313900000000004 0 0 0</pose>
+        <geometry>
+          <mesh>
+            <scale>1 1 1</scale>
+            <uri>/home/cursedrock17/Documents/Electrical/Matrix_Lab/F-Drone-Stack/Hardware/assets/motor.stl</uri>
+          </mesh>
+        </geometry>
+      </collision>
+      <visual name='basic_link_visual'>
+        <pose>-0.027395699999999999 0.043154999999999999 -0.0010268600000000001 0 0 0</pose>
+        <geometry>
+          <mesh>
+            <scale>1 1 1</scale>
+            <uri>/home/cursedrock17/Documents/Electrical/Matrix_Lab/F-Drone-Stack/Hardware/assets/front_wing.stl</uri>
+          </mesh>
+        </geometry>
+        <material>
+          <diffuse>0.328431249 0.352941275 0.377451241 1</diffuse>
+          <ambient>0.328431249 0.352941275 0.377451241 1</ambient>
+        </material>
+      </visual>
+      <visual name='basic_link_visual_1'>
+        <pose>0.042104299999999997 -0.044957700000000003 0.00097313900000000004 0 0 1.7741499999999999e-16</pose>
+        <geometry>
+          <mesh>
+            <scale>1 1 1</scale>
+            <uri>/home/cursedrock17/Documents/Electrical/Matrix_Lab/F-Drone-Stack/Hardware/assets/motor.stl</uri>
+          </mesh>
+        </geometry>
+        <material>
+          <diffuse>0.465686262 0.818627477 0.299019992 1</diffuse>
+          <ambient>0.465686262 0.818627477 0.299019992 1</ambient>
+        </material>
+      </visual>
+      <visual name='basic_link_visual_2'>
+        <pose>-0.027395699999999999 -0.044845000000000003 -0.0010268600000000001 0 0 0</pose>
+        <geometry>
+          <mesh>
+            <scale>1 1 1</scale>
+            <uri>/home/cursedrock17/Documents/Electrical/Matrix_Lab/F-Drone-Stack/Hardware/assets/back_wing.stl</uri>
+          </mesh>
+        </geometry>
+        <material>
+          <diffuse>0.328431249 0.352941275 0.377451241 1</diffuse>
+          <ambient>0.328431249 0.352941275 0.377451241 1</ambient>
+        </material>
+      </visual>
+      <visual name='basic_link_visual_3'>
+        <pose>0.027604299999999998 -0.044845000000000003 0.00097313900000000004 3.1415899999999999 0 -3.1415899999999999</pose>
+        <geometry>
+          <mesh>
+            <scale>1 1 1</scale>
+            <uri>/home/cursedrock17/Documents/Electrical/Matrix_Lab/F-Drone-Stack/Hardware/assets/back_wing.stl</uri>
+          </mesh>
+        </geometry>
+        <material>
+          <diffuse>0.328431249 0.352941275 0.377451241 1</diffuse>
+          <ambient>0.328431249 0.352941275 0.377451241 1</ambient>
+        </material>
+      </visual>
+      <visual name='basic_link_visual_4'>
+        <pose>0.00010427799999999999 -0.00082180899999999995 0.00097313900000000004 0 0 0</pose>
+        <geometry>
+          <mesh>
+            <scale>1 1 1</scale>
+            <uri>/home/cursedrock17/Documents/Electrical/Matrix_Lab/F-Drone-Stack/Hardware/assets/imu.stl</uri>
+          </mesh>
+        </geometry>
+        <material>
+          <diffuse>0.107843123 0.397058755 0.862744987 1</diffuse>
+          <ambient>0.107843123 0.397058755 0.862744987 1</ambient>
+        </material>
+      </visual>
+      <visual name='basic_link_visual_5'>
+        <pose>0.042104299999999997 0.043042299999999999 0.00097313900000000004 0 0 1.7741499999999999e-16</pose>
+        <geometry>
+          <mesh>
+            <scale>1 1 1</scale>
+            <uri>/home/cursedrock17/Documents/Electrical/Matrix_Lab/F-Drone-Stack/Hardware/assets/motor.stl</uri>
+          </mesh>
+        </geometry>
+        <material>
+          <diffuse>0.465686262 0.818627477 0.299019992 1</diffuse>
+          <ambient>0.465686262 0.818627477 0.299019992 1</ambient>
+        </material>
+      </visual>
+      <visual name='basic_link_visual_6'>
+        <pose>0.00010427799999999999 -0.00095770200000000005 -0.0010268600000000001 0 0 0</pose>
+        <geometry>
+          <mesh>
+            <scale>1 1 1</scale>
+            <uri>/home/cursedrock17/Documents/Electrical/Matrix_Lab/F-Drone-Stack/Hardware/assets/basic_link.stl</uri>
+          </mesh>
+        </geometry>
+        <material>
+          <diffuse>0.328431249 0.352941275 0.377451241 1</diffuse>
+          <ambient>0.328431249 0.352941275 0.377451241 1</ambient>
+        </material>
+      </visual>
+      <visual name='basic_link_visual_7'>
+        <pose>0.00010427799999999999 0.0240713 0.00097313900000000004 0 0 0</pose>
+        <geometry>
+          <mesh>
+            <scale>1 1 1</scale>
+            <uri>/home/cursedrock17/Documents/Electrical/Matrix_Lab/F-Drone-Stack/Hardware/assets/mcu.stl</uri>
+          </mesh>
+        </geometry>
+        <material>
+          <diffuse>0.465686262 0.818627477 0.299019992 1</diffuse>
+          <ambient>0.465686262 0.818627477 0.299019992 1</ambient>
+        </material>
+      </visual>
+      <visual name='basic_link_visual_8'>
+        <pose>-0.041895700000000001 0.043042299999999999 0.00097313900000000004 7.9409300000000004e-23 7.9409300000000004e-23 -7.3478600000000006e-17</pose>
+        <geometry>
+          <mesh>
+            <scale>1 1 1</scale>
+            <uri>/home/cursedrock17/Documents/Electrical/Matrix_Lab/F-Drone-Stack/Hardware/assets/motor.stl</uri>
+          </mesh>
+        </geometry>
+        <material>
+          <diffuse>0.465686262 0.818627477 0.299019992 1</diffuse>
+          <ambient>0.465686262 0.818627477 0.299019992 1</ambient>
+        </material>
+      </visual>
+      <visual name='basic_link_visual_9'>
+        <pose>0.027604299999999998 0.043154999999999999 0.00097313900000000004 3.1415899999999999 0 -3.1415899999999999</pose>
+        <geometry>
+          <mesh>
+            <scale>1 1 1</scale>
+            <uri>/home/cursedrock17/Documents/Electrical/Matrix_Lab/F-Drone-Stack/Hardware/assets/front_wing.stl</uri>
+          </mesh>
+        </geometry>
+        <material>
+          <diffuse>0.328431249 0.352941275 0.377451241 1</diffuse>
+          <ambient>0.328431249 0.352941275 0.377451241 1</ambient>
+        </material>
+      </visual>
+      <visual name='basic_link_visual_10'>
+        <pose>-0.041895700000000001 -0.044957700000000003 0.00097313900000000004 0 0 0</pose>
+        <geometry>
+          <mesh>
+            <scale>1 1 1</scale>
+            <uri>/home/cursedrock17/Documents/Electrical/Matrix_Lab/F-Drone-Stack/Hardware/assets/motor.stl</uri>
+          </mesh>
+        </geometry>
+        <material>
+          <diffuse>0.465686262 0.818627477 0.299019992 1</diffuse>
+          <ambient>0.465686262 0.818627477 0.299019992 1</ambient>
+        </material>
+      </visual>
+    </link>
+    <joint name='motor_prop_1' type='revolute'>
+      <pose relative_to='basic_link'>0.042104299999999997 0.043042299999999999 0.00247314 3.1415899999999999 0 0</pose>
+      <parent>basic_link</parent>
+      <child>propeller_2</child>
+      <axis>
+        <xyz>0 0 1</xyz>
+        <limit>
+          <lower>-3.1415926535897931</lower>
+          <upper>3.1415926535897931</upper>
+          <effort>10</effort>
+          <velocity>10</velocity>
+        </limit>
+        <dynamics>
+          <spring_reference>0</spring_reference>
+          <spring_stiffness>0</spring_stiffness>
+        </dynamics>
+      </axis>
+    </joint>
+    <link name='propeller_2'>
+      <pose relative_to='motor_prop_1'>0 0 0 0 0 0</pose>
+      <inertial>
+        <pose>-6.0117399999999996e-20 -2.3995200000000001e-18 -0.00025000000000000001 0 0 0</pose>
+        <mass>5.4687499999999999e-06</mass>
+        <inertia>
+          <ixx>1.0000000000000001e-09</ixx>
+          <ixy>0</ixy>
+          <ixz>0</ixz>
+          <iyy>1.0000000000000001e-09</iyy>
+          <iyz>0</iyz>
+          <izz>1.0000000000000001e-09</izz>
+        </inertia>
+      </inertial>
+      <collision name='propeller_2_collision'>
+        <pose>0 0 -0.00050000000000000001 0 0 0</pose>
+        <geometry>
+          <mesh>
+            <scale>1 1 1</scale>
+            <uri>/home/cursedrock17/Documents/Electrical/Matrix_Lab/F-Drone-Stack/Hardware/assets/propeller.stl</uri>
+          </mesh>
+        </geometry>
+      </collision>
+      <visual name='propeller_2_visual'>
+        <pose>0 0 -0.00050000000000000001 0 0 0</pose>
+        <geometry>
+          <mesh>
+            <scale>1 1 1</scale>
+            <uri>/home/cursedrock17/Documents/Electrical/Matrix_Lab/F-Drone-Stack/Hardware/assets/propeller.stl</uri>
+          </mesh>
+        </geometry>
+        <material>
+          <diffuse>0.328431249 0.352941275 0.377451241 1</diffuse>
+          <ambient>0.328431249 0.352941275 0.377451241 1</ambient>
+        </material>
+      </visual>
+    </link>
+    <joint name='motor_prop_2' type='revolute'>
+      <pose relative_to='basic_link'>0.042104299999999997 -0.044957700000000003 0.00247314 3.1415899999999999 0 0</pose>
+      <parent>basic_link</parent>
+      <child>propeller</child>
+      <axis>
+        <xyz>0 0 1</xyz>
+        <limit>
+          <lower>-3.1415926535897931</lower>
+          <upper>3.1415926535897931</upper>
+          <effort>10</effort>
+          <velocity>10</velocity>
+        </limit>
+        <dynamics>
+          <spring_reference>0</spring_reference>
+          <spring_stiffness>0</spring_stiffness>
+        </dynamics>
+      </axis>
+    </joint>
+    <link name='propeller'>
+      <pose relative_to='motor_prop_2'>0 0 0 0 0 0</pose>
+      <inertial>
+        <pose>-6.0117399999999996e-20 -2.3995200000000001e-18 -0.00025000000000000001 0 0 0</pose>
+        <mass>5.4687499999999999e-06</mass>
+        <inertia>
+          <ixx>1.0000000000000001e-09</ixx>
+          <ixy>0</ixy>
+          <ixz>0</ixz>
+          <iyy>1.0000000000000001e-09</iyy>
+          <iyz>0</iyz>
+          <izz>1.0000000000000001e-09</izz>
+        </inertia>
+      </inertial>
+      <collision name='propeller_collision'>
+        <pose>0 0 -0.00050000000000000001 0 0 0</pose>
+        <geometry>
+          <mesh>
+            <scale>1 1 1</scale>
+            <uri>/home/cursedrock17/Documents/Electrical/Matrix_Lab/F-Drone-Stack/Hardware/assets/propeller.stl</uri>
+          </mesh>
+        </geometry>
+      </collision>
+      <visual name='propeller_visual'>
+        <pose>0 0 -0.00050000000000000001 0 0 0</pose>
+        <geometry>
+          <mesh>
+            <scale>1 1 1</scale>
+            <uri>/home/cursedrock17/Documents/Electrical/Matrix_Lab/F-Drone-Stack/Hardware/assets/propeller.stl</uri>
+          </mesh>
+        </geometry>
+        <material>
+          <diffuse>0.328431249 0.352941275 0.377451241 1</diffuse>
+          <ambient>0.328431249 0.352941275 0.377451241 1</ambient>
+        </material>
+      </visual>
+    </link>
+    <joint name='motor_prop_3' type='revolute'>
+      <pose relative_to='basic_link'>-0.041895700000000001 0.043042299999999999 0.00247314 3.1415899999999999 -7.9409288317992723e-23 1.4220299999999999e-07</pose>
+      <parent>basic_link</parent>
+      <child>propeller_3</child>
+      <axis>
+        <xyz>0 0 1</xyz>
+        <limit>
+          <lower>-3.1415926535897931</lower>
+          <upper>3.1415926535897931</upper>
+          <effort>10</effort>
+          <velocity>10</velocity>
+        </limit>
+        <dynamics>
+          <spring_reference>0</spring_reference>
+          <spring_stiffness>0</spring_stiffness>
+        </dynamics>
+      </axis>
+    </joint>
+    <link name='propeller_3'>
+      <pose relative_to='motor_prop_3'>0 0 0 0 0 0</pose>
+      <inertial>
+        <pose>-6.0117399999999996e-20 -2.3995200000000001e-18 -0.00025000000000000001 0 0 0</pose>
+        <mass>5.4687499999999999e-06</mass>
+        <inertia>
+          <ixx>1.0000000000000001e-09</ixx>
+          <ixy>3.44551e-34</ixy>
+          <ixz>1.6807799999999999e-49</ixz>
+          <iyy>1.0000000000000001e-09</iyy>
+          <iyz>-6.7632999999999998e-50</iyz>
+          <izz>1.0000000000000001e-09</izz>
+        </inertia>
+      </inertial>
+      <collision name='propeller_3_collision'>
+        <pose>0 0 -0.00050000000000000001 -5.8774700000000001e-39 -1.1754899999999999e-38 2.6469799999999997e-23</pose>
+        <geometry>
+          <mesh>
+            <scale>1 1 1</scale>
+            <uri>/home/cursedrock17/Documents/Electrical/Matrix_Lab/F-Drone-Stack/Hardware/assets/propeller.stl</uri>
+          </mesh>
+        </geometry>
+      </collision>
+      <visual name='propeller_3_visual'>
+        <pose>0 0 -0.00050000000000000001 -5.8774700000000001e-39 -1.1754899999999999e-38 2.6469799999999997e-23</pose>
+        <geometry>
+          <mesh>
+            <scale>1 1 1</scale>
+            <uri>/home/cursedrock17/Documents/Electrical/Matrix_Lab/F-Drone-Stack/Hardware/assets/propeller.stl</uri>
+          </mesh>
+        </geometry>
+        <material>
+          <diffuse>0.328431249 0.352941275 0.377451241 1</diffuse>
+          <ambient>0.328431249 0.352941275 0.377451241 1</ambient>
+        </material>
+      </visual>
+    </link>
+    <joint name='motor_prop_4' type='revolute'>
+      <pose relative_to='basic_link'>-0.041895700000000001 -0.044957700000000003 0.00247314 3.1415899999999999 0 0</pose>
+      <parent>basic_link</parent>
+      <child>propeller_4</child>
+      <axis>
+        <xyz>0 0 1</xyz>
+        <limit>
+          <lower>-3.1415926535897931</lower>
+          <upper>3.1415926535897931</upper>
+          <effort>10</effort>
+          <velocity>10</velocity>
+        </limit>
+        <dynamics>
+          <spring_reference>0</spring_reference>
+          <spring_stiffness>0</spring_stiffness>
+        </dynamics>
+      </axis>
+    </joint>
+    <link name='propeller_4'>
+      <pose relative_to='motor_prop_4'>0 0 0 0 0 0</pose>
+      <inertial>
+        <pose>-6.0117399999999996e-20 -2.3995200000000001e-18 -0.00025000000000000001 0 0 0</pose>
+        <mass>5.4687499999999999e-06</mass>
+        <inertia>
+          <ixx>1.0000000000000001e-09</ixx>
+          <ixy>0</ixy>
+          <ixz>0</ixz>
+          <iyy>1.0000000000000001e-09</iyy>
+          <iyz>0</iyz>
+          <izz>1.0000000000000001e-09</izz>
+        </inertia>
+      </inertial>
+      <collision name='propeller_4_collision'>
+        <pose>0 0 -0.00050000000000000001 0 0 0</pose>
+        <geometry>
+          <mesh>
+            <scale>1 1 1</scale>
+            <uri>/home/cursedrock17/Documents/Electrical/Matrix_Lab/F-Drone-Stack/Hardware/assets/propeller.stl</uri>
+          </mesh>
+        </geometry>
+      </collision>
+      <visual name='propeller_4_visual'>
+        <pose>0 0 -0.00050000000000000001 0 0 0</pose>
+        <geometry>
+          <mesh>
+            <scale>1 1 1</scale>
+            <uri>/home/cursedrock17/Documents/Electrical/Matrix_Lab/F-Drone-Stack/Hardware/assets/propeller.stl</uri>
+          </mesh>
+        </geometry>
+        <material>
+          <diffuse>0.328431249 0.352941275 0.377451241 1</diffuse>
+          <ambient>0.328431249 0.352941275 0.377451241 1</ambient>
+        </material>
+      </visual>
+    </link>
+  </model>
+</sdf>

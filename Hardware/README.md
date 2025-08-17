@@ -1,7 +1,7 @@
 # Hardware Section and Setup
 
 Welcome to the mechanical and electrical parts section of the project
-here you can find the entire process of building a custom drone
+here you can find the entire process of building a custom drone.
 
 ### Parts List
 
@@ -84,12 +84,12 @@ by testing with a multimeter, there should be 1 big GND plane
 8) We must now screw in the battery pack, to the bottom with the holder
 9) **Before** plugging in your external connectors or the Teensy, you need to
 test the BEC, since it's controlled with a potentiometer. **Ensure no component
-can be fried by 7.4V you'll get from the battery**. Do this in a controlled
+can be fried by the 7.4V you'll get from the battery**. Do this in a controlled
 environment and set up ahead of time, plug in your battery, take a multimeter
 and the easy spot to test will be the back of the board where lies the
 Teensy's 5V and GND pins, so being careful as to not short the two, put the
 meter on each respective side. You should get about 4.95 - 5.15V, if not,
-disasmbled. Alternatively you could put temporary header pins into the soldered
+disassemble. Alternatively you could put temporary header pins into the soldered
 socket and test that way. If need be, tune that potentiometer
 10) After ensuring you won't fry your connectors, plug in the components.
 11) You should use Waxed Nylon String or similar, with a clove hitch knot
@@ -98,6 +98,22 @@ followed by a square knot, to tie excess table bundles down to the frame
 your props in the correct direction for props out. *Tip* : think about how the
 air would flow if it made contact with the prop
 13) The drone is now assembled!
+
+### Steps Before Flying
+There are some steps we should take, after assembling the drone,
+before it gets in the air:
+1) Ensure no loose connections between motors and onboard connectors, also
+ensure there's no other power source, before plugging in the battery
+2) Ensure the drone will not be armed before flight whether it's with a handset, some
+teleop data, or an autonomous code
+3) Grip the drone well and plug in the battery (2S)
+4) Ensure the drone can pitch, roll, and yaw by slowly altering values to one side.
+Make sure your throttle speed is low enough so it doesn't fly out of your hand. You may
+also want to set RPY=0, then manually turn the drone to each of its' sides to see if
+it would balance itself out.
+5) Disconnect from any tether or hold on the drone, go a clear space with no unwanted
+obstacles.
+6) Run your process!
 
 ### General Board Setup Requirements
 - 1.0mm Power/GND width
@@ -120,3 +136,39 @@ air would flow if it made contact with the prop
 - [] Smaller Pitch Surface MNT connectors
 - [] Enable Clearance for Props (maybe create design of frame and all)
 - [] Rotate IMU so that it faces front (X points to front)
+- [] Create larger traces for the motors since they drive a lot of current
+
+
+### CAD Files
+Listed in the directory are the URDF files and JSON config for F-Drone. In order to use 
+F-Drone in simulation it needs to be converted to URDF, which should be saved here, but 
+if  you update the CAD files, it shouldn't be hard to get those URDFs. 
+Instead, we can use `onshape-to-robot`.
+
+<details>
+<summary> How to Convert from CAD to URDF (OnShape) </summary>
+
+Prerequiste Installs
+- Install onshape-to-robot through `pip install onshape-to-robot`
+- Install meshlab through `sudo apt-get install meshlab` (Or whatever your system is)
+- Install openscad through `sudo apt-get install openscad` (Or whatever your system is)
+
+1. You need to generate some keys to your OnShape account - navigate to the 
+[API Keys](https://cad.onshape.com/appstore/dev-portal/apiKeys) section of OnShape.
+2. Click 'Create a new API key' in the top right corner, enable all of the permissions
+3. **Wait** you wil provided will a access key and secret key, we need to save them.
+4. Open a terminal instance and navigate to the `Hardware` section of the project.
+5. Create a script to rerun: `touch onshape.bash`, paste in the following
+```
+# Access Our CAD files
+export ONSHAPE_API=https://cad.onshape.com
+export ONSHAPE_ACCESS_KEY=YOUR_ACCESS
+export ONSHAPE_SECRET_KEY=YOUR_SECRET
+```
+You can also use a `.bashrc` or `.env` file if you prefer, then give it run permisions:
+`chmod +x onshape.sh` && `source onshape.sh`
+6. Run the script, `./onshape.sh` to get those keys 
+7. Now anytime you update the CAD file given the document in the `url` section of the 
+config.json, you can run `onshape-to-robot ./path-to-config-file` replacing it with your path
+
+</details>

@@ -11,3 +11,10 @@ Hardware/TeensyDrone/*.gbr
 Hardware/TeensyDrone/*.rpt
 Hardware/TeensyDrone/*.drl
 Hardware/*.env
+Hardware/onshape.bash
+
+*/log
+*/build
+*/install
+
+Simulation/machine_learning

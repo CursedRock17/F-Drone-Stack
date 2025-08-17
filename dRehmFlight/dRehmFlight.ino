@@ -39,6 +39,8 @@ static const uint8_t num_DSM_channels = 6; //If using DSM RX, change this to mat
 #include <Wire.h>     //I2c communication
 #include <SPI.h>      //SPI communication
 #include <PWMServo.h> //Commanding any extra actuators, installed with teensyduino installer
+//#include <odometry_node.h>
+
 
 #if defined USE_SBUS_RX
   #include "src/SBUS/SBUS.h"   //sBus interface
@@ -121,27 +123,27 @@ float B_gyro = 0.1;       // Gyro LP filter paramter (default: 0.1)
 // IMU calibration parameters -
 // calibrate IMU using calculate_IMU_error() in the void setup() to get these
 // values, then comment out calculate_IMU_error()
-float AccErrorX = -0.05;
-float AccErrorY = 0.03;
+float AccErrorX = 0;
+float AccErrorY = -0.02;
 float AccErrorZ = 0.05;
-float GyroErrorX = -2.23;
-float GyroErrorY = 0.33;
-float GyroErrorZ = -1.01;
+float GyroErrorX = -2.16;
+float GyroErrorY = 0.22;
+float GyroErrorZ = -1.18;
 
 // Controller parameters (take note of defaults before modifying!):
-float i_limit = 2.5;     // Integrator saturation level, mostly for safety (default 25.0)
+float i_limit = 25;     // Integrator saturation level, mostly for safety (default 25.0)
 float maxRoll = 15.0;     // Max roll angle in degrees for angle mode (maximum ~70 degrees), deg/sec for rate mode
 float maxPitch = 15.0;    // Max pitch angle in degrees for angle mode (maximum ~70 degrees), deg/sec for rate mode
 float maxYaw = 12.0;     // Max yaw rate in deg/sec
 
-float Kp_roll_angle = 0.02;    //Roll P-gain - angle mode
-float Ki_roll_angle = 0.03;    //Roll I-gain - angle mode
-float Kd_roll_angle = 0.005;   //Roll D-gain - angle mode (has no effect on controlANGLE2)
-float B_loop_roll = 0.09;      //Roll damping term for controlANGLE2(), lower is more damping (must be between 0 to 1)
-float Kp_pitch_angle = 0.02;   //Pitch P-gain - angle mode
-float Ki_pitch_angle = 0.03;   //Pitch I-gain - angle mode
-float Kd_pitch_angle = 0.005;  //Pitch D-gain - angle mode (has no effect on controlANGLE2)
-float B_loop_pitch = 0.09;     //Pitch damping term for controlANGLE2(), lower is more damping (must be between 0 to 1)
+float Kp_roll_angle = 0.12;    //Roll P-gain - angle mode
+float Ki_roll_angle = 0.18;    //Roll I-gain - angle mode
+float Kd_roll_angle = 0.03;   //Roll D-gain - angle mode (has no effect on controlANGLE2)
+float B_loop_roll = 0.54;      //Roll damping term for controlANGLE2(), lower is more damping (must be between 0 to 1)
+float Kp_pitch_angle = 0.12;   //Pitch P-gain - angle mode
+float Ki_pitch_angle = 0.18;   //Pitch I-gain - angle mode
+float Kd_pitch_angle = 0.03;  //Pitch D-gain - angle mode (has no effect on controlANGLE2)
+float B_loop_pitch = 0.54;     //Pitch damping term for controlANGLE2(), lower is more damping (must be between 0 to 1)
 
 float Kp_roll_rate = 0.0075;    //Roll P-gain - rate mode
 float Ki_roll_rate = 0.0025;     //Roll I-gain - rate mode
@@ -275,7 +277,7 @@ void setup() {
   delay(5);
 
   // Get IMU error to zero accelerometer and gyro readings, assuming vehicle is level when powered up
-  //calculate_IMU_error(); //Calibration parameters printed to serial monitor. Paste these in the user specified variables section, then comment this out forever.
+  // calculate_IMU_error(); //Calibration parameters printed to serial monitor. Paste these in the user specified variables section, then comment this out forever.
 
   //calibrateESCs(); //PROPS OFF. Uncomment this to calibrate your ESCs by setting throttle stick to max, powering on, and lowering throttle to zero after the beeps
   // Code will not proceed past here if this function is uncommented!
@@ -289,6 +291,9 @@ void setup() {
 
   // Indicate entering main loop with 3 quick blinks
   setupBlink(3,160,70); //numBlinks, upTime (ms), downTime (ms)
+
+  // Setup all MicroROS connections
+  //odom_setup();
 }
 
 
@@ -325,12 +330,16 @@ void loop() {
   scaleCommands();  // Scales motor commands to 125 to 250 range (OneShot125 protocol) and servo PWM commands to 0 to 180 (for servo library)
 
   // Throttle cut check
-  throttleCut();  // Directly sets motor commands to low based on Armed (ch5)
+  throttleCut();  // Q sets motor commands to low based on Armed (ch5)
 
   // Command actuators
   commandMotors();  // Sends command pulses to each motor pin using OneShot125
-  
+
+  // Autonomous Code - all looped code should run here (i.e publishers)
+  //odometryUpdate();
+
   printMotorCommands();
+  //printRadioData();
   //printDesiredState();
   //printPIDoutput();
 
@@ -496,7 +505,7 @@ void controlRATE() {
   //Roll
   error_roll = roll_des - GyroX;
   integral_roll = integral_roll_prev + error_roll*dt;
-  if (channel_1_pwm < 1060) {   //Don't let integrator build if throttle is too low
+  if (channel_pwm[0] < 1060) {   //Don't let integrator build if throttle is too low
     integral_roll = 0;
   }
   integral_roll = constrain(integral_roll, -i_limit, i_limit); //Saturate integrator to prevent unsafe buildup
@@ -506,7 +515,7 @@ void controlRATE() {
   //Pitch
   error_pitch = pitch_des - GyroY;
   integral_pitch = integral_pitch_prev + error_pitch*dt;
-  if (channel_1_pwm < 1060) {   //Don't let integrator build if throttle is too low
+  if (channel_pwm[0] < 1060) {   //Don't let integrator build if throttle is too low
     integral_pitch = 0;
   }
   integral_pitch = constrain(integral_pitch, -i_limit, i_limit); //Saturate integrator to prevent unsafe buildup
@@ -516,7 +525,7 @@ void controlRATE() {
   //Yaw, stablize on rate from GyroZ
   error_yaw = yaw_des - GyroZ;
   integral_yaw = integral_yaw_prev + error_yaw*dt;
-  if (channel_1_pwm < 1060) {   //Don't let integrator build if throttle is too low
+  if (channel_pwm[0] < 1060) {   //Don't let integrator build if throttle is too low
     integral_yaw = 0;
   }
   integral_yaw = constrain(integral_yaw, -i_limit, i_limit); //Saturate integrator to prevent unsafe buildup
@@ -558,16 +567,16 @@ void controlMixer() {
   // Quad mixing - in "X" Format - Remeber these are armedStatus1-indexed so subtract 1
   /*
     Front
-    4   2
+    0   2
       X
-    3   1 
+    1   3 
     Back       - Battery Cables
   */
 
-  m_command_scaled[3] = thro_des - pitch_PID + roll_PID + yaw_PID; //Front Left
-  m_command_scaled[2] = thro_des + pitch_PID + roll_PID - yaw_PID; //Back Left
-  m_command_scaled[1] = thro_des - pitch_PID - roll_PID - yaw_PID; //Front Right
-  m_command_scaled[0] = thro_des + pitch_PID - roll_PID + yaw_PID; //Back Right
+  m_command_scaled[0] = thro_des - pitch_PID + roll_PID + yaw_PID; //Front Left
+  m_command_scaled[1] = thro_des + pitch_PID + roll_PID - yaw_PID; //Back Left
+  m_command_scaled[2] = thro_des - pitch_PID - roll_PID - yaw_PID; //Front Right
+  m_command_scaled[3] = thro_des + pitch_PID - roll_PID + yaw_PID; //Back Right
 }
 
 void armedStatus() {
@@ -1017,8 +1026,8 @@ void calibrateESCs() {
       //throttleCut(); //Directly sets motor commands to low based on state of ch5
       commandMotors(); //Sends command pulses to each motor pin using OneShot125 protocol
 
-      //printRadioData();
-      printMotorCommands();
+      printRadioData();
+      //printMotorCommands();
       //printDesiredState();
 
       loopRate(2000); //Do not exceed 2000Hz, all filter parameters tuned to 2000Hz by default
@@ -1106,6 +1115,15 @@ void throttleCut() {
       m_command_PWM[i] = 120;
     }
   }
+}
+
+void odometryUpdate()
+{
+  float orientation[4] = {q0, q1, q2, q3};
+  float position[3] = {1.0, 2.0, 3.0};
+  float linear_velocity[3] = {0.0, 0.0, 0.0};
+  float angular_velocity[3] = {0.0, 0.0, 0.0};
+  //odom_pub_callback(orientation, position, linear_velocity, angular_velocity);
 }
 
 void loopRate(int freq) {

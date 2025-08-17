@@ -1,6 +1,7 @@
 // ROS 2 Based Headers
 #include "rclcpp/rclcpp.hpp"
 #include "tf2_ros/transform_listener.h"
+#include "tf2_ros/transform_broadcaster.h"
 #include "tf2_ros/buffer.h"
 
 // C/C++ Standard Headers
@@ -10,8 +11,7 @@
 #include <string>
 
 // All Messages
-#include "geometry_msgs/msg/pose_stamped.hpp"
-#include "geometry_msgs/msg/twist_stamped.hpp"
+#include "nav_msgs/msg/odometry.hpp"
 #include "geometry_msgs/msg/transform_stamped.hpp"
 
 // Default Certain Types and Usages 
@@ -26,14 +26,12 @@ StateEstimatorNode();
 
 private:
 // Grab information from the drone
-rclcpp::Subscription<geometry_msgs::msg::PoseStamped>::SharedPtr poseSub;
-rclcpp::Subscription<geometry_msgs::msg::TwistStamped>::SharedPtr twistSub;
+rclcpp::Subscription<nav_msgs::msg::Odometry>::SharedPtr odomSub;
 std::string droneName_;
 
 // Update it's current state
 std::unique_ptr<tf2_ros::TransformBroadcaster> tfBroadcaster;
 
 // All Callback Functions
-void PoseCallback(const geometry_msgs::msg::PoseStamped & pose);
-void TwistCallback(const geometry_msgs::msg::TwistStamped & twist);
+void OdomCallback(std::shared_ptr<nav_msgs::msg::Odometry> odom);
 };

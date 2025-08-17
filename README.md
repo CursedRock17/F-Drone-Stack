@@ -28,6 +28,7 @@ Prerequiste Installs
 
 1. Install [Arduino](https://www.arduino.cc/en/software/) for your respective system
 2. Install the [Teensyduino](https://www.pjrc.com/teensy/td_download.html) add-on for your respective system
+   : *Note* Make sure you're using versino 1.57.3.
 3. Install the [CRSFforArduino](https://github.com/ZZ-Cat/CRSFforArduino) library
 4. Navigate to the directory in which you cloned the repo: `cd ~/user/F-Drone-Stack`
 5. You have successfully installed the software stack!
