@@ -132,9 +132,9 @@ float GyroErrorZ = -1.18;
 
 // Controller parameters (take note of defaults before modifying!):
 float i_limit = 25;     // Integrator saturation level, mostly for safety (default 25.0)
-float maxRoll = 15.0;     // Max roll angle in degrees for angle mode (maximum ~70 degrees), deg/sec for rate mode
-float maxPitch = 15.0;    // Max pitch angle in degrees for angle mode (maximum ~70 degrees), deg/sec for rate mode
-float maxYaw = 12.0;     // Max yaw rate in deg/sec
+float maxRoll = 24.0;     // Max roll angle in degrees for angle mode (maximum ~70 degrees), deg/sec for rate mode
+float maxPitch = 24.0;    // Max pitch angle in degrees for angle mode (maximum ~70 degrees), deg/sec for rate mode
+float maxYaw = 128.0;     // Max yaw rate in deg/sec
 
 float Kp_roll_angle = 0.12;    //Roll P-gain - angle mode
 float Ki_roll_angle = 0.18;    //Roll I-gain - angle mode
@@ -152,9 +152,9 @@ float Kp_pitch_rate = 0.0075;   //Pitch P-gain - rate mode
 float Ki_pitch_rate = 0.0025;    //Pitch I-gain - rate mode
 float Kd_pitch_rate = 0.00001; //Pitch D-gain - rate mode (be careful when increasing too high, motors will begin to overheat!)
 
-float Kp_yaw = 0.0075;           //Yaw P-gain
-float Ki_yaw = 0.0010;          //Yawcrsf.upd I-gain
-float Kd_yaw = 0.000002;       //Yaw D-gain (be careful when increasing too high, motors will begin to overheat!)
+float Kp_yaw = 0.18;           //Yaw P-gain
+float Ki_yaw = 0.03;          //Yawcrsf.upd I-gain
+float Kd_yaw = 0.00009;       //Yaw D-gain (be careful when increasing too high, motors will begin to overheat!)
 
 
 // Radio failsafe values for every channel in the event that bad reciever
@@ -266,6 +266,9 @@ void setup() {
   //Initialize radio communication
   radioSetup();
 
+  // Setup all MicroROS connections
+  //odom_setup();
+
   //Set radio channels to default (safe) values before entering main loop
   for (int i = 0; i < 6; i++)
   {
@@ -291,9 +294,6 @@ void setup() {
 
   // Indicate entering main loop with 3 quick blinks
   setupBlink(3,160,70); //numBlinks, upTime (ms), downTime (ms)
-
-  // Setup all MicroROS connections
-  //odom_setup();
 }
 
 
@@ -336,7 +336,7 @@ void loop() {
   commandMotors();  // Sends command pulses to each motor pin using OneShot125
 
   // Autonomous Code - all looped code should run here (i.e publishers)
-  //odometryUpdate();
+  odometryUpdate();
 
   printMotorCommands();
   //printRadioData();
@@ -800,7 +800,7 @@ void Madgwick(float gx, float gy, float gz, float ax, float ay, float az, float 
     qDot2 -= B_madgwick * s1;
     qDot3 -= B_madgwick * s2;
     qDot4 -= B_madgwick * s3;
-  }
+  }constrain(
 
   //Integrate rate of change of quaternion to yield quaternion
   q0 += qDot1 * invSampleFreq;
@@ -821,7 +821,7 @@ void Madgwick(float gx, float gy, float gz, float ax, float ay, float az, float 
   yaw_IMU = -atan2(q1*q2 + q0*q3, 0.5f - q2*q2 - q3*q3)*57.29577951; //degrees
 }
 
-void getDesState() {
+void getDesState() {constrain(
   //DESCRIPTION: Normalizes desired control values to appropriate values
   /*
    * Updates the desired state variables thro_des, roll_des, pitch_des, and yaw_des. These are computed by using the raw

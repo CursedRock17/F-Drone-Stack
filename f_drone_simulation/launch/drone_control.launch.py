@@ -68,13 +68,13 @@ def generate_launch_description():
             os.path.join(foxglove_bridge, "launch", "foxglove_bridge_launch.xml"))
     )
 
-    # Create easier translation from ROS to gazebo
-    gz_drone_topic = '/drone'
+    # Create easier translation from Gazebo to ROS 2
+    gz_drone_topic = '/model/drone'
 
     # Need to remap all of our TF topics for Gazebo
     gz_odom_topic = gz_drone_topic + '/odom'
-    gz_joint_state_topic = '/world' + gz_drone_topic + '/joint_state'
-    gz_link_pose_topic = gz_drone_topic + '/pose'
+    gz_joint_state_topic = '/world/empty' + gz_drone_topic + '/joint_state'
+    gz_link_pose_topic = '/world/empty' + gz_drone_topic + '/pose'
 
     # ROS2 -> Gazebo bridge to allow constant communication - converts from
     # ROS msg types to Gazebo msg types
@@ -82,11 +82,13 @@ def generate_launch_description():
         package='ros_gz_bridge',
         executable='parameter_bridge',
         arguments=[
+            # Clock (Gazebo -> ROS2)
+            '/clock@rosgraph_msgs/msg/Clock[gz.msgs.Clock',
             # All the Tf topic translated using ([) which is a ROS bridge
             gz_joint_state_topic + '@sensor_msgs/msg/JointState[gz.msgs.Model',
-            gz_link_pose_topic + '@tf2_msgs/msg/TFMessage@gz.msgs.Pose_V',
+            gz_link_pose_topic + '@tf2_msgs/msg/TFMessage[gz.msgs.Pose_V',
             gz_link_pose_topic +
-                '_static@tf2_msgs/msg/TFMessage@gz.msgs.Pose_V',
+                '_static@tf2_msgs/msg/TFMessage[gz.msgs.Pose_V',
 
             # Odometry with (@) is a bidirectional bridge
             gz_odom_topic + '@nav_msgs/msg/Odometry@gz.msgs.Odometry',
@@ -142,8 +144,8 @@ def generate_launch_description():
         # foxglove,
         gz_sim,
         gz_entity_import,
-        controller,
-        ros_gz_bridge,
         ground_control,
+        ros_gz_bridge,
+        controller,
         rviz
     ])

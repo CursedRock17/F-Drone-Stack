@@ -9,8 +9,8 @@
     "assembly_name": "drone",
 
     // Beneficial ROS Info
-    "package_name": "f_drone",
-    "robot_name": "f_drone",
+    "package_name": "drone",
+    "robot_name": "drone",
 
     // Provide Information to Joints *not neccessary*
     "joint_properties": {

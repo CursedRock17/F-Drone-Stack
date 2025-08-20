@@ -10,11 +10,15 @@ Hardware/TeensyDrone/fp-info-cache
 Hardware/TeensyDrone/*.gbr
 Hardware/TeensyDrone/*.rpt
 Hardware/TeensyDrone/*.drl
+
 Hardware/*.env
-Hardware/onshape.bash
+Hardware/onshape.sh
+
+f_drone_simulation/models/*.env
+f_drone_simulation/models/onshape.sh
 
 */log
 */build
 */install
 
-Simulation/machine_learning
+f_drone_simulation/machine_learning

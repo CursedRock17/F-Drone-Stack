@@ -1,5 +1,5 @@
 <sdf version='1.11'>
-  <model name='f_drone'>
+  <model name='drone'>
     <link name='base_link'>
       <inertial>
         <pose>0.00010427799999999999 0.0045317700000000001 0.00047249999999999999 0 0 0</pose>
@@ -18,7 +18,7 @@
         <geometry>
           <mesh>
             <scale>1 1 1</scale>
-            <uri>assets/base_link.stl</uri>
+            <uri>assets/front_wing.stl</uri>
           </mesh>
         </geometry>
       </collision>

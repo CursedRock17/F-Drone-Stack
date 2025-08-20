@@ -1,0 +1,8 @@
+digraph G {
+"world" -> "base_link"[label=" Broadcaster: default_authority\nAverage rate: 1.25\nBuffer length: 4.0\nMost recent transform: 1755610336.575968\nOldest transform: 1755610332.575953\n"];
+"drone" -> "drone/base_link"[label=" Broadcaster: default_authority\nAverage rate: 1.25\nBuffer length: 4.0\nMost recent transform: 1755610336.576044\nOldest transform: 1755610332.576017\n"];
+edge [style=invis];
+ subgraph cluster_legend { style=bold; color=black; label ="view_frames Result";
+"Recorded at time: 1755610336.7854035"[ shape=plaintext ] ;
+}->"drone";
+}

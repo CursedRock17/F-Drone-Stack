@@ -9,4 +9,9 @@
   }
 }
 
+#define RCSOFTCHECK(fn) {
+  rcl_ret_t temp_rc = fn;
+  if((temp_rc != RCL_RET_OK)){}
+}
+
 extern "C" int clock_gettime(clockid_t unused, struct timespec *tp);
