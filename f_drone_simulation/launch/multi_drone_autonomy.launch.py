@@ -4,7 +4,7 @@ from ament_index_python.packages import get_package_share_directory
 
 from launch import LaunchDescription
 from launch.actions import IncludeLaunchDescription
-from launch.actions import ExecuteProcess
+# from launch.actions import ExecuteProcess
 from launch.launch_description_sources import PythonLaunchDescriptionSource
 from launch_xml.launch_description_sources import XMLLaunchDescriptionSource
 from launch.substitutions import PathJoinSubstitution
@@ -16,9 +16,11 @@ from launch_ros.actions import Node
 def generate_launch_description():
     # Add in all separate packages
     ros_gz_sim = get_package_share_directory("ros_gz_sim")
-    foxglove_dir = get_package_share_directory("foxglove_bridge")
+    foxglove_bridge = get_package_share_directory("foxglove_bridge")
+    pkg_share_dir = get_package_share_directory('f_drone_simulation')
+    f_drone_sim_worlds = os.path.join("worlds")
 
-    # Need to grab the gz_sim package which will launch gazebo for us, into our world
+    # The gz_sim package which will launch gazebo for us, into our world
     gz_sim = IncludeLaunchDescription(
         PythonLaunchDescriptionSource(
             os.path.join(ros_gz_sim, "launch", "gz_sim.launch.py")),
@@ -28,32 +30,33 @@ def generate_launch_description():
     )
 
     # Convert our drone URDF to SDF then read into variable
-    drone_sdf = os.path.join("models", "drone", "f_drone.sdf")
+    drone_sdf = os.path.join("models", "f_drone", "model.urdf")
     with open(drone_sdf, 'r') as infp:
         drone_desc = infp.read()
 
-    # Spawn both drones into the world - split evenly about the origin
-    entity_one = IncludeLaunchDescription(
+    # Spawn our first drone into the world - to the right of the origin
+    gz_drone_one_import = IncludeLaunchDescription(
         PythonLaunchDescriptionSource(
             os.path.join(ros_gz_sim, "launch", "gz_spawn_model.launch.py")),
         launch_arguments={
             "world": PathJoinSubstitution(["empty"]),
-            "file": PathJoinSubstitution(["models", "drone", "f_drone.sdf"]),
-            "entity_name": "f_drone_one",
-            "x": '-0.5',
+            "file": PathJoinSubstitution(["models", "f_drone", "model.sdf"]),
+            "entity_name": "drone_one",
+            "x": '0.5',
             "y": '0.0',
             "z": '0.0',
         }.items()
     )
 
-    entity_two = IncludeLaunchDescription(
+    # Spawn our second drone into the world - to the left of the origin
+    gz_drone_two_import = IncludeLaunchDescription(
         PythonLaunchDescriptionSource(
             os.path.join(ros_gz_sim, "launch", "gz_spawn_model.launch.py")),
         launch_arguments={
             "world": PathJoinSubstitution(["empty"]),
-            "file": PathJoinSubstitution(["models", "drone", "f_drone.sdf"]),
-            "entity_name": "f_drone_two",
-            "x": '0.5',
+            "file": PathJoinSubstitution(["models", "f_drone", "model.sdf"]),
+            "entity_name": "drone_two",
+            "x": '-0.5',
             "y": '0.0',
             "z": '0.0',
         }.items()
@@ -75,15 +78,55 @@ def generate_launch_description():
     # Connect our Foxglove Bridge to hear all of our ROS 2 topics
     foxglove = IncludeLaunchDescription(
         XMLLaunchDescriptionSource(
-            os.path.join(foxglove_dir, "launch", "foxglove_bridge_launch.xml"))
+            os.path.join(foxglove_bridge, "launch", "foxglove_bridge_launch.xml"))
+    )
+    # ROS2 -> Gazebo bridge to allow constant communication - converts from
+    # ROS msg types to Gazebo msg types
+    ros_gz_bridge = Node(
+        package='ros_gz_bridge',
+        executable='parameter_bridge',
+        name="gazebo_bridge",
+        parameters=[{
+            'config_file': os.path.join(
+                pkg_share_dir,
+                'config', 'multi_drone_autonomy.yaml'),
+            'qos_overrides./tf_static.publisher.durability': 'transient_local'
+        }],
+        output='screen'
+    )
+
+    # Get access to our visualization Node as our "Ground Control"
+    # *Note* a parameter to define the name of drone for the TF broadcaster
+    ground_control = Node(
+        package='f_drone_ground_control',
+        executable='visualization_process',
+        name='ground_control',
+        output='both',
+        parameters=[{
+            # Name our drone so we can connect to a certain one
+            'drone_name': 'drone_one'
+        }]
+    )
+
+    # Launch rviz
+    rviz = Node(
+        package='rviz2',
+        executable='rviz2',
+        arguments=['-d', os.path.join(f_drone_sim_worlds, 'rviz', 'f_drone.rviz')],
+        parameters=[
+            {'use_sim_time': True},
+        ]
     )
 
     # Add in all our separate commands into one general launch command
     return LaunchDescription([
-        ExecuteProcess(cmd=[['foxglove-studio']]),
+        # ExecuteProcess(cmd=[['foxglove-studio']]),
+        # foxglove,
         gz_sim,
-        entity_one,
-        entity_two,
+        gz_drone_one_import,
+        gz_drone_two_import,
+        ground_control,
+        ros_gz_bridge,
         controller,
-        foxglove,
+        rviz
     ])

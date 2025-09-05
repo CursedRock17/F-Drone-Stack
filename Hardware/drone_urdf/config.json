@@ -5,11 +5,11 @@
     "url": "https://cad.onshape.com/documents/8c10e389dda3d1b6cbe23871/w/5a5746d77355e6e80cdff190/e/a8c47972b1a515a86b80b7ad",
     // Output format
     "output_format": "urdf",
-    "output_filename": "../../Simulation/models/drone/f_drone",
-    "assembly_name": "drone",
+    "output_filename": "../../f_drone_simulation/models/f_drone/model",
+    "assembly_name": "model",
 
     // Beneficial ROS Info
-    "package_name": "drone_one",
+    "package_name": "f_drone_simulation/models/f_drone",
     "robot_name": "drone_one",
 
     // Provide Information to Joints *not neccessary*

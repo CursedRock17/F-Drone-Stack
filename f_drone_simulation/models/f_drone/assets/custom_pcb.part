@@ -1,0 +1,14 @@
+{
+    "configuration": "default",
+    "documentId": "fedb930a84b8ddd2a39ac675",
+    "documentMicroversion": "a78365252c4c21376163dc30",
+    "documentVersion": "3be56dd412f4e88affd4743d",
+    "elementId": "7c78a72cd0479510c49f1d45",
+    "fullConfiguration": "default",
+    "id": "MMfEhc+YOVjAcREZa",
+    "isStandardContent": false,
+    "name": "Custom PCB <1>",
+    "partId": "JHD",
+    "suppressed": false,
+    "type": "Part"
+}

@@ -117,4 +117,3 @@ there's a subgroup : `Bind Configuration`, use the right scroll wheel, then pres
 7) Congrats the two items should be paired!
 
 After you've paired the two together we should tune our controller for the drone.
-TODO : Insert Handset Values of Channels

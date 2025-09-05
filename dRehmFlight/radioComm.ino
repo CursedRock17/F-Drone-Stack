@@ -20,7 +20,7 @@ void radioSetup() {
   #if defined USE_PPM_RX
     // Declare interrupt pin
     pinMode(PPM_Pin, INPUT_PULLUP);
-    delay(20);su
+    delay(20);
     // Attach interrupt and point to corresponding ISR function
     attachInterrupt(digitalPinToInterrupt(PPM_Pin), getPPM, CHANGE);
 
@@ -56,7 +56,7 @@ void radioSetup() {
 
     // CRSF Library is based on callbacks that are called within "update()"
     crsf->setRcChannelsCallback(prepareChannelsCallback);
-    Serial.println("CRSF Instance Ready");
+    //Serial.println("CRSF Instance Ready");
 
   // SBUS Recevier
   #elif defined USE_SBUS_RX

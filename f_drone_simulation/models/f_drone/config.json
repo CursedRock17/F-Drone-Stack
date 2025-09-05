@@ -9,13 +9,13 @@
     "assembly_name": "drone",
 
     // Beneficial ROS Info
-    "package_name": "drone",
+    "package_name": "f_drone_simulation/models/f_drone",
     "robot_name": "drone",
 
     // Provide Information to Joints *not neccessary*
     "joint_properties": {
       "propeller_*": {
-        "max_velocity": 10.0
+        "max_velocity": 800.0
       }
     },
 }

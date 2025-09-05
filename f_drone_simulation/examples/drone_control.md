@@ -19,4 +19,3 @@ ros2 run tf2_ros static_transform_publisher --frame-id world --child-frame-id ba
 That's like if it were flying, call `ros2 run tf2_tools view_frames` to 
 see all active frames in comparison to on another, the only joints are the motors
 which we really don't care about right now.
-

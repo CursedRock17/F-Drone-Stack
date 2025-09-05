@@ -1,7 +1,0 @@
-digraph G {
-"world" -> "base_link"[label=" Broadcaster: default_authority\nAverage rate: 1.25\nBuffer length: 4.0\nMost recent transform: 1755613916.390808\nOldest transform: 1755613912.390746\n"];
-edge [style=invis];
- subgraph cluster_legend { style=bold; color=black; label ="view_frames Result";
-"Recorded at time: 1755613916.5999014"[ shape=plaintext ] ;
-}->"world";
-}

@@ -7,7 +7,7 @@ StateEstimatorNode::StateEstimatorNode() : rclcpp::Node("state_estimator_node")
   frameQoS.reliability(rclcpp::ReliabilityPolicy::Reliable);
   // Create our Subscriptions
   odomSub = this->create_subscription<nav_msgs::msg::Odometry>(
-    "/drone/odom", frameQoS, std::bind(&StateEstimatorNode::OdomCallback, this, _1));
+    "/model/drone/odom", frameQoS, std::bind(&StateEstimatorNode::OdomCallback, this, _1));
 
   // Acquire the name of a certain drone - defaulted to "f_drone"
   droneName_ = this->declare_parameter<std::string>("drone_name", "drone");
@@ -27,7 +27,7 @@ void StateEstimatorNode::OdomCallback(std::shared_ptr<nav_msgs::msg::Odometry> o
   // Setup the header of our transform 
   transformMsg.header.stamp = this->get_clock()->now();
   transformMsg.header.frame_id = "world";
-  transformMsg.child_frame_id = "base_link"; // Really droneName_.c_str();
+  transformMsg.child_frame_id = "drone/drone_frame"; // Really droneName_.c_str();
 
   // Get the 3D coordinates of the current drone position 
   transformMsg.transform.translation.x = odom->pose.pose.position.x;

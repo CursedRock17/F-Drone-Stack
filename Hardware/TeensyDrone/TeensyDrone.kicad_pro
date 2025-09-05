@@ -559,7 +559,7 @@
       "gencad": "",
       "idf": "",
       "netlist": "",
-      "plot": "../../../FDroneHardware/",
+      "plot": "../../../F-Drone-Stack/Hardware/TeensyDrone",
       "pos_files": "",
       "specctra_dsn": "",
       "step": "",

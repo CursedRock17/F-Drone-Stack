@@ -1,6 +1,6 @@
 # Hardware Section and Setup
 
-Welcome to the mechanical and electrical parts section of the project
+Welcome to the mechanical and electrical parts section of the project,
 here you can find the entire process of building a custom drone.
 
 ### Parts List
@@ -29,12 +29,21 @@ here you can find the entire process of building a custom drone.
 | Nuts(x7)         | M2 Metal Nut            | None                                                            | None
 | Screws(x2)       | M3 12mm Nylon Screw     | None                                                            | None
 | Nuts(x2)         | M3 Nylon Nut            | None                                                            | None
-| Custom PCB       | Copper Board            | The PCB in the Hardware Section                                 | [Hardware](../TeensyDrone) 
-| Mount            | Battery Holder          | None                                                            | None
-| Legs(x4)         | TPU printed Legs        | Legs in the TeensyCAD section                                   | [TeensyCAD](../TeensyCAD)
+| Custom PCB       | Copper Board            | The PCB in the Hardware Section                                 | [Hardware](TeensyDrone) 
+| Battery Mount    | Battery Holder          | None                                                            | None
+| Op Flow Mount    | Op Flow Holder          | None                                                            | None
+| Legs(x4)         | TPU printed Legs        | Legs in the TeensyCAD section                                   | [TeensyCAD](TeensyCAD)
 | JST SH           | 8-Pin Vertical Shrouded | [Datasheet](https://www.jst-mfg.com/product/pdf/eng/eSH.pdf)                                                            | [Link](https://www.digikey.com/en/products/detail/jst-sales-america-inc/BM08B-SRSS-TB/926700)
 | MX PicoBlade (x2)| 4-Pin Vertical Picoblade| [Datasheet](https://www.molex.com/en-us/products/part-detail/533980471?display=pdf)                                                            | [Link](https://www.digikey.com/en/products/detail/molex/0533980471/699068?_gl=1*6zaf8a*_up*MQ..*_gs*MQ..&gclid=CjwKCAjw4efDBhATEiwAaDBpbmVd34wrg8y2s5RDRtP2scQ2MDIMdRvgA0yoEv-UR2EZkolO0P8Q8BoCRToQAvD_BwE&gclsrc=aw.ds)
 | MX PicoBlade (x4)| 3-Pin Male Connector    | [Datasheet](https://www.molex.com/en-us/products/part-detail/2181100301)                                                            | [Link](www.digikey.com/en/products/detail/molex/2181100301/14309272?utm_source=oemsecrets&utm_medium=aggregator&utm_campaign=buynow)
+
+### Drone Characteristics
+- Drone Weight: 97g
+- 2S Li-Ion Battery Weight: 104g 
+- Battery Holder Weight: 5g 
+- *Total Weight*: 206g
+- CG:
+- Motor Thrust vs PWM Signal Curve:
 
 
 ### Assembly
@@ -128,21 +137,21 @@ obstacles.
 - Hole -> Hole Clearance: 1.0mm
 
 ### Considerations for the future
-- [] Change Header footprints to corresponding connectors
-- [] FlipFlop the Servo connector so on the board it's 1 -> 1
-- [] Since we have access to PCBWay, should probably route more concisely
-- [] Check the spacing for our headers to ensure the physical part fits
-- [] Check the spacing from connector to other components like ESC conn. to BEC
-- [] Reverse order pins for IMU since not enough space
-- [] Smaller Pitch Surface MNT connectors
-- [] Enable Clearance for Props (maybe create design of frame and all)
-- [] Rotate IMU so that it faces front (X points to front)
-- [] Create a more indepdent, less noisy mount for the correctly rotated IMU (Sticky pads too fragile)
-- [] Create larger traces for the motors since they drive a lot of current
-- [] Make the drone colors MD-themed (Red/Black) for legs and frame and maybe props
-- [] Create a more precise battery mount, mainly for Li-ion battery
-- [] Make legs a bit wider as Bill said they would stick better
-- [] Ensure access to Telemetry data from the ESC
+- [ ] Change Header footprints to corresponding connectors
+- [ ] FlipFlop the Servo connector so on the board it's 1 -> 1
+- [ ] Since we have access to PCBWay, should probably route more concisely
+- [ ] Check the spacing for our headers to ensure the physical part fits
+- [ ] Check the spacing from connector to other components like ESC conn. to BEC
+- [ ] Reverse order pins for IMU since not enough space
+- [ ] Smaller Pitch Surface MNT connectors
+- [ ] Enable Clearance for Props (maybe create design of frame and all)
+- [ ] Rotate IMU so that it faces front (X points to front)
+- [ ] Create a more indepdent, less noisy mount for the correctly rotated IMU (Sticky pads too fragile)
+- [ ] Create larger traces for the motors since they drive a lot of current
+- [ ] Make the drone colors MD-themed (Red/Black) for legs and frame and maybe props
+- [ ] Create a more precise battery mount, mainly for Li-ion battery
+- [ ] Make legs a bit wider as Bill said they would stick better
+- [ ] Ensure access to Telemetry data from the ESC
 
 
 ### CAD Files

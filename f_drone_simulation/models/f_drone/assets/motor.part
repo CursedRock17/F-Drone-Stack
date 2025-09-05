@@ -1,13 +1,13 @@
 {
     "configuration": "default",
     "documentId": "8b8472760efa91d50ae948e5",
-    "documentMicroversion": "fdb5038d597536b30a86184b",
-    "documentVersion": "753d963dc9103e77ba8e5c24",
+    "documentMicroversion": "3392211ff4c8c037e717cbe0",
+    "documentVersion": "b4dceb198ec57a6dcdb70b89",
     "elementId": "050311d37cfcd59a359e0572",
     "fullConfiguration": "default",
-    "id": "MvCCLHvjASuUzMF3M",
+    "id": "MvIZlNgD2Q9S87maC",
     "isStandardContent": false,
-    "name": "Motor <4>",
+    "name": "Motor <3>",
     "partId": "JHD",
     "suppressed": false,
     "type": "Part"

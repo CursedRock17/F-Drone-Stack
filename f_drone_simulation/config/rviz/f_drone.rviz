@@ -73,6 +73,10 @@ Visualization Manager:
           Alpha: 1
           Show Axes: false
           Show Trail: false
+        drone_frame:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
           Value: true
         propeller:
           Alpha: 1
@@ -110,24 +114,57 @@ Visualization Manager:
       Frames:
         All Enabled: false
         base_link:
+          Value: false
+        drone:
           Value: true
+        drone/drone_frame:
+          Value: false
+        drone/propeller:
+          Value: true
+        drone/propeller_2:
+          Value: true
+        drone/propeller_3:
+          Value: true
+        drone/propeller_4:
+          Value: true
+        drone_frame:
+          Value: false
+        model/drone/odom:
+          Value: true
+        propeller:
+          Value: false
+        propeller_2:
+          Value: false
+        propeller_3:
+          Value: false
+        propeller_4:
+          Value: false
         world:
-          Value: true
+          Value: false
       Marker Scale: 1
       Name: TF
       Show Arrows: true
       Show Axes: true
       Show Names: true
       Tree:
+        drone:
+          drone/propeller:
+            {}
+          drone/propeller_2:
+            {}
+          drone/propeller_3:
+            {}
+          drone/propeller_4:
+            {}
         world:
-          base_link:
+          drone/drone_frame:
             {}
       Update Interval: 0
       Value: true
   Enabled: true
   Global Options:
     Background Color: 48; 48; 48
-    Fixed Frame: world
+    Fixed Frame: drone
     Frame Rate: 30
   Name: root
   Tools:
@@ -170,7 +207,7 @@ Visualization Manager:
   Views:
     Current:
       Class: rviz_default_plugins/Orbit
-      Distance: 12.24377727508545
+      Distance: 1.5835731029510498
       Enable Stereo Rendering:
         Stereo Eye Separation: 0.05999999865889549
         Stereo Focal Distance: 1

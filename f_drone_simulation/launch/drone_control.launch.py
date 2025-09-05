@@ -4,7 +4,7 @@ from ament_index_python.packages import get_package_share_directory
 
 from launch import LaunchDescription
 from launch.actions import IncludeLaunchDescription
-from launch.actions import ExecuteProcess
+# from launch.actions import ExecuteProcess
 from launch.launch_description_sources import PythonLaunchDescriptionSource
 from launch_xml.launch_description_sources import XMLLaunchDescriptionSource
 from launch.substitutions import PathJoinSubstitution
@@ -18,7 +18,8 @@ def generate_launch_description():
     ros_gz_sim = get_package_share_directory("ros_gz_sim")
     foxglove_bridge = get_package_share_directory("foxglove_bridge")
     pkg_share_dir = get_package_share_directory('f_drone_simulation')
-    f_drone_sim_worlds = os.path.join("worlds")
+    # f_drone_sim_worlds = os.path.join("worlds")
+    f_drone_sim_config = os.path.join("config")
 
     # The gz_sim package which will launch gazebo for us, into our world
     gz_sim = IncludeLaunchDescription(
@@ -31,8 +32,8 @@ def generate_launch_description():
 
     # Convert our drone URDF to SDF then read into variable
     # ExecuteProcess(cmd=[['gz sdf -p model.urdf > ../Hardware/model.sdf']])
-    drone_sdf = os.path.join("models", "f_drone", "model.urdf")
-    with open(drone_sdf, 'r') as infp:
+    drone_urdf = os.path.join("models", "f_drone", "model.urdf")
+    with open(drone_urdf, 'r') as infp:
         drone_desc = infp.read()
 
     # Spawn our Entity(drone) into the world - at the origin
@@ -68,42 +69,16 @@ def generate_launch_description():
             os.path.join(foxglove_bridge, "launch", "foxglove_bridge_launch.xml"))
     )
 
-    # Create easier translation from Gazebo to ROS 2
-    gz_drone_topic = '/model/drone'
-
-    # Need to remap all of our TF topics for Gazebo
-    gz_odom_topic = gz_drone_topic + '/odom'
-    gz_joint_state_topic = '/world/empty' + gz_drone_topic + '/joint_state'
-    gz_link_pose_topic = '/world/empty' + gz_drone_topic + '/pose'
-
     # ROS2 -> Gazebo bridge to allow constant communication - converts from
     # ROS msg types to Gazebo msg types
     ros_gz_bridge = Node(
         package='ros_gz_bridge',
         executable='parameter_bridge',
-        arguments=[
-            # Clock (Gazebo -> ROS2)
-            '/clock@rosgraph_msgs/msg/Clock[gz.msgs.Clock',
-            # All the Tf topic translated using ([) which is a ROS bridge
-            gz_joint_state_topic + '@sensor_msgs/msg/JointState[gz.msgs.Model',
-            gz_link_pose_topic + '@tf2_msgs/msg/TFMessage[gz.msgs.Pose_V',
-            gz_link_pose_topic +
-                '_static@tf2_msgs/msg/TFMessage[gz.msgs.Pose_V',
-
-            # Odometry with (@) is a bidirectional bridge
-            gz_odom_topic + '@nav_msgs/msg/Odometry@gz.msgs.Odometry',
-
-            # Get access to the speed of the motors and send cmds too
-            gz_drone_topic + '/motor_cmd_vel' +
-                '@actuator_msgs/msg/Actuators@gz.msgs.Actuators'
-        ],
         name="gazebo_bridge",
-        remappings=[
-            (gz_joint_state_topic, 'joint_states'),
-            (gz_link_pose_topic, '/tf'),
-            (gz_link_pose_topic + '_static', '/tf_static'),
-        ],
         parameters=[{
+            'config_file': os.path.join(
+                pkg_share_dir,
+                'config', 'drone_control.yaml'),
             'qos_overrides./tf_static.publisher.durability': 'transient_local'
         }],
         output='screen'
@@ -126,7 +101,7 @@ def generate_launch_description():
     rviz = Node(
         package='rviz2',
         executable='rviz2',
-        arguments=['-d', os.path.join(f_drone_sim_worlds, 'rviz', 'f_drone.rviz')],
+        arguments=['-d', os.path.join(f_drone_sim_config, 'rviz', 'f_drone.rviz')],
         parameters=[
             {'use_sim_time': True},
         ]
