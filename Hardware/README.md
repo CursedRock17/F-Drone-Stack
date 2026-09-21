@@ -36,6 +36,8 @@ here you can find the entire process of building a custom drone.
 | JST SH           | 8-Pin Vertical Shrouded | [Datasheet](https://www.jst-mfg.com/product/pdf/eng/eSH.pdf)                                                            | [Link](https://www.digikey.com/en/products/detail/jst-sales-america-inc/BM08B-SRSS-TB/926700)
 | MX PicoBlade (x2)| 4-Pin Vertical Picoblade| [Datasheet](https://www.molex.com/en-us/products/part-detail/533980471?display=pdf)                                                            | [Link](https://www.digikey.com/en/products/detail/molex/0533980471/699068?_gl=1*6zaf8a*_up*MQ..*_gs*MQ..&gclid=CjwKCAjw4efDBhATEiwAaDBpbmVd34wrg8y2s5RDRtP2scQ2MDIMdRvgA0yoEv-UR2EZkolO0P8Q8BoCRToQAvD_BwE&gclsrc=aw.ds)
 | MX PicoBlade (x4)| 3-Pin Male Connector    | [Datasheet](https://www.molex.com/en-us/products/part-detail/2181100301)                                                            | [Link](www.digikey.com/en/products/detail/molex/2181100301/14309272?utm_source=oemsecrets&utm_medium=aggregator&utm_campaign=buynow)
+| Gemfan 3025  (x4)| 2 Blade Propeller       | [Datasheet](https://grabcad.com/library/gemfan-t-3025-1)             | [Link](https://newbeedrone.com/products/gemfan-3025-pc-2-blade-propeller)
+
 
 ### Drone Characteristics
 - Drone Weight: 97g
@@ -187,3 +189,14 @@ You can also use a `.bashrc` or `.env` file if you prefer, then give it run perm
 config.json, you can run `onshape-to-robot ./path-to-config-file` replacing it with your path
 
 </details>
+
+
+### Key Details to resolve Issues
+
+<details>
+<summary> Calibration Sequence Won't Fire </summary>
+When in calibration mode, if you don't here the special jingle after arming, one of two things happened.
+Either there's not enough "IDLE" time before the calibration due to delays. Or, the range is not
+correctly setup for the controller which causes the OneShot125 Protocol to miss the trim
+</details>
+

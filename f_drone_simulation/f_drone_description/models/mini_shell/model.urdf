@@ -1,0 +1,365 @@
+<?xml version="1.0" ?>
+<!-- Generated using onshape-to-robot -->
+<!-- Onshape https://cad.onshape.com/documents/8c10e389dda3d1b6cbe23871/w/5a5746d77355e6e80cdff190/e/a8c47972b1a515a86b80b7ad -->
+<robot name="drone">
+  <!-- Link base_link -->
+  <link name="base_link">
+    <inertial>
+      <origin xyz="-3.05697e-05 -0.00311121 -0.00482109" rpy="0 0 0"/>
+      <mass value="0.100648"/>
+      <inertia ixx="0.00010697" ixy="9.01619e-08" ixz="-6.44922e-08" iyy="6.20698e-05" iyz="3.77489e-06" izz="0.000148371"/>
+    </inertial>
+    <!-- Part leg -->
+    <visual>
+      <origin xyz="0.040282 -0.0559978 -0.0475116" rpy="1.5708 -8.32667e-17 -2.35619"/>
+      <geometry>
+        <mesh filename="package://f_drone_description/models/mini_shell/assets/leg.stl"/>
+      </geometry>
+      <material name="leg_material">
+        <color rgba="0.372549 0.654902 0.239216 1"/>
+      </material>
+    </visual>
+    <collision>
+      <origin xyz="0.040282 -0.0559978 -0.0475116" rpy="1.5708 -8.32667e-17 -2.35619"/>
+      <geometry>
+        <mesh filename="package://f_drone_description/models/mini_shell/assets/leg.stl"/>
+      </geometry>
+    </collision>
+    <!-- Part 2s_battery -->
+    <visual>
+      <origin xyz="4.74355e-06 0.00156249 -0.019" rpy="0 -0 0"/>
+      <geometry>
+        <mesh filename="package://f_drone_description/models/mini_shell/assets/2s_battery.stl"/>
+      </geometry>
+      <material name="2s_battery_material">
+        <color rgba="0.901961 0.901961 0.901961 1"/>
+      </material>
+    </visual>
+    <collision>
+      <origin xyz="4.74355e-06 0.00156249 -0.019" rpy="0 -0 0"/>
+      <geometry>
+        <mesh filename="package://f_drone_description/models/mini_shell/assets/2s_battery.stl"/>
+      </geometry>
+    </collision>
+    <!-- Part motor -->
+    <visual>
+      <origin xyz="-0.0514453 -0.0566416 0.003" rpy="0 -0 0"/>
+      <geometry>
+        <mesh filename="package://f_drone_description/models/mini_shell/assets/motor.stl"/>
+      </geometry>
+      <material name="motor_material">
+        <color rgba="0.811765 0.858824 0.898039 1"/>
+      </material>
+    </visual>
+    <collision>
+      <origin xyz="-0.0514453 -0.0566416 0.003" rpy="0 -0 0"/>
+      <geometry>
+        <mesh filename="package://f_drone_description/models/mini_shell/assets/motor.stl"/>
+      </geometry>
+    </collision>
+    <!-- Part leg_2 -->
+    <visual>
+      <origin xyz="-0.037909 0.0389941 -0.0475116" rpy="1.5708 -0 -1.5708"/>
+      <geometry>
+        <mesh filename="package://f_drone_description/models/mini_shell/assets/leg.stl"/>
+      </geometry>
+      <material name="leg_2_material">
+        <color rgba="0.372549 0.654902 0.239216 1"/>
+      </material>
+    </visual>
+    <collision>
+      <origin xyz="-0.037909 0.0389941 -0.0475116" rpy="1.5708 -0 -1.5708"/>
+      <geometry>
+        <mesh filename="package://f_drone_description/models/mini_shell/assets/leg.stl"/>
+      </geometry>
+    </collision>
+    <!-- Part mcu -->
+    <visual>
+      <origin xyz="4.74355e-06 0.027497 0.00455" rpy="0 -0 0"/>
+      <geometry>
+        <mesh filename="package://f_drone_description/models/mini_shell/assets/mcu.stl"/>
+      </geometry>
+      <material name="mcu_material">
+        <color rgba="0.372549 0.654902 0.239216 1"/>
+      </material>
+    </visual>
+    <collision>
+      <origin xyz="4.74355e-06 0.027497 0.00455" rpy="0 -0 0"/>
+      <geometry>
+        <mesh filename="package://f_drone_description/models/mini_shell/assets/mcu.stl"/>
+      </geometry>
+    </collision>
+    <!-- Part leg_3 -->
+    <visual>
+      <origin xyz="0.0364962 0.0449941 -0.0475116" rpy="1.5708 -0 1.5708"/>
+      <geometry>
+        <mesh filename="package://f_drone_description/models/mini_shell/assets/leg.stl"/>
+      </geometry>
+      <material name="leg_3_material">
+        <color rgba="0.372549 0.654902 0.239216 1"/>
+      </material>
+    </visual>
+    <collision>
+      <origin xyz="0.0364962 0.0449941 -0.0475116" rpy="1.5708 -0 1.5708"/>
+      <geometry>
+        <mesh filename="package://f_drone_description/models/mini_shell/assets/leg.stl"/>
+      </geometry>
+    </collision>
+    <!-- Part imu -->
+    <visual>
+      <origin xyz="4.74355e-06 0.000103915 0.00455" rpy="0 -0 0"/>
+      <geometry>
+        <mesh filename="package://f_drone_description/models/mini_shell/assets/imu.stl"/>
+      </geometry>
+      <material name="imu_material">
+        <color rgba="0.0862745 0.317647 0.690196 1"/>
+      </material>
+    </visual>
+    <collision>
+      <origin xyz="4.74355e-06 0.000103915 0.00455" rpy="0 -0 0"/>
+      <geometry>
+        <mesh filename="package://f_drone_description/models/mini_shell/assets/imu.stl"/>
+      </geometry>
+    </collision>
+    <!-- Part motor_2 -->
+    <visual>
+      <origin xyz="0.0514547 0.0426084 0.003" rpy="0 -0 0"/>
+      <geometry>
+        <mesh filename="package://f_drone_description/models/mini_shell/assets/motor.stl"/>
+      </geometry>
+      <material name="motor_2_material">
+        <color rgba="0.811765 0.858824 0.898039 1"/>
+      </material>
+    </visual>
+    <collision>
+      <origin xyz="0.0514547 0.0426084 0.003" rpy="0 -0 0"/>
+      <geometry>
+        <mesh filename="package://f_drone_description/models/mini_shell/assets/motor.stl"/>
+      </geometry>
+    </collision>
+    <!-- Part base_link -->
+    <visual>
+      <origin xyz="4.74355e-06 -0.00543751 0.003" rpy="0 -0 0"/>
+      <geometry>
+        <mesh filename="package://f_drone_description/models/mini_shell/assets/base_link.stl"/>
+      </geometry>
+      <material name="base_link_material">
+        <color rgba="0.262745 0.282353 0.301961 1"/>
+      </material>
+    </visual>
+    <collision>
+      <origin xyz="4.74355e-06 -0.00543751 0.003" rpy="0 -0 0"/>
+      <geometry>
+        <mesh filename="package://f_drone_description/models/mini_shell/assets/base_link.stl"/>
+      </geometry>
+    </collision>
+    <!-- Part custom_pcb -->
+    <visual>
+      <origin xyz="4.74355e-06 0.000103915 0.00298" rpy="0 -0 0"/>
+      <geometry>
+        <mesh filename="package://f_drone_description/models/mini_shell/assets/custom_pcb.stl"/>
+      </geometry>
+      <material name="custom_pcb_material">
+        <color rgba="0.913725 0.647059 0.329412 1"/>
+      </material>
+    </visual>
+    <collision>
+      <origin xyz="4.74355e-06 0.000103915 0.00298" rpy="0 -0 0"/>
+      <geometry>
+        <mesh filename="package://f_drone_description/models/mini_shell/assets/custom_pcb.stl"/>
+      </geometry>
+    </collision>
+    <!-- Part motor_3 -->
+    <visual>
+      <origin xyz="-0.0514453 0.0426084 0.003" rpy="0 -0 0"/>
+      <geometry>
+        <mesh filename="package://f_drone_description/models/mini_shell/assets/motor.stl"/>
+      </geometry>
+      <material name="motor_3_material">
+        <color rgba="0.811765 0.858824 0.898039 1"/>
+      </material>
+    </visual>
+    <collision>
+      <origin xyz="-0.0514453 0.0426084 0.003" rpy="0 -0 0"/>
+      <geometry>
+        <mesh filename="package://f_drone_description/models/mini_shell/assets/motor.stl"/>
+      </geometry>
+    </collision>
+    <!-- Part leg_4 -->
+    <visual>
+      <origin xyz="-0.037237 -0.0524623 -0.0475116" rpy="1.5708 -0 -0.785398"/>
+      <geometry>
+        <mesh filename="package://f_drone_description/models/mini_shell/assets/leg.stl"/>
+      </geometry>
+      <material name="leg_4_material">
+        <color rgba="0.372549 0.654902 0.239216 1"/>
+      </material>
+    </visual>
+    <collision>
+      <origin xyz="-0.037237 -0.0524623 -0.0475116" rpy="1.5708 -0 -0.785398"/>
+      <geometry>
+        <mesh filename="package://f_drone_description/models/mini_shell/assets/leg.stl"/>
+      </geometry>
+    </collision>
+    <!-- Part motor_4 -->
+    <visual>
+      <origin xyz="0.0514547 -0.0566416 0.003" rpy="0 -0 0"/>
+      <geometry>
+        <mesh filename="package://f_drone_description/models/mini_shell/assets/motor.stl"/>
+      </geometry>
+      <material name="motor_4_material">
+        <color rgba="0.811765 0.858824 0.898039 1"/>
+      </material>
+    </visual>
+    <collision>
+      <origin xyz="0.0514547 -0.0566416 0.003" rpy="0 -0 0"/>
+      <geometry>
+        <mesh filename="package://f_drone_description/models/mini_shell/assets/motor.stl"/>
+      </geometry>
+    </collision>
+    <!-- Part esc -->
+    <visual>
+      <origin xyz="4.74355e-06 -0.0298961 0.00455" rpy="0 -0 0"/>
+      <geometry>
+        <mesh filename="package://f_drone_description/models/mini_shell/assets/esc.stl"/>
+      </geometry>
+      <material name="esc_material">
+        <color rgba="0.262745 0.282353 0.301961 1"/>
+      </material>
+    </visual>
+    <collision>
+      <origin xyz="4.74355e-06 -0.0298961 0.00455" rpy="0 -0 0"/>
+      <geometry>
+        <mesh filename="package://f_drone_description/models/mini_shell/assets/esc.stl"/>
+      </geometry>
+    </collision>
+  </link>
+  <!-- Link prop -->
+  <link name="prop">
+    <inertial>
+      <origin xyz="3.7697e-15 -1.05569e-15 9.46113e-05" rpy="0 0 0"/>
+      <mass value="0.000758683"/>
+      <inertia ixx="6.58743e-09" ixy="-1.73562e-09" ixz="0" iyy="1.27556e-07" iyz="0" izz="1.31648e-07"/>
+    </inertial>
+    <!-- Part prop -->
+    <visual>
+      <origin xyz="0 0 0" rpy="3.14159 -0 -2.77556e-17"/>
+      <geometry>
+        <mesh filename="package://f_drone_description/models/mini_shell/assets/prop.stl"/>
+      </geometry>
+      <material name="prop_material">
+        <color rgba="0.513725 0.737255 0.407843 1"/>
+      </material>
+    </visual>
+    <collision>
+      <origin xyz="0 0 0" rpy="3.14159 -0 -2.77556e-17"/>
+      <geometry>
+        <mesh filename="package://f_drone_description/models/mini_shell/assets/prop.stl"/>
+      </geometry>
+    </collision>
+  </link>
+  <!-- Joint from base_link to prop -->
+  <joint name="motor_prop_1" type="revolute">
+    <origin xyz="-0.0514453 0.0425284 0.0105" rpy="0 -0 -1.79706"/>
+    <parent link="base_link"/>
+    <child link="prop"/>
+    <axis xyz="0 0 1"/>
+    <limit effort="100" velocity="20000" lower="-1e+16" upper="1e+16"/>
+  </joint>
+  <!-- Link prop_2 -->
+  <link name="prop_2">
+    <inertial>
+      <origin xyz="3.7697e-15 1.04875e-15 -9.46113e-05" rpy="0 0 0"/>
+      <mass value="0.000758683"/>
+      <inertia ixx="6.58743e-09" ixy="1.73562e-09" ixz="0" iyy="1.27556e-07" iyz="0" izz="1.31648e-07"/>
+    </inertial>
+    <!-- Part prop_2 -->
+    <visual>
+      <origin xyz="0 -6.93889e-18 0" rpy="0 -0 0"/>
+      <geometry>
+        <mesh filename="package://f_drone_description/models/mini_shell/assets/prop.stl"/>
+      </geometry>
+      <material name="prop_2_material">
+        <color rgba="0.513725 0.737255 0.407843 1"/>
+      </material>
+    </visual>
+    <collision>
+      <origin xyz="0 -6.93889e-18 0" rpy="0 -0 0"/>
+      <geometry>
+        <mesh filename="package://f_drone_description/models/mini_shell/assets/prop.stl"/>
+      </geometry>
+    </collision>
+  </link>
+  <!-- Joint from base_link to prop_2 -->
+  <joint name="motor_prop_2" type="revolute">
+    <origin xyz="-0.0514453 -0.0567216 0.010625" rpy="0 -0 -1.79973"/>
+    <parent link="base_link"/>
+    <child link="prop_2"/>
+    <axis xyz="0 0 1"/>
+    <limit effort="100" velocity="20000" lower="-1e+16" upper="1e+16"/>
+  </joint>
+  <!-- Link prop_3 -->
+  <link name="prop_3">
+    <inertial>
+      <origin xyz="3.77664e-15 1.04875e-15 -9.46113e-05" rpy="0 0 0"/>
+      <mass value="0.000758683"/>
+      <inertia ixx="6.58743e-09" ixy="1.73562e-09" ixz="0" iyy="1.27556e-07" iyz="0" izz="1.31648e-07"/>
+    </inertial>
+    <!-- Part prop_3 -->
+    <visual>
+      <origin xyz="6.93889e-18 -6.93889e-18 0" rpy="0 -0 0"/>
+      <geometry>
+        <mesh filename="package://f_drone_description/models/mini_shell/assets/prop.stl"/>
+      </geometry>
+      <material name="prop_3_material">
+        <color rgba="0.513725 0.737255 0.407843 1"/>
+      </material>
+    </visual>
+    <collision>
+      <origin xyz="6.93889e-18 -6.93889e-18 0" rpy="0 -0 0"/>
+      <geometry>
+        <mesh filename="package://f_drone_description/models/mini_shell/assets/prop.stl"/>
+      </geometry>
+    </collision>
+  </link>
+  <!-- Joint from base_link to prop_3 -->
+  <joint name="motor_prop_3" type="revolute">
+    <origin xyz="0.0514547 0.0425284 0.010625" rpy="0 -0 -1.7925"/>
+    <parent link="base_link"/>
+    <child link="prop_3"/>
+    <axis xyz="0 0 1"/>
+    <limit effort="100" velocity="20000" lower="-1e+16" upper="1e+16"/>
+  </joint>
+  <!-- Link prop_4 -->
+  <link name="prop_4">
+    <inertial>
+      <origin xyz="3.7697e-15 -1.04182e-15 9.46113e-05" rpy="0 0 0"/>
+      <mass value="0.000758683"/>
+      <inertia ixx="6.58743e-09" ixy="-1.73562e-09" ixz="0" iyy="1.27556e-07" iyz="0" izz="1.31648e-07"/>
+    </inertial>
+    <!-- Part prop_4 -->
+    <visual>
+      <origin xyz="0 1.38778e-17 0" rpy="3.14159 -0 0"/>
+      <geometry>
+        <mesh filename="package://f_drone_description/models/mini_shell/assets/prop.stl"/>
+      </geometry>
+      <material name="prop_4_material">
+        <color rgba="0.513725 0.737255 0.407843 1"/>
+      </material>
+    </visual>
+    <collision>
+      <origin xyz="0 1.38778e-17 0" rpy="3.14159 -0 0"/>
+      <geometry>
+        <mesh filename="package://f_drone_description/models/mini_shell/assets/prop.stl"/>
+      </geometry>
+    </collision>
+  </link>
+  <!-- Joint from base_link to prop_4 -->
+  <joint name="motor_prop_4" type="revolute">
+    <origin xyz="0.0514547 -0.0567216 0.0105" rpy="0 -0 -1.79515"/>
+    <parent link="base_link"/>
+    <child link="prop_4"/>
+    <axis xyz="0 0 1"/>
+    <limit effort="100" velocity="20000" lower="-1e+16" upper="1e+16"/>
+  </joint>
+</robot>

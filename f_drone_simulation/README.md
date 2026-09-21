@@ -1,44 +1,24 @@
-# Simulation
-------------------------------
-All work in simulation will be features here. Whether we go with IssacSim or Gazebo.
-We can also put data visualization stuff here: RViz, Foxglove, *Plot Juggler*.
-We can also store all of model information here (sdf, urdf, world) to prevent going out.
+# f_drone_simulation
+This folder is based on the [ros_gz_template_project](https://github.com/gazebosim/ros_gz_project_template) which is the correct way to define ROS 2 / Gazebo projects. 
+While we are technically ROS agnostic, we should still follow Gazebo guidelines as they apply well.
+In accordance to the project [guidelines](https://gazebosim.org/docs/latest/ros_gz_project_template_guide/) this project pairs ROS and Gazebo variants, so for `jazzy` we're using `harmonic`.
 
-## Machine Learning
-The MCAP and BAG files may be held here, IDK, I might make another section for all that
+## Getting Started
+This part of the project will expand in the future. The easiest way to run project is to start by launching the various examples
+Enter the project, source the workspace, build, and launch as such:
 
-## Required Installs
-- Install [ROS 2](https://docs.ros.org/en/humble/Installation/Ubuntu-Install-Debs.html) Humble
-- Install [Gazebo](https://gazebosim.org/docs/latest/install_ubuntu/) Ionic
-- Install [GZ-ROS Bridge](https://gazebosim.org/docs/latest/ros_installation/) Humble
-- Install [Foxglove](https://foxglove.dev/download)
-        
-## Remapping mesh names for proper rendering 
- - Gazebo (SDF): 
-    <uri>assets/front_wing.stl</uri>
- - RViz (URDF): 
-    filename="package://f_drone_simulation/models/f_drone/assets/front_wing.stl"
+```shell
+export ROS_VERSION=jazzy
+export LAUNCH_NAME=whatever_launch
 
-## CAD -> URDF Key Points
-There are a few tidbits you should know, should you have to regenerate the files from 
-CAD.
-1) Ensure joints are properly named, any part that should be able to move should be a joint.
-Name the joint: dof_part_name, so that it registers a joint in the URDF.
-| Onshape   | URDF |
-|----------:|--------------|
-| Revolute  | Revolute  |
-| Slider    | Prismatic |
-| Fastened  | Fixed     |
-2) Make sure your top level link (aka first part) is your base_link, probably named
-`base_link` as well.
-3) Make a fixed connnection to the Z-axis of the origin, then offset it the height of
-your robot, so that it spawns in above the floor.
-4) Ensure all of your parts have mass and they add up to the true mass of your robot,
-this is important in increasing fidelity in the simulation environment.
-5) Gazebo works in SDF files, call `gz sdf -p your_robot.urdf > your_robot.sdf`, 
-replacing `your_robot` with the path and name to your actual robot. This model 
-file is where all the plugins for your model will live, so ensure you have a backup
-to push in your plugins, so you don't lose those settings.
+source /opt/ros/${ROS_VERSION}/install/setup.bash
+colcon build && source install/setup.bash
+ros2 launch f_drone_bringup ${LAUNCH_NAME}.launch.py
+```
 
-## List of Working Tutorials
- - [Drone Control without ROS](./examples/drone_control_no_ros.md)
+You can replace `whatever_launch` with whatever name of the launch file you want to run from the following.
+
+| LAUNCH_NAME | Description | launch arguments |
+|-------------|-------------|------------------|
+| [crazy_launch](f_drone_bringup/launch/crazy_launch.launch.py) | This is meant to be a dry-test run with a standard Crazyflie drone which has been proven to work with the teleop GUI | None |
+

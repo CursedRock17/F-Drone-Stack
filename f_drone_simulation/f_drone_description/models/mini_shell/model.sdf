@@ -1,0 +1,547 @@
+<?xml version="1.0" ?>
+<sdf version='1.11'>
+  <model name='drone'>
+    <link name='base_link'>
+      <inertial>
+        <pose>-3.05697e-05 -0.0031112100000000001 -0.0048210900000000001 0 0 0</pose>
+        <mass>0.204648</mass>
+        <inertia>
+          <ixx>0.00010697</ixx>
+          <ixy>9.0161900000000005e-08</ixy>
+          <ixz>-6.4492200000000004e-08</ixz>
+          <iyy>6.2069800000000007e-05</iyy>
+          <iyz>3.7748900000000002e-06</iyz>
+          <izz>0.00014837100000000001</izz>
+        </inertia>
+      </inertial>
+      <collision name='base_link_collision'>
+        <pose>0.040281999999999998 -0.0559978 -0.047511600000000001 1.5708 0 -2.3561899999999998</pose>
+        <geometry>
+          <mesh>
+            <scale>1 1 1</scale>
+            <uri>model://mini_shell/assets/leg.stl</uri>
+          </mesh>
+        </geometry>
+      </collision>
+      <collision name='base_link_collision_1'>
+        <pose>4.7435499999999997e-06 0.0015624899999999999 -0.019 0 0 0</pose>
+        <geometry>
+          <mesh>
+            <scale>1 1 1</scale>
+            <uri>model://mini_shell/assets/2s_battery.stl</uri>
+          </mesh>
+        </geometry>
+      </collision>
+      <collision name='base_link_collision_2'>
+        <pose>-0.051445299999999999 -0.0566416 0.0030000000000000001 0 0 0</pose>
+        <geometry>
+          <mesh>
+            <scale>1 1 1</scale>
+            <uri>model://mini_shell/assets/motor.stl</uri>
+          </mesh>
+        </geometry>
+      </collision>
+      <collision name='base_link_collision_3'>
+        <pose>-0.037908999999999998 0.038994099999999997 -0.047511600000000001 1.5708 5.5511151231257827e-17 -1.5708</pose>
+        <geometry>
+          <mesh>
+            <scale>1 1 1</scale>
+            <uri>model://mini_shell/assets/leg.stl</uri>
+          </mesh>
+        </geometry>
+      </collision>
+      <collision name='base_link_collision_4'>
+        <pose>4.7435499999999997e-06 0.027497000000000001 0.0045500000000000002 0 0 0</pose>
+        <geometry>
+          <mesh>
+            <scale>1 1 1</scale>
+            <uri>model://mini_shell/assets/mcu.stl</uri>
+          </mesh>
+        </geometry>
+      </collision>
+      <collision name='base_link_collision_5'>
+        <pose>0.036496199999999999 0.044994100000000002 -0.047511600000000001 1.5708 -5.5511151231257827e-17 1.5708</pose>
+        <geometry>
+          <mesh>
+            <scale>1 1 1</scale>
+            <uri>model://mini_shell/assets/leg.stl</uri>
+          </mesh>
+        </geometry>
+      </collision>
+      <collision name='base_link_collision_6'>
+        <pose>4.7435499999999997e-06 0.000103915 0.0045500000000000002 0 0 0</pose>
+        <geometry>
+          <mesh>
+            <scale>1 1 1</scale>
+            <uri>model://mini_shell/assets/imu.stl</uri>
+          </mesh>
+        </geometry>
+      </collision>
+      <collision name='base_link_collision_7'>
+        <pose>0.051454699999999999 0.042608399999999998 0.0030000000000000001 0 0 0</pose>
+        <geometry>
+          <mesh>
+            <scale>1 1 1</scale>
+            <uri>model://mini_shell/assets/motor.stl</uri>
+          </mesh>
+        </geometry>
+      </collision>
+      <collision name='base_link_collision_8'>
+        <pose>4.7435499999999997e-06 -0.0054375100000000004 0.0030000000000000001 0 0 0</pose>
+        <geometry>
+          <mesh>
+            <scale>1 1 1</scale>
+            <uri>model://mini_shell/assets/base_link.stl</uri>
+          </mesh>
+        </geometry>
+      </collision>
+      <collision name='base_link_collision_9'>
+        <pose>4.7435499999999997e-06 0.000103915 0.00298 0 0 0</pose>
+        <geometry>
+          <mesh>
+            <scale>1 1 1</scale>
+            <uri>model://mini_shell/assets/custom_pcb.stl</uri>
+          </mesh>
+        </geometry>
+      </collision>
+      <collision name='base_link_collision_10'>
+        <pose>-0.051445299999999999 0.042608399999999998 0.0030000000000000001 0 0 0</pose>
+        <geometry>
+          <mesh>
+            <scale>1 1 1</scale>
+            <uri>model://mini_shell/assets/motor.stl</uri>
+          </mesh>
+        </geometry>
+      </collision>
+      <collision name='base_link_collision_11'>
+        <pose>-0.037236999999999999 -0.052462300000000003 -0.047511600000000001 1.5708 -2.2204460492503131e-16 -0.78539800000000004</pose>
+        <geometry>
+          <mesh>
+            <scale>1 1 1</scale>
+            <uri>model://mini_shell/assets/leg.stl</uri>
+          </mesh>
+        </geometry>
+      </collision>
+      <collision name='base_link_collision_12'>
+        <pose>0.051454699999999999 -0.0566416 0.0030000000000000001 0 0 0</pose>
+        <geometry>
+          <mesh>
+            <scale>1 1 1</scale>
+            <uri>model://mini_shell/assets/motor.stl</uri>
+          </mesh>
+        </geometry>
+      </collision>
+      <collision name='base_link_collision_13'>
+        <pose>4.7435499999999997e-06 -0.029896099999999998 0.0045500000000000002 0 0 0</pose>
+        <geometry>
+          <mesh>
+            <scale>1 1 1</scale>
+            <uri>model://mini_shell/assets/esc.stl</uri>
+          </mesh>
+        </geometry>
+      </collision>
+      <visual name='base_link_visual'>
+        <pose>0.040281999999999998 -0.0559978 -0.047511600000000001 1.5708 0 -2.3561899999999998</pose>
+        <geometry>
+          <mesh>
+            <scale>1 1 1</scale>
+            <uri>model://mini_shell/assets/leg.stl</uri>
+          </mesh>
+        </geometry>
+        <material>
+          <diffuse>0.465686262 0.818627477 0.299019992 1</diffuse>
+          <ambient>0.465686262 0.818627477 0.299019992 1</ambient>
+        </material>
+      </visual>
+      <visual name='base_link_visual_1'>
+        <pose>4.7435499999999997e-06 0.0015624899999999999 -0.019 0 0 0</pose>
+        <geometry>
+          <mesh>
+            <scale>1 1 1</scale>
+            <uri>model://mini_shell/assets/2s_battery.stl</uri>
+          </mesh>
+        </geometry>
+        <material>
+          <diffuse>1 1 1 1</diffuse>
+          <ambient>1 1 1 1</ambient>
+        </material>
+      </visual>
+      <visual name='base_link_visual_2'>
+        <pose>-0.051445299999999999 -0.0566416 0.0030000000000000001 0 0 0</pose>
+        <geometry>
+          <mesh>
+            <scale>1 1 1</scale>
+            <uri>model://mini_shell/assets/motor.stl</uri>
+          </mesh>
+        </geometry>
+        <material>
+          <diffuse>1 1 1 1</diffuse>
+          <ambient>1 1 1 1</ambient>
+        </material>
+      </visual>
+      <visual name='base_link_visual_3'>
+        <pose>-0.037908999999999998 0.038994099999999997 -0.047511600000000001 1.5708 5.5511151231257827e-17 -1.5708</pose>
+        <geometry>
+          <mesh>
+            <scale>1 1 1</scale>
+            <uri>model://mini_shell/assets/leg.stl</uri>
+          </mesh>
+        </geometry>
+        <material>
+          <diffuse>0.465686262 0.818627477 0.299019992 1</diffuse>
+          <ambient>0.465686262 0.818627477 0.299019992 1</ambient>
+        </material>
+      </visual>
+      <visual name='base_link_visual_4'>
+        <pose>4.7435499999999997e-06 0.027497000000000001 0.0045500000000000002 0 0 0</pose>
+        <geometry>
+          <mesh>
+            <scale>1 1 1</scale>
+            <uri>model://mini_shell/assets/mcu.stl</uri>
+          </mesh>
+        </geometry>
+        <material>
+          <diffuse>0.465686262 0.818627477 0.299019992 1</diffuse>
+          <ambient>0.465686262 0.818627477 0.299019992 1</ambient>
+        </material>
+      </visual>
+      <visual name='base_link_visual_5'>
+        <pose>0.036496199999999999 0.044994100000000002 -0.047511600000000001 1.5708 -5.5511151231257827e-17 1.5708</pose>
+        <geometry>
+          <mesh>
+            <scale>1 1 1</scale>
+            <uri>model://mini_shell/assets/leg.stl</uri>
+          </mesh>
+        </geometry>
+        <material>
+          <diffuse>0.465686262 0.818627477 0.299019992 1</diffuse>
+          <ambient>0.465686262 0.818627477 0.299019992 1</ambient>
+        </material>
+      </visual>
+      <visual name='base_link_visual_6'>
+        <pose>4.7435499999999997e-06 0.000103915 0.0045500000000000002 0 0 0</pose>
+        <geometry>
+          <mesh>
+            <scale>1 1 1</scale>
+            <uri>model://mini_shell/assets/imu.stl</uri>
+          </mesh>
+        </geometry>
+        <material>
+          <diffuse>0.107843123 0.397058755 0.862744987 1</diffuse>
+          <ambient>0.107843123 0.397058755 0.862744987 1</ambient>
+        </material>
+      </visual>
+      <visual name='base_link_visual_7'>
+        <pose>0.051454699999999999 0.042608399999999998 0.0030000000000000001 0 0 0</pose>
+        <geometry>
+          <mesh>
+            <scale>1 1 1</scale>
+            <uri>model://mini_shell/assets/motor.stl</uri>
+          </mesh>
+        </geometry>
+        <material>
+          <diffuse>1 1 1 1</diffuse>
+          <ambient>1 1 1 1</ambient>
+        </material>
+      </visual>
+      <visual name='base_link_visual_8'>
+        <pose>4.7435499999999997e-06 -0.0054375100000000004 0.0030000000000000001 0 0 0</pose>
+        <geometry>
+          <mesh>
+            <scale>1 1 1</scale>
+            <uri>model://mini_shell/assets/base_link.stl</uri>
+          </mesh>
+        </geometry>
+        <material>
+          <diffuse>0.328431249 0.352941275 0.377451241 1</diffuse>
+          <ambient>0.328431249 0.352941275 0.377451241 1</ambient>
+        </material>
+      </visual>
+      <visual name='base_link_visual_9'>
+        <pose>4.7435499999999997e-06 0.000103915 0.00298 0 0 0</pose>
+        <geometry>
+          <mesh>
+            <scale>1 1 1</scale>
+            <uri>model://mini_shell/assets/custom_pcb.stl</uri>
+          </mesh>
+        </geometry>
+        <material>
+          <diffuse>1 0.808823764 0.411765009 1</diffuse>
+          <ambient>1 0.808823764 0.411765009 1</ambient>
+        </material>
+      </visual>
+      <visual name='base_link_visual_10'>
+        <pose>-0.051445299999999999 0.042608399999999998 0.0030000000000000001 0 0 0</pose>
+        <geometry>
+          <mesh>
+            <scale>1 1 1</scale>
+            <uri>model://mini_shell/assets/motor.stl</uri>
+          </mesh>
+        </geometry>
+        <material>
+          <diffuse>1 1 1 1</diffuse>
+          <ambient>1 1 1 1</ambient>
+        </material>
+      </visual>
+      <visual name='base_link_visual_11'>
+        <pose>-0.037236999999999999 -0.052462300000000003 -0.047511600000000001 1.5708 -2.2204460492503131e-16 -0.78539800000000004</pose>
+        <geometry>
+          <mesh>
+            <scale>1 1 1</scale>
+            <uri>model://mini_shell/assets/leg.stl</uri>
+          </mesh>
+        </geometry>
+        <material>
+          <diffuse>0.465686262 0.818627477 0.299019992 1</diffuse>
+          <ambient>0.465686262 0.818627477 0.299019992 1</ambient>
+        </material>
+      </visual>
+      <visual name='base_link_visual_12'>
+        <pose>0.051454699999999999 -0.0566416 0.0030000000000000001 0 0 0</pose>
+        <geometry>
+          <mesh>
+            <scale>1 1 1</scale>
+            <uri>model://mini_shell/assets/motor.stl</uri>
+          </mesh>
+        </geometry>
+        <material>
+          <diffuse>1 1 1 1</diffuse>
+          <ambient>1 1 1 1</ambient>
+        </material>
+      </visual>
+      <visual name='base_link_visual_13'>
+        <pose>4.7435499999999997e-06 -0.029896099999999998 0.0045500000000000002 0 0 0</pose>
+        <geometry>
+          <mesh>
+            <scale>1 1 1</scale>
+            <uri>model://mini_shell/assets/esc.stl</uri>
+          </mesh>
+        </geometry>
+        <material>
+          <diffuse>0.328431249 0.352941275 0.377451241 1</diffuse>
+          <ambient>0.328431249 0.352941275 0.377451241 1</ambient>
+        </material>
+      </visual>
+    </link>
+    <joint name='motor_prop_1' type='revolute'>
+      <pose relative_to='base_link'>-0.051445299999999999 0.042528400000000001 0.010500000000000001 0 0 -1.7970600000000001</pose>
+      <parent>base_link</parent>
+      <child>prop</child>
+      <axis>
+        <xyz>0 0 1</xyz>
+        <limit>
+          <lower>-10000000000000000</lower>
+          <upper>10000000000000000</upper>
+          <effort>100</effort>
+          <velocity>20000</velocity>
+        </limit>
+        <dynamics>
+          <spring_reference>0</spring_reference>
+          <spring_stiffness>0</spring_stiffness>
+        </dynamics>
+      </axis>
+    </joint>
+    <link name='prop'>
+      <pose relative_to='motor_prop_1'>0 0 0 0 0 0</pose>
+      <inertial>
+        <pose>3.7696999999999997e-15 -1.05569e-15 9.46113e-05 0 0 0</pose>
+        <mass>0.00075868300000000001</mass>
+        <inertia>
+          <ixx>6.5874300000000003e-09</ixx>
+          <ixy>-1.7356200000000001e-09</ixy>
+          <ixz>0</ixz>
+          <iyy>1.2755600000000001e-07</iyy>
+          <iyz>0</iyz>
+          <izz>1.3164799999999999e-07</izz>
+        </inertia>
+      </inertial>
+      <collision name='prop_collision'>
+        <pose>0 0 0 3.1415899999999999 0 -2.7755599999999997e-17</pose>
+        <geometry>
+          <mesh>
+            <scale>1 1 1</scale>
+            <uri>model://mini_shell/assets/prop.stl</uri>
+          </mesh>
+        </geometry>
+      </collision>
+      <visual name='prop_visual'>
+        <pose>0 0 0 3.1415899999999999 0 -2.7755599999999997e-17</pose>
+        <geometry>
+          <mesh>
+            <scale>1 1 1</scale>
+            <uri>model://mini_shell/assets/prop.stl</uri>
+          </mesh>
+        </geometry>
+        <material>
+          <diffuse>0.642156243 0.921568751 0.509803772 1</diffuse>
+          <ambient>0.642156243 0.921568751 0.509803772 1</ambient>
+        </material>
+      </visual>
+    </link>
+    <joint name='motor_prop_2' type='revolute'>
+      <pose relative_to='base_link'>-0.051445299999999999 -0.056721599999999997 0.010625000000000001 0 0 -1.7997300000000001</pose>
+      <parent>base_link</parent>
+      <child>prop_2</child>
+      <axis>
+        <xyz>0 0 1</xyz>
+        <limit>
+          <lower>-10000000000000000</lower>
+          <upper>10000000000000000</upper>
+          <effort>100</effort>
+          <velocity>20000</velocity>
+        </limit>
+        <dynamics>
+          <spring_reference>0</spring_reference>
+          <spring_stiffness>0</spring_stiffness>
+        </dynamics>
+      </axis>
+    </joint>
+    <link name='prop_2'>
+      <pose relative_to='motor_prop_2'>0 0 0 0 0 0</pose>
+      <inertial>
+        <pose>3.7696999999999997e-15 1.0487499999999999e-15 -9.46113e-05 0 0 0</pose>
+        <mass>0.00075868300000000001</mass>
+        <inertia>
+          <ixx>6.5874300000000003e-09</ixx>
+          <ixy>1.7356200000000001e-09</ixy>
+          <ixz>0</ixz>
+          <iyy>1.2755600000000001e-07</iyy>
+          <iyz>0</iyz>
+          <izz>1.3164799999999999e-07</izz>
+        </inertia>
+      </inertial>
+      <collision name='prop_2_collision'>
+        <pose>0 -6.9388900000000004e-18 0 0 0 0</pose>
+        <geometry>
+          <mesh>
+            <scale>1 1 1</scale>
+            <uri>model://mini_shell/assets/prop.stl</uri>
+          </mesh>
+        </geometry>
+      </collision>
+      <visual name='prop_2_visual'>
+        <pose>0 -6.9388900000000004e-18 0 0 0 0</pose>
+        <geometry>
+          <mesh>
+            <scale>1 1 1</scale>
+            <uri>model://mini_shell/assets/prop.stl</uri>
+          </mesh>
+        </geometry>
+        <material>
+          <diffuse>0.642156243 0.921568751 0.509803772 1</diffuse>
+          <ambient>0.642156243 0.921568751 0.509803772 1</ambient>
+        </material>
+      </visual>
+    </link>
+    <joint name='motor_prop_3' type='revolute'>
+      <pose relative_to='base_link'>0.051454699999999999 0.042528400000000001 0.010625000000000001 0 0 -1.7925</pose>
+      <parent>base_link</parent>
+      <child>prop_3</child>
+      <axis>
+        <xyz>0 0 1</xyz>
+        <limit>
+          <lower>-10000000000000000</lower>
+          <upper>10000000000000000</upper>
+          <effort>100</effort>
+          <velocity>20000</velocity>
+        </limit>
+        <dynamics>
+          <spring_reference>0</spring_reference>
+          <spring_stiffness>0</spring_stiffness>
+        </dynamics>
+      </axis>
+    </joint>
+    <link name='prop_3'>
+      <pose relative_to='motor_prop_3'>0 0 0 0 0 0</pose>
+      <inertial>
+        <pose>3.7766399999999998e-15 1.0487499999999999e-15 -9.46113e-05 0 0 0</pose>
+        <mass>0.00075868300000000001</mass>
+        <inertia>
+          <ixx>6.5874300000000003e-09</ixx>
+          <ixy>1.7356200000000001e-09</ixy>
+          <ixz>0</ixz>
+          <iyy>1.2755600000000001e-07</iyy>
+          <iyz>0</iyz>
+          <izz>1.3164799999999999e-07</izz>
+        </inertia>
+      </inertial>
+      <collision name='prop_3_collision'>
+        <pose>6.9388900000000004e-18 -6.9388900000000004e-18 0 0 0 0</pose>
+        <geometry>
+          <mesh>
+            <scale>1 1 1</scale>
+            <uri>model://mini_shell/assets/prop.stl</uri>
+          </mesh>
+        </geometry>
+      </collision>
+      <visual name='prop_3_visual'>
+        <pose>6.9388900000000004e-18 -6.9388900000000004e-18 0 0 0 0</pose>
+        <geometry>
+          <mesh>
+            <scale>1 1 1</scale>
+            <uri>model://mini_shell/assets/prop.stl</uri>
+          </mesh>
+        </geometry>
+        <material>
+          <diffuse>0.642156243 0.921568751 0.509803772 1</diffuse>
+          <ambient>0.642156243 0.921568751 0.509803772 1</ambient>
+        </material>
+      </visual>
+    </link>
+    <joint name='motor_prop_4' type='revolute'>
+      <pose relative_to='base_link'>0.051454699999999999 -0.056721599999999997 0.010500000000000001 0 0 -1.79515</pose>
+      <parent>base_link</parent>
+      <child>prop_4</child>
+      <axis>
+        <xyz>0 0 1</xyz>
+        <limit>
+          <lower>-10000000000000000</lower>
+          <upper>10000000000000000</upper>
+          <effort>100</effort>
+          <velocity>20000</velocity>
+        </limit>
+        <dynamics>
+          <spring_reference>0</spring_reference>
+          <spring_stiffness>0</spring_stiffness>
+        </dynamics>
+      </axis>
+    </joint>
+    <link name='prop_4'>
+      <pose relative_to='motor_prop_4'>0 0 0 0 0 0</pose>
+      <inertial>
+        <pose>3.7696999999999997e-15 -1.04182e-15 9.46113e-05 0 0 0</pose>
+        <mass>0.00075868300000000001</mass>
+        <inertia>
+          <ixx>6.5874300000000003e-09</ixx>
+          <ixy>-1.7356200000000001e-09</ixy>
+          <ixz>0</ixz>
+          <iyy>1.2755600000000001e-07</iyy>
+          <iyz>0</iyz>
+          <izz>1.3164799999999999e-07</izz>
+        </inertia>
+      </inertial>
+      <collision name='prop_4_collision'>
+        <pose>0 1.3877799999999999e-17 0 3.1415899999999999 0 0</pose>
+        <geometry>
+          <mesh>
+            <scale>1 1 1</scale>
+            <uri>model://mini_shell/assets/prop.stl</uri>
+          </mesh>
+        </geometry>
+      </collision>
+      <visual name='prop_4_visual'>
+        <pose>0 1.3877799999999999e-17 0 3.1415899999999999 0 0</pose>
+        <geometry>
+          <mesh>
+            <scale>1 1 1</scale>
+            <uri>model://mini_shell/assets/prop.stl</uri>
+          </mesh>
+        </geometry>
+        <material>
+          <diffuse>0.642156243 0.921568751 0.509803772 1</diffuse>
+          <ambient>0.642156243 0.921568751 0.509803772 1</ambient>
+        </material>
+      </visual>
+    </link>
+  </model>
+</sdf>

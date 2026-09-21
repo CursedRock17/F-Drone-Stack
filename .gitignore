@@ -16,9 +16,20 @@ Hardware/onshape.sh
 
 f_drone_simulation/models/*.env
 f_drone_simulation/models/onshape.sh
+f_drone_simulation/models/crazyflie/
+f_drone_simulation/worlds/crazyflie.sdf
 
 */log
 */build
 */install
 
+log/
+build/
+install/
+
 f_drone_simulation/machine_learning
+
+# OnShape API credentials - match at any depth (keys live in these files)
+**/onshape.sh
+**/*.env
+.env

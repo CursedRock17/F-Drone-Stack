@@ -1,0 +1,96 @@
+{
+  "configById": {
+    "3D!4eqww2p": {
+      "cameraState": {
+        "perspective": true,
+        "distance": 0.65,
+        "phi": 60.000000000000895,
+        "thetaOffset": 60.000000000001165,
+        "targetOffset": [
+          0,
+          0,
+          0
+        ],
+        "target": [
+          0,
+          0,
+          0
+        ],
+        "targetOrientation": [
+          0,
+          0,
+          0,
+          1
+        ],
+        "fovy": 45,
+        "near": 0.01,
+        "far": 5000
+      },
+      "followMode": "follow-pose",
+      "scene": {},
+      "transforms": {},
+      "topics": {},
+      "layers": {
+        "grid": {
+          "visible": true,
+          "drawBehind": false,
+          "instanceId": "c2674195-14bc-4303-82be-6cc01335c3c8",
+          "layerId": "foxglove.Grid",
+          "size": 10,
+          "divisions": 10,
+          "lineWidth": 1,
+          "color": "#248eff",
+          "position": [
+            0,
+            0,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ]
+        },
+        "ad7bf477-7d1f-4826-bc60-40949dac52bf": {
+          "controlMode": "transforms",
+          "jointStatesTopic": "",
+          "displayMode": "auto",
+          "fallbackColor": "#ffffff",
+          "showAxis": false,
+          "axisScale": 1,
+          "showOutlines": true,
+          "opacity": 1,
+          "visible": true,
+          "instanceId": "ad7bf477-7d1f-4826-bc60-40949dac52bf",
+          "layerId": "foxglove.Urdf",
+          "label": "Mini-shell (live URDF)",
+          "sourceType": "topic",
+          "url": "",
+          "filePath": "",
+          "parameter": "",
+          "topic": "/robot_description",
+          "framePrefix": "",
+          "order": 1
+        }
+      },
+      "publish": {
+        "type": "point",
+        "poseTopic": "/move_base_simple/goal",
+        "pointTopic": "/clicked_point",
+        "poseEstimateTopic": "/initialpose",
+        "poseEstimateXDeviation": 0.5,
+        "poseEstimateYDeviation": 0.5,
+        "poseEstimateThetaDeviation": 0.26179939
+      },
+      "synchronize": false,
+      "imageMode": {},
+      "followTf": "base_link"
+    }
+  },
+  "globalVariables": {},
+  "userNodes": {},
+  "playbackConfig": {
+    "speed": 1
+  },
+  "layout": "3D!4eqww2p"
+}

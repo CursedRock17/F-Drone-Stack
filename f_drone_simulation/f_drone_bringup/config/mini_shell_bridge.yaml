@@ -1,0 +1,43 @@
+---
+# teleop config
+# The GUI Teleop pad publishes here; teleop_lateral rewrites the yaw axis as
+# body-frame linear.y before forwarding to the controller.
+- ros_topic_name: "/mini_shell/teleop/twist"
+  gz_topic_name: "/mini_shell/teleop/twist"
+  ros_type_name: "geometry_msgs/msg/Twist"
+  gz_type_name: "gz.msgs.Twist"
+  direction: GZ_TO_ROS
+# controller config
+- ros_topic_name: "/mini_shell/gazebo/command/twist"
+  gz_topic_name: "/mini_shell/gazebo/command/twist"
+  ros_type_name: "geometry_msgs/msg/Twist"
+  gz_type_name: "gz.msgs.Twist"
+  direction: ROS_TO_GZ
+- ros_topic_name: "/mini_shell/enable"
+  gz_topic_name: "/mini_shell/enable"
+  ros_type_name: "std_msgs/msg/Bool"
+  gz_type_name: "gz.msgs.Boolean"
+  direction: ROS_TO_GZ
+
+# Use this world's clock even when another simulation publishes /clock.
+- ros_topic_name: "/clock"
+  gz_topic_name: "/world/mini_shell_world/clock"
+  ros_type_name: "rosgraph_msgs/msg/Clock"
+  gz_type_name: "gz.msgs.Clock"
+  direction: GZ_TO_ROS
+- ros_topic_name: "/joint_states"
+  gz_topic_name: "/mini_shell/joint_states"
+  ros_type_name: "sensor_msgs/msg/JointState"
+  gz_type_name: "gz.msgs.Model"
+  direction: GZ_TO_ROS
+- ros_topic_name: "/mini_shell/odometry"
+  gz_topic_name: "/mini_shell/odometry"
+  ros_type_name: "nav_msgs/msg/Odometry"
+  gz_type_name: "gz.msgs.Odometry"
+  direction: GZ_TO_ROS
+# Gazebo owns world -> base_link; robot_state_publisher owns rotor link TF.
+- ros_topic_name: "/tf"
+  gz_topic_name: "/mini_shell/tf"
+  ros_type_name: "tf2_msgs/msg/TFMessage"
+  gz_type_name: "gz.msgs.Pose_V"
+  direction: GZ_TO_ROS

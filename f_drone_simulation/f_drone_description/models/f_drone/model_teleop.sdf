@@ -1,0 +1,637 @@
+<?xml version="1.0" ?>
+<sdf version='1.11'>
+  <model name='drone'>
+    <link name='drone/base_link'>
+      <pose>0 0 0 0 0 0</pose>
+      <inertial>
+        <!-- UNIFORM MASS MODEL.
+             Total drone weighed at 203.4 g. CAD accounts for 47.40 g of
+             structure + 3.03 g of props; the battery (102.58 g measured) and
+             ~50.4 g of wiring/screws/standoffs/RX are not modelled per-part.
+             Rather than assign materials, the materials-less CAD tensor is
+             scaled by 4.2270 so the total hits the measured 203.4 g, i.e.
+             density is assumed uniform over the modelled geometry.
+             CoM is the CAD geometric centroid; it does NOT account for the
+             battery sitting ~19 mm low, so expect some CoM error in z. -->
+        <pose>-7.20278e-05 -0.00817605 0.000433282 0 0 0</pose>
+        <mass>0.200365</mass>
+        <inertia>
+          <ixx>0.000321462</ixx>
+          <ixy>4.4414e-07</ixy>
+          <ixz>-3.54974e-07</ixz>
+          <iyy>0.000221201</iyy>
+          <iyz>5.86328e-06</iyz>
+          <izz>0.000489124</izz>
+        </inertia>
+      </inertial>
+      <collision name="base_link_collision">
+        <geometry>
+          <box>
+            <size>0.1029 0.09925 0.10</size>
+          </box>
+        </geometry>
+      </collision>
+      <visual name='base_link_visual'>
+        <pose>0.040281999999999998 -0.0559978 -0.047511600000000001 1.5708 0 -2.3561899999999998</pose>
+        <geometry>
+          <mesh>
+            <scale>1 1 1</scale>
+            <uri>model://f_drone/assets/leg.stl</uri>
+          </mesh>
+        </geometry>
+        <material>
+          <diffuse>0.465686262 0.818627477 0.299019992 1</diffuse>
+          <ambient>0.465686262 0.818627477 0.299019992 1</ambient>
+        </material>
+      </visual>
+      <visual name='base_link_visual_1'>
+        <pose>4.7435499999999997e-06 0.0015624899999999999 -0.019 0 0 0</pose>
+        <geometry>
+          <mesh>
+            <scale>1 1 1</scale>
+            <uri>model://f_drone/assets/2s_battery.stl</uri>
+          </mesh>
+        </geometry>
+        <material>
+          <diffuse>1 1 1 1</diffuse>
+          <ambient>1 1 1 1</ambient>
+        </material>
+      </visual>
+      <visual name='base_link_visual_2'>
+        <pose>-0.051445299999999999 -0.0566416 0.0030000000000000001 0 0 0</pose>
+        <geometry>
+          <mesh>
+            <scale>1 1 1</scale>
+            <uri>model://f_drone/assets/motor.stl</uri>
+          </mesh>
+        </geometry>
+        <material>
+          <diffuse>1 1 1 1</diffuse>
+          <ambient>1 1 1 1</ambient>
+        </material>
+      </visual>
+      <visual name='base_link_visual_3'>
+        <pose>-0.037908999999999998 0.038994099999999997 -0.047511600000000001 1.5708 5.5511151231257827e-17 -1.5708</pose>
+        <geometry>
+          <mesh>
+            <scale>1 1 1</scale>
+            <uri>model://f_drone/assets/leg.stl</uri>
+          </mesh>
+        </geometry>
+        <material>
+          <diffuse>0.465686262 0.818627477 0.299019992 1</diffuse>
+          <ambient>0.465686262 0.818627477 0.299019992 1</ambient>
+        </material>
+      </visual>
+      <visual name='base_link_visual_4'>
+        <pose>4.7435499999999997e-06 0.027497000000000001 0.0045500000000000002 0 0 0</pose>
+        <geometry>
+          <mesh>
+            <scale>1 1 1</scale>
+            <uri>model://f_drone/assets/mcu.stl</uri>
+          </mesh>
+        </geometry>
+        <material>
+          <diffuse>0.465686262 0.818627477 0.299019992 1</diffuse>
+          <ambient>0.465686262 0.818627477 0.299019992 1</ambient>
+        </material>
+      </visual>
+      <visual name='base_link_visual_5'>
+        <pose>0.036496199999999999 0.044994100000000002 -0.047511600000000001 1.5708 -5.5511151231257827e-17 1.5708</pose>
+        <geometry>
+          <mesh>
+            <scale>1 1 1</scale>
+            <uri>model://f_drone/assets/leg.stl</uri>
+          </mesh>
+        </geometry>
+        <material>
+          <diffuse>0.465686262 0.818627477 0.299019992 1</diffuse>
+          <ambient>0.465686262 0.818627477 0.299019992 1</ambient>
+        </material>
+      </visual>
+      <visual name='base_link_visual_6'>
+        <pose>4.7435499999999997e-06 0.000103915 0.0045500000000000002 0 0 0</pose>
+        <geometry>
+          <mesh>
+            <scale>1 1 1</scale>
+            <uri>model://f_drone/assets/imu.stl</uri>
+          </mesh>
+        </geometry>
+        <material>
+          <diffuse>0.107843123 0.397058755 0.862744987 1</diffuse>
+          <ambient>0.107843123 0.397058755 0.862744987 1</ambient>
+        </material>
+      </visual>
+      <!-- IMU in the middle of drone.
+           Pose is the physical mounting rotation of the MPU6050 relative to the
+           CAD body frame (CAD has +Y forward; dRehmFlight/Madgwick expects the
+           gyro X axis along body -Y). Yaw -90 deg. If pitch response is stable
+           but roll diverges (or vice versa), the real mount also includes a
+           180 deg roll -- change to "0 0 0 3.14159 0 -1.5708". -->
+      <sensor name="imu_sensor" type="imu">
+        <pose>0 0 0 0 0 -1.5708</pose>
+        <always_on>1</always_on>
+        <visualize>true</visualize>
+        <topic>imu</topic>
+        <imu>
+          <orientation_reference_frame>
+            <localization>NWU</localization>
+            <custom_rpy>0 0 0</custom_rpy>
+            <grav_dir_x>1 0 0</grav_dir_x>
+          </orientation_reference_frame>
+          <enable_orientation>true</enable_orientation>
+        </imu>
+      </sensor>
+      <visual name='base_link_visual_7'>
+        <pose>0.051454699999999999 0.042608399999999998 0.0030000000000000001 0 0 0</pose>
+        <geometry>
+          <mesh>
+            <scale>1 1 1</scale>
+            <uri>model://f_drone/assets/motor.stl</uri>
+          </mesh>
+        </geometry>
+        <material>
+          <diffuse>1 1 1 1</diffuse>
+          <ambient>1 1 1 1</ambient>
+        </material>
+      </visual>
+      <visual name='base_link_visual_8'>
+        <pose>-0.011815300000000001 -0.00082253299999999997 0 0 0 0</pose>
+        <geometry>
+          <mesh>
+            <scale>1 1 1</scale>
+            <uri>model://f_drone/assets/base_link.stl</uri>
+          </mesh>
+        </geometry>
+        <material>
+          <diffuse>0.328431249 0.352941275 0.377451241 1</diffuse>
+          <ambient>0.328431249 0.352941275 0.377451241 1</ambient>
+        </material>
+      </visual>
+      <visual name='base_link_visual_9'>
+        <pose>4.7435499999999997e-06 0.000103915 0.00298 0 0 0</pose>
+        <geometry>
+          <mesh>
+            <scale>1 1 1</scale>
+            <uri>model://f_drone/assets/custom_pcb.stl</uri>
+          </mesh>
+        </geometry>
+        <material>
+          <diffuse>1 0.808823764 0.411765009 1</diffuse>
+          <ambient>1 0.808823764 0.411765009 1</ambient>
+        </material>
+      </visual>
+      <visual name='base_link_visual_10'>
+        <pose>-0.051445299999999999 0.042608399999999998 0.0030000000000000001 0 0 0</pose>
+        <geometry>
+          <mesh>
+            <scale>1 1 1</scale>
+            <uri>model://f_drone/assets/motor.stl</uri>
+          </mesh>
+        </geometry>
+        <material>
+          <diffuse>1 1 1 1</diffuse>
+          <ambient>1 1 1 1</ambient>
+        </material>
+      </visual>
+      <visual name='base_link_visual_11'>
+        <pose>-0.037236999999999999 -0.052462300000000003 -0.047511600000000001 1.5708 -2.2204460492503131e-16 -0.78539800000000004</pose>
+        <geometry>
+          <mesh>
+            <scale>1 1 1</scale>
+            <uri>model://f_drone/assets/leg.stl</uri>
+          </mesh>
+        </geometry>
+        <material>
+          <diffuse>0.465686262 0.818627477 0.299019992 1</diffuse>
+          <ambient>0.465686262 0.818627477 0.299019992 1</ambient>
+        </material>
+      </visual>
+      <visual name='base_link_visual_12'>
+        <pose>0.051454699999999999 -0.0566416 0.0030000000000000001 0 0 0</pose>
+        <geometry>
+          <mesh>
+            <scale>1 1 1</scale>
+            <uri>model://f_drone/assets/motor.stl</uri>
+          </mesh>
+        </geometry>
+        <material>
+          <diffuse>1 1 1 1</diffuse>
+          <ambient>1 1 1 1</ambient>
+        </material>
+      </visual>
+      <visual name='base_link_visual_13'>
+        <pose>4.7435499999999997e-06 -0.029896099999999998 0.0045500000000000002 0 0 0</pose>
+        <geometry>
+          <mesh>
+            <scale>1 1 1</scale>
+            <uri>model://f_drone/assets/esc.stl</uri>
+          </mesh>
+        </geometry>
+        <material>
+          <diffuse>0.328431249 0.352941275 0.377451241 1</diffuse>
+          <ambient>0.328431249 0.352941275 0.377451241 1</ambient>
+        </material>
+      </visual>
+      <!-- Rangefinder at end of drone-->
+      <sensor name='optical_flow' type='gpu_lidar'>
+          <pose relative_to='drone/base_link'>0 0.055 -0.0045 0 1.5708 -1.5708</pose>
+          <topic>radar</topic>
+          <enable_metrics>false</enable_metrics>
+          <update_rate>100</update_rate>
+          <ray>
+              <scan>
+                  <horizontal>
+                      <samples>10</samples>
+                      <resolution>1</resolution>
+                      <min_angle>-0.2186</min_angle>
+                      <max_angle>0.2186</max_angle>
+                  </horizontal>
+                  <vertical>
+                      <samples>1</samples>
+                      <resolution>0.01</resolution>
+                      <min_angle>0</min_angle>
+                      <max_angle>0</max_angle>
+                  </vertical>
+              </scan>
+              <range>
+                <min>0.01</min>
+                <max>2.0</max>
+                <resolution>0.01</resolution>
+              </range>
+          </ray>
+          <always_on>1</always_on>
+          <visualize>true</visualize>
+      </sensor>
+    </link>
+    <link name='drone/prop_1'>
+      <pose>-0.0514453 0.0425284 0.0105 0 0 0</pose>
+      <inertial>
+        <!-- From model.urdf: thin blade (iyy~izz >> ixx), not a disc. -->
+        <pose>0 0 9.46113e-05 0 0 0</pose>
+        <mass>0.000758683</mass>
+        <inertia>
+          <ixx>6.58743e-09</ixx>
+          <ixy>-1.73562e-09</ixy>
+          <ixz>0</ixz>
+          <iyy>1.27556e-07</iyy>
+          <iyz>0</iyz>
+          <izz>1.31648e-07</izz>
+        </inertia>
+      </inertial>
+      <visual name='prop_1_visual'>
+        <pose>0 -0.002718365 0 3.1415899999999999 0 0</pose>
+        <geometry>
+          <mesh>
+            <scale>1 1 1</scale>
+            <uri>model://f_drone/assets/prop.stl</uri>
+          </mesh>
+        </geometry>
+        <material>
+          <diffuse>0.642156243 0.921568751 0.509803772 1</diffuse>
+          <ambient>0.642156243 0.921568751 0.509803772 1</ambient>
+        </material>
+      </visual>
+    </link>
+    <joint name='drone/joint_1' type='revolute'>
+      <!-- Explicit joint pose: MulticopterVelocityControl builds its
+           rotor allocation matrix from joint poses. Without these it
+           sees all four rotors at the origin -> singular matrix -> only
+           two rotors driven. Values from model.urdf joint origins. -->
+      <pose relative_to='drone/base_link'>-0.0514453 0.0425284 0.0105 0 0 0</pose>
+      <child>drone/prop_1</child>
+      <parent>drone/base_link</parent>
+      <axis>
+        <xyz>0 0 1</xyz>
+        <limit>
+          <lower>-1e+16</lower>
+          <upper>1e+16</upper>
+          <effort>100</effort>
+          <velocity>20000</velocity>
+        </limit>
+      </axis>
+    </joint>
+    <link name='drone/prop_2'>
+      <pose>-0.0514453 -0.0567216 0.010625 0 0 0</pose>
+      <inertial>
+        <!-- From model.urdf: thin blade (iyy~izz >> ixx), not a disc. -->
+        <pose>0 0 -9.46113e-05 0 0 0</pose>
+        <mass>0.000758683</mass>
+        <inertia>
+          <ixx>6.58743e-09</ixx>
+          <ixy>1.73562e-09</ixy>
+          <ixz>0</ixz>
+          <iyy>1.27556e-07</iyy>
+          <iyz>0</iyz>
+          <izz>1.31648e-07</izz>
+        </inertia>
+      </inertial>
+      <visual name='prop_2_visual'>
+        <pose>0 -0.002718365 0 0 0 0</pose>
+        <geometry>
+          <mesh>
+            <scale>1 1 1</scale>
+            <uri>model://f_drone/assets/prop.stl</uri>
+          </mesh>
+        </geometry>
+        <material>
+          <diffuse>0.642156243 0.921568751 0.509803772 1</diffuse>
+          <ambient>0.642156243 0.921568751 0.509803772 1</ambient>
+        </material>
+      </visual>
+    </link>
+    <joint name='drone/joint_2' type='revolute'>
+      <!-- Explicit joint pose: MulticopterVelocityControl builds its
+           rotor allocation matrix from joint poses. Without these it
+           sees all four rotors at the origin -> singular matrix -> only
+           two rotors driven. Values from model.urdf joint origins. -->
+      <pose relative_to='drone/base_link'>-0.0514453 -0.0567216 0.010625 0 0 0</pose>
+      <child>drone/prop_2</child>
+      <parent>drone/base_link</parent>
+      <axis>
+        <xyz>0 0 1</xyz>
+        <limit>
+          <lower>-1e+16</lower>
+          <upper>1e+16</upper>
+          <effort>100</effort>
+          <velocity>20000</velocity>
+        </limit>
+      </axis>
+    </joint>
+    <link name='drone/prop_3'>
+      <pose>0.0514547 0.0425284 0.010625 0 0 0</pose>
+      <inertial>
+        <!-- From model.urdf: thin blade (iyy~izz >> ixx), not a disc. -->
+        <pose>0 0 -9.46113e-05 0 0 0</pose>
+        <mass>0.000758683</mass>
+        <inertia>
+          <ixx>6.58743e-09</ixx>
+          <ixy>1.73562e-09</ixy>
+          <ixz>0</ixz>
+          <iyy>1.27556e-07</iyy>
+          <iyz>0</iyz>
+          <izz>1.31648e-07</izz>
+        </inertia>
+      </inertial>
+      <visual name='prop_3_visual'>
+        <pose>0 -0.002718365 0 0 0 0</pose>
+        <geometry>
+          <mesh>
+            <scale>1 1 1</scale>
+            <uri>model://f_drone/assets/prop.stl</uri>
+          </mesh>
+        </geometry>
+        <material>
+          <diffuse>0.642156243 0.921568751 0.509803772 1</diffuse>
+          <ambient>0.642156243 0.921568751 0.509803772 1</ambient>
+        </material>
+      </visual>
+    </link>
+    <joint name='drone/joint_3' type='revolute'>
+      <!-- Explicit joint pose: MulticopterVelocityControl builds its
+           rotor allocation matrix from joint poses. Without these it
+           sees all four rotors at the origin -> singular matrix -> only
+           two rotors driven. Values from model.urdf joint origins. -->
+      <pose relative_to='drone/base_link'>0.0514547 0.0425284 0.010625 0 0 0</pose>
+      <child>drone/prop_3</child>
+      <parent>drone/base_link</parent>
+      <axis>
+        <xyz>0 0 1</xyz>
+        <limit>
+          <lower>-1e+16</lower>
+          <upper>1e+16</upper>
+          <effort>100</effort>
+          <velocity>20000</velocity>
+        </limit>
+      </axis>
+    </joint>
+    <link name='drone/prop_4'>
+      <pose>0.0514547 -0.0567216 0.0105 0 0 0</pose>
+      <inertial>
+        <!-- From model.urdf: thin blade (iyy~izz >> ixx), not a disc. -->
+        <pose>0 0 9.46113e-05 0 0 0</pose>
+        <mass>0.000758683</mass>
+        <inertia>
+          <ixx>6.58743e-09</ixx>
+          <ixy>-1.73562e-09</ixy>
+          <ixz>0</ixz>
+          <iyy>1.27556e-07</iyy>
+          <iyz>0</iyz>
+          <izz>1.31648e-07</izz>
+        </inertia>
+      </inertial>
+      <visual name='prop_4_visual'>
+        <pose>0 -0.00543673 0 3.1415899999999999 0 0</pose>
+        <geometry>
+          <mesh>
+            <scale>1 1 1</scale>
+            <uri>model://f_drone/assets/prop.stl</uri>
+          </mesh>
+        </geometry>
+        <material>
+          <diffuse>0.642156243 0.921568751 0.509803772 1</diffuse>
+          <ambient>0.642156243 0.921568751 0.509803772 1</ambient>
+        </material>
+      </visual>
+    </link>
+    <joint name='drone/joint_4' type='revolute'>
+      <!-- Explicit joint pose: MulticopterVelocityControl builds its
+           rotor allocation matrix from joint poses. Without these it
+           sees all four rotors at the origin -> singular matrix -> only
+           two rotors driven. Values from model.urdf joint origins. -->
+      <pose relative_to='drone/base_link'>0.0514547 -0.0567216 0.0105 0 0 0</pose>
+      <child>drone/prop_4</child>
+      <parent>drone/base_link</parent>
+      <axis>
+        <xyz>0 0 1</xyz>
+        <limit>
+          <lower>-1e+16</lower>
+          <upper>1e+16</upper>
+          <effort>100</effort>
+          <velocity>20000</velocity>
+        </limit>
+      </axis>
+    </joint>
+    
+    <!-- All necessary plugins to interface with external drone -->
+      <plugin
+        filename="gz-sim-imu-system"
+        name="gz::sim::systems::Imu">
+      </plugin>
+    
+      <plugin
+        filename="gz-sim-sensors-system"
+        name="gz::sim::systems::Sensors">
+        <render_engine>ogre2</render_engine>
+        <disable_on_drained_battery>false</disable_on_drained_battery>
+      </plugin>
+
+      <plugin filename="gz-sim-linearbatteryplugin-system"
+        name="gz::sim::systems::LinearBatteryPlugin">
+        <!--Li-ion battery spec from GAONENG 2S 18650 datasheet * Linked in Hardware -->
+        <battery_name>2s_battery</battery_name>
+        <voltage>8.4</voltage> <!-- 2S -->
+        <open_circuit_voltage_constant_coef>8.4</open_circuit_voltage_constant_coef>
+        <open_circuit_voltage_linear_coef>-2.0</open_circuit_voltage_linear_coef>
+        <initial_charge>3.0</initial_charge>
+        <capacity>3.0 </capacity>
+        <resistance>0.07</resistance>
+        <smooth_current_tau>2.0</smooth_current_tau>
+        <enable_recharge>false</enable_recharge>
+        <charging_time>3.0</charging_time>
+        <soc_threshold>0.51</soc_threshold>
+        <!-- Consumer-specific -->
+        <power_load>2.1</power_load>
+        <start_on_motion>true</start_on_motion>
+      </plugin>
+
+    <!-- Need to output state for all the joints and links -->
+      <plugin
+        filename="gz-sim-joint-state-publisher-system"
+        name="gz::sim::systems::JointStatePublisher">
+        <joint_name>drone/joint_1</joint_name>
+        <joint_name>drone/joint_2</joint_name>
+        <joint_name>drone/joint_3</joint_name>
+        <joint_name>drone/joint_4</joint_name>
+      </plugin>
+
+      <plugin
+        filename="gz-sim-pose-publisher-system"
+        name="gz::sim::systems::PosePublisher">
+        <publish_link_pose>true</publish_link_pose>
+        <use_pose_vector_msg>true</use_pose_vector_msg>
+        <static_publisher>false</static_publisher>
+        <static_update_frequency>1</static_update_frequency>
+      </plugin>
+
+      <plugin
+        filename="gz-sim-odometry-publisher-system"
+        name="gz::sim::systems::OdometryPublisher">
+        <odom_frame>odom</odom_frame>
+        <robot_base_frame>drone/base_link</robot_base_frame>
+      </plugin>
+    <!-- DroneSerial intentionally absent: teleop is pure Gazebo, no Teensy. -->
+
+    <!-- Send Actuator Velocities (mapped from PWM in our case)
+      gz topic -t /drone/gazebo/command/motor_speed -m gz.msgs.Actuators -p 'velocity:[250, 250, 250, 250]'
+    -->
+    <plugin
+      filename="gz-sim-multicopter-motor-model-system"
+      name="gz::sim::systems::MulticopterMotorModel">
+      <robotNamespace>drone</robotNamespace>
+      <jointName>drone/joint_1</jointName>
+      <linkName>drone/prop_1</linkName>
+      <turningDirection>cw</turningDirection>
+      <maxRotVelocity>5760</maxRotVelocity>
+      <motorConstant>6.0e-08</motorConstant>
+      <momentConstant>0.005964552</momentConstant>
+      <rotorDragCoefficient>8.06428e-05</rotorDragCoefficient>
+      <rollingMomentCoefficient>0.0000001</rollingMomentCoefficient>
+      <rotorVelocitySlowdownSim>20</rotorVelocitySlowdownSim>
+      <actuator_number>0</actuator_number>
+      <commandSubTopic>gazebo/command/motor_speed</commandSubTopic>
+      <motorSpeedPubTopic>motor_speed/0</motorSpeedPubTopic>
+      <motorType>velocity</motorType>
+    </plugin>
+    <plugin
+      filename="gz-sim-multicopter-motor-model-system"
+      name="gz::sim::systems::MulticopterMotorModel">
+      <robotNamespace>drone</robotNamespace>
+      <jointName>drone/joint_2</jointName>
+      <linkName>drone/prop_2</linkName>
+      <turningDirection>ccw</turningDirection>
+      <maxRotVelocity>5760</maxRotVelocity>
+      <motorConstant>6.0e-08</motorConstant>
+      <momentConstant>0.005964552</momentConstant>
+      <rotorDragCoefficient>8.06428e-05</rotorDragCoefficient>
+      <rollingMomentCoefficient>0.0000001</rollingMomentCoefficient>
+      <rotorVelocitySlowdownSim>20</rotorVelocitySlowdownSim>
+      <actuator_number>1</actuator_number>
+      <commandSubTopic>gazebo/command/motor_speed</commandSubTopic>
+      <motorSpeedPubTopic>motor_speed/1</motorSpeedPubTopic>
+      <motorType>velocity</motorType>
+    </plugin>
+    <plugin
+      filename="gz-sim-multicopter-motor-model-system"
+      name="gz::sim::systems::MulticopterMotorModel">
+      <robotNamespace>drone</robotNamespace>
+      <jointName>drone/joint_3</jointName>
+      <linkName>drone/prop_3</linkName>
+      <turningDirection>ccw</turningDirection>
+      <maxRotVelocity>5760</maxRotVelocity>
+      <motorConstant>6.0e-08</motorConstant>
+      <momentConstant>0.005964552</momentConstant>
+      <rotorDragCoefficient>8.06428e-05</rotorDragCoefficient>
+      <rollingMomentCoefficient>0.0000001</rollingMomentCoefficient>
+      <rotorVelocitySlowdownSim>20</rotorVelocitySlowdownSim>
+      <actuator_number>2</actuator_number>
+      <commandSubTopic>gazebo/command/motor_speed</commandSubTopic>
+      <motorSpeedPubTopic>motor_speed/2</motorSpeedPubTopic>
+      <motorType>velocity</motorType>
+    </plugin>
+    <plugin
+      filename="gz-sim-multicopter-motor-model-system"
+      name="gz::sim::systems::MulticopterMotorModel">
+      <robotNamespace>drone</robotNamespace>
+      <jointName>drone/joint_4</jointName>
+      <linkName>drone/prop_4</linkName>
+      <turningDirection>cw</turningDirection>
+      <maxRotVelocity>5760</maxRotVelocity>
+      <motorConstant>6.0e-08</motorConstant>
+      <momentConstant>0.005964552</momentConstant>
+      <rotorDragCoefficient>8.06428e-05</rotorDragCoefficient>
+      <rollingMomentCoefficient>0.0000001</rollingMomentCoefficient>
+      <rotorVelocitySlowdownSim>20</rotorVelocitySlowdownSim>
+      <actuator_number>3</actuator_number>
+      <commandSubTopic>gazebo/command/motor_speed</commandSubTopic>
+      <motorSpeedPubTopic>motor_speed/3</motorSpeedPubTopic>
+      <motorType>velocity</motorType>
+    </plugin>
+    <!-- Velocity controller driven by the Gazebo Teleop pad. -->
+    <plugin
+      filename="gz-sim-multicopter-control-system"
+      name="gz::sim::systems::MulticopterVelocityControl">
+      <robotNamespace>drone</robotNamespace>
+      <commandSubTopic>cmd_vel</commandSubTopic>
+      <enableSubTopic>enable</enableSubTopic>
+      <comLinkName>drone/base_link</comLinkName>
+      <velocityGain>1.25 1.25 0.2425</velocityGain>
+      <attitudeGain>0.02 0.02 0.02</attitudeGain>
+      <angularRateGain>0.005 0.005 0.005</angularRateGain>
+      <!-- REQUIRED: without these the commanded velocity is clamped to the
+           plugin defaults and the rotors barely spin. -->
+      <maximumLinearAcceleration>2 2 2</maximumLinearAcceleration>
+      <maximumLinearVelocity>2 2 2</maximumLinearVelocity>
+      <maximumAngularVelocity>3 3 3</maximumAngularVelocity>
+      <rotorConfiguration>
+        <rotor>
+          <jointName>drone/joint_1</jointName>
+          <forceConstant>6.0e-08</forceConstant>
+          <momentConstant>0.005964552</momentConstant>
+          <direction>-1</direction>
+        </rotor>
+        <rotor>
+          <jointName>drone/joint_2</jointName>
+          <forceConstant>6.0e-08</forceConstant>
+          <momentConstant>0.005964552</momentConstant>
+          <direction>1</direction>
+        </rotor>
+        <rotor>
+          <jointName>drone/joint_3</jointName>
+          <forceConstant>6.0e-08</forceConstant>
+          <momentConstant>0.005964552</momentConstant>
+          <direction>1</direction>
+        </rotor>
+        <rotor>
+          <jointName>drone/joint_4</jointName>
+          <forceConstant>6.0e-08</forceConstant>
+          <momentConstant>0.005964552</momentConstant>
+          <direction>-1</direction>
+        </rotor>
+      </rotorConfiguration>
+    </plugin>
+    <!-- Removed: a second OdometryPublisher was publishing 2D odometry
+         (z always 0) onto the same /model/drone/odometry topic as the one
+         above, so altitude reads alternated between real and zero. -->
+  </model>
+</sdf>

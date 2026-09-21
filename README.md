@@ -1,7 +1,7 @@
 # Welcome to the F-Drone-Stack
 
 ## Introduction
-This is project for the MATRIX Lab at the University of Maryland's SMART
+This is project for the [MATRIX Lab](https://matrix.umd.edu/) at the University of Maryland's SMART
 building. It utilizes dRehmFlight (by nickrehm) as a flight controller.
 
 The intent of the project is to create a stack for replicable, autonmous

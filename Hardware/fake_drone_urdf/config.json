@@ -1,0 +1,21 @@
+// Need this file to export to urdf through 'onshape-to-robot'
+// *Note* Don't forget your .env with keys to the workspace when exporting
+{
+    // Onshape URL of the assembly
+    "url": "https://cad.onshape.com/documents/a579ea72677341502ae8d88a/w/2a9b4c520e865058cdf1ba7d/e/adde9cf7caa793bb672666dd",
+    // Output format
+    "output_format": "urdf",
+    "output_filename": "../../f_drone_simulation/models/fake_drone/fake_model",
+    "assembly_name": "fake_model",
+
+    // Beneficial ROS Info
+    "package_name": "f_drone_simulation/models/fake_drone",
+    "robot_name": "fake_drone_one",
+
+    // Provide Information to Joints *not neccessary*
+    "joint_properties": {
+      "propeller_*": {
+        "max_velocity": 10.0
+      }
+    },
+}

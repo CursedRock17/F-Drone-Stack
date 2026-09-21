@@ -1,0 +1,20 @@
+---
+# teleop config
+# The GUI Teleop pad publishes here; teleop_lateral rewrites the yaw axis as
+# body-frame linear.y before forwarding to the controller.
+- ros_topic_name: "/crazyflie/teleop/twist"
+  gz_topic_name: "/crazyflie/teleop/twist"
+  ros_type_name: "geometry_msgs/msg/Twist"
+  gz_type_name: "gz.msgs.Twist"
+  direction: GZ_TO_ROS
+# controller config
+- ros_topic_name: "/crazyflie/gazebo/command/twist"
+  gz_topic_name: "/crazyflie/gazebo/command/twist"
+  ros_type_name: "geometry_msgs/msg/Twist"
+  gz_type_name: "gz.msgs.Twist"
+  direction: ROS_TO_GZ
+- ros_topic_name: "/crazyflie/enable"
+  gz_topic_name: "/crazyflie/enable"
+  ros_type_name: "std_msgs/msg/Bool"
+  gz_type_name: "gz.msgs.Boolean"
+  direction: ROS_TO_GZ

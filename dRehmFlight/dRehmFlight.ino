@@ -10,7 +10,7 @@
 /*
 Some elements inspired by:
 http://www.brokking.net/ymfc-32_main.html
-
+x
 Madgwick filter function adapted from:
 https://github.com/arduino-libraries/MadgwickAHRS
 
@@ -140,7 +140,7 @@ const float FLOW_SCALE_Y = -800.0f / 1000.0f;
 // Range of valid data from the VL53L0X, given by Matek themselves [8cm -> 200cm]
 const float RANGEFINDER_INITIAL_HEIGHT_M = 0.0368f + 0.095f;
 const float MAX_RANGE_M = 2.0f;
-const float MIN_RANGE_M = 0.08f;
+const float MIN_RANGE_M = 0.01f;
 
 // IMU calibration parameters -
 // calibrate IMU using calculate_IMU_error() in the void setup() to get these
@@ -152,53 +152,53 @@ float GyroErrorX = -2.09;
 float GyroErrorY = 0.29;
 float GyroErrorZ = -1.17;
 
-// OpFlow calibration parameters
-float rangeErrorZ = 0;
+// OpFlow calibration parameters - Change on Startup
+float rangeErrorZ = 0.043737385421991348 + 0.0128433;
 
 // Controller parameters (take note of defaults before modifying!):
-float i_limit = 25;     // Integrator saturation level, mostly for safety (default 25.0)
-float maxRoll = 24.0;     // Max rohover_throtll angle in degrees for angle mode (maximum ~70 degrees), deg/sec for rate mode
-float maxPitch = 24.0;    // Max pitch angle in degrees for angle mode (maximum ~70 degrees), deg/sec for rate mode
-float maxYaw = 128.0;     // Max yaw rate in deg/sec
+float i_limit = 25.0;              // Integrator saturation level, mostly for safety (default 25.0)
+float maxRoll = 24.0;            // Max roll angle in degrees for angle mode (maximum ~70 degrees), deg/sec for rate mode
+float maxPitch = 24.0;           // Max pitch angle in degrees for angle mode (maximum ~70 degrees), deg/sec for rate mode
+float maxYaw = 128.0;            // Max yaw rate in deg/sec
 
-float Kp_roll_angle = 0.12;    //Roll P-gain - angle mode
-float Ki_roll_angle = 0.18;    //Roll I-gain - angle mode
-float Kd_roll_angle = 0.03;   //Roll D-gain - angle mode (has no effect on controlANGLE2)
-float B_loop_roll = 0.54;      //Roll damping term for controlANGLE2(), lower is more damping (must be between 0 to 1)
-float Kp_pitch_angle = 0.12;   //Pitch P-gain - angle mode
-float Ki_pitch_angle = 0.18;   //Pitch I-gain - angle mode
-float Kd_pitch_angle = 0.03;  //Pitch D-gain - angle mode (has no effect on controlANGLE2)
-float B_loop_pitch = 0.54;     //Pitch damping term for controlANGLE2(), lower is more damping (must be between 0 to 1)
+float Kp_roll_angle = 0.12;      // Roll P-gain - angle mode
+float Ki_roll_angle = 0.18;      // Roll I-gain - angle mode
+float Kd_roll_angle = 0.03;      // Roll D-gain - angle mode (has no effect on controlANGLE2)
+float B_loop_roll = 0.54;        // Roll damping term for controlANGLE2(), lower is more damping (must be between 0 to 1)
+float Kp_pitch_angle = 0.12;     // Pitch P-gain - angle mode
+float Ki_pitch_angle = 0.18;     // Pitch I-gain - angle mode
+float Kd_pitch_angle = 0.03;     // Pitch D-gain - angle mode (has no effect on controlANGLE2)
+float B_loop_pitch = 0.54;       // Pitch damping term for controlANGLE2(), lower is more damping (must be between 0 to 1)
 
-float Kp_roll_rate = 0.0075;    //Roll P-gain - rate mode
-float Ki_roll_rate = 0.0025;     //Roll I-gain - rate mode
-float Kd_roll_rate = 0.00001;  //Roll D-gain - rate mode (be careful when increasing too high, motors will begin to overheat!)
-float Kp_pitch_rate = 0.0075;   //Pitch P-gain - rate mode
-float Ki_pitch_rate = 0.0025;    //Pitch I-gain - rate mode
-float Kd_pitch_rate = 0.00001; //Pitch D-gain - rate mode (be careful when increasing too high, motors will begin to overheat!)
+float Kp_roll_rate = 0.0075;     // Roll P-gain - rate mode
+float Ki_roll_rate = 0.0025;     // Roll I-gain - rate mode
+float Kd_roll_rate = 0.00001;    // Roll D-gain - rate mode (be careful when increasing too high, motors will begin to overheat!)
+float Kp_pitch_rate = 0.0075;    // Pitch P-gain - rate mode
+float Ki_pitch_rate = 0.0025;    // Pitch I-gain - rate mode
+float Kd_pitch_rate = 0.00001;   // Pitch D-gain - rate mode (be careful when increasing too high, motors will begin to overheat!)
 
-float Kp_yaw = 0.18;           //Yaw P-gain
-float Ki_yaw = 0.03;          //Yawcrsf.upd I-gain
-float Kd_yaw = 0.00009;       //Yaw D-gain (be careful when increasing too high, motors will begin to overheat!)
+float Kp_yaw = 0.18;             // Yaw P-gain
+float Ki_yaw = 0.03;             // Yaw I-gain
+float Kd_yaw = 0.00009;          // Yaw D-gain (be careful when increasing too high, motors will begin to overheat!)
 
 // Optical Flow Controller Params
-float Kp_positionX = 0.1;  // Horizontal (X-position) Proportional Gain
-float Ki_positionX = 0.0;  // Horizontal (X-position) Integral Gain
-float Kd_positionX = 0.0;  // Horizontal (X-position) Derivative Gain
+float Kp_positionX = 0.75;  // Horizontal (X-position) Proportional Gain
+float Ki_positionX = 0.25;  // Horizontal (X-position) Integral Gain
+float Kd_positionX = 0.50;  // Horizontal (X-position) Derivative Gain
 
-float Kp_positionY = 0.1;  // Forward (Y-position) Proportional Gain
-float Ki_positionY = 0.0;  // Forward (Y-position) Integral Gain
-float Kd_positionY = 0.0;  // Forward (Y-position) Derivative Gain
+float Kp_positionY = 1.00;  // Forward (Y-position) Proportional Gain
+float Ki_positionY = 0.75;  // Forward (Y-position) Integral Gain
+float Kd_positionY = 0.50;  // Forward (Y-position) Derivative Gain
 
-float Kp_positionZ = 0.18;  // Altitude (Z-position) Proportional Gain
-float Ki_positionZ = 0.03;  // Altitude (Z-position) Integral Gain
-float Kd_positionZ = 0.00009;  // Altitude (Z-position) Derivative Gain
+float Kp_positionZ = 0.500;  // Altitude (Z-position) Proportional Gain
+float Ki_positionZ = 0.008;  // Altitude (Z-position) Integral Gain
+float Kd_positionZ = 0.250;  // Altitude (Z-position) Derivative Gain
 
 float maxZ = 2.0;  // Maximum position on the Z-Axis in Meters
 
 // Drone Characteristics
-float hover_throttle = 0.4;
-float drone_weight_kg = 0.097 + 0.005 + 0.104;
+float hover_throttle = 0.485;
+float drone_weight_kg = 0.97 + 0.005 + 0.104;
 
 // Simulation Package
 struct SensorPacket {
@@ -218,7 +218,6 @@ union SensorSerial {
 
 const unsigned char pktHeader[2] = {0xAA, 0x55};
 const unsigned char pktFooter = 0xFE;
-
 const bool simulatedEnvironment = true;
 SensorSerial simulatedSensors;
 
@@ -226,10 +225,10 @@ SensorSerial simulatedSensors;
 // data is detected. Recommended defaults:
 // Defined: Throttle, Ail, Elevation, Rudder, Arm 1, Aux2
 // TODO: Add parameters.yaml file to allow user to set
-unsigned long thro_range[3] = {1194, 1500, 1807};  // Amount of Power
-unsigned long ail_range[3]  = {1194, 1500, 1807};  // Roll 
-unsigned long ele_range[3]  = {1194, 1500, 1807};  // Pitch 
-unsigned long rud_range[3]  = {1194, 1500, 1807};  // Yaw
+unsigned long thro_range[3] = {901 ,1106, 1311};  // Amount of Power
+unsigned long ail_range[3]  = {901, 1106, 1311};  // Roll 
+unsigned long ele_range[3]  = {901, 1106, 1311};  // Pitch 
+unsigned long rud_range[3]  = {901, 1106, 1311};  // Yaw
 unsigned long arm_range[2]  = {1000, 1792};        // Off/On
 unsigned long channel_fs[6] = { thro_range[0], ail_range[1], ele_range[1], rud_range[1], 
                                 arm_range[0], 1000 };
@@ -392,7 +391,7 @@ void setup() {
   // Initialize Optical Flow communication
   opticalFlowInit();
 
-  delay(50);
+  delay(5);
 
   // Get IMU error to zero accelerometer and gyro readings, assuming vehicle is level when powered up
   //calculate_IMU_error(); //Calibration parameters printed to serial monitor. Paste these in the user specified variables section, then comment this out forever.
@@ -431,10 +430,24 @@ void loop() {
   if (simulatedEnvironment) {
     readSimulatedPeripherals();
     // Fuse our simulated IMU
-    Madgwick(simulatedSensors.simulatedPkt.gx, -simulatedSensors.simulatedPkt.gy, -simulatedSensors.simulatedPkt.gz, 
-            -simulatedSensors.simulatedPkt.ax, simulatedSensors.simulatedPkt.ay, simulatedSensors.simulatedPkt.az, dt);
+    getIMUdataSim(simulatedSensors.simulatedPkt.ax, simulatedSensors.simulatedPkt.ay, simulatedSensors.simulatedPkt.az, 
+            simulatedSensors.simulatedPkt.gx, simulatedSensors.simulatedPkt.gy, simulatedSensors.simulatedPkt.gz);
+    Madgwick(GyroX, -GyroY, -GyroZ, -AccX, AccY, AccZ, dt);
     // Fuse our simulated optical flow
-    positionZ_cur = simulatedSensors.simulatedPkt.range;
+    positionZ_cur = simulatedSensors.simulatedPkt.range - rangeErrorZ;
+      
+    // Get Flow Information on XY
+    // For small angles, velocity ~ (flow * range) * scale
+    current_velocityX = 0;//FLOW_SCALE_X * simulatedSensors.simulatedPkt.fx * simulatedSensors.simulatedPkt.range;
+    current_velocityY = 0;//FLOW_SCALE_Y * simulatedSensors.simulatedPkt.fy * simulatedSensors.simulatedPkt.range;
+
+    // Integrate velocity to get position
+    positionX_cur += current_velocityX * dt;
+    positionY_cur += current_velocityY * dt;
+      
+    // Apply low-pass filter to reduce integration drift
+    positionX_cur = (1.0 - A_positionX) * positionX_prev + A_positionX * positionX_cur;
+    positionY_cur = (1.0 - A_positionY) * positionY_prev + A_positionY * positionY_cur;
   } else {
     // Get vehicle state with RAW data 
     // Use Madgwick to update the rpy
@@ -469,13 +482,17 @@ void loop() {
 
   // Command actuators
   commandMotors();  // Sends command pulses to each motor pin using OneShot125
-  writeMotorPWM();
+  if (simulatedEnvironment)
+    writeTelemetryData();
 
   // Autonomous Code - all looped code should run here (i.e publishers)
   odometryUpdate();
 
+  //printIMUData();
+  //printRadioData();
+  //printDesiredState();
   //printMotorCommands();
-  //printAltitudeOutput();
+  //printPIDOutput();
   //printOpticalFlowOutput();
 
   // Get vehicle commands for next loop iteration
@@ -509,7 +526,7 @@ void controlANGLE() {
   error_roll = roll_des - roll_IMU;
   integral_roll = integral_roll_prev + error_roll*dt;
   // Don't let integrator build if throttle is too low
-  if (buildIntegral())
+  if (!buildIntegral())
   {
     integral_roll = 0;
   }
@@ -520,22 +537,22 @@ void controlANGLE() {
   //Pitch
   error_pitch = pitch_des - pitch_IMU;
   integral_pitch = integral_pitch_prev + error_pitch*dt;
-  if (buildIntegral()) {   //Don't let integrator build if throttle is too low
+  if (!buildIntegral()) {   //Don't let integrator build if throttle is too low
     integral_pitch = 0;
   }
   integral_pitch = constrain(integral_pitch, -i_limit, i_limit); //Saturate integrator to prevent unsafe buildup
   derivative_pitch = GyroY;
-  pitch_PID = .01*(Kp_pitch_angle*error_pitch + Ki_pitch_angle*integral_pitch - Kd_pitch_angle*derivative_pitch); //Scaled by .01 to bring within -1 to 1 range
+  pitch_PID = 0.01*(Kp_pitch_angle*error_pitch + Ki_pitch_angle*integral_pitch - Kd_pitch_angle*derivative_pitch); //Scaled by .01 to bring within -1 to 1 range
 
   //Yaw, stablize on rate from GyroZ
   error_yaw = yaw_des - GyroZ;
   integral_yaw = integral_yaw_prev + error_yaw*dt;
-  if (buildIntegral()) {   //Don't let integrator build if throttle is too low
+  if (!buildIntegral()) {   //Don't let integrator build if throttle is too low
     integral_yaw = 0;
   }
   integral_yaw = constrain(integral_yaw, -i_limit, i_limit); //Saturate integrator to prevent unsafe buildup
   derivative_yaw = (error_yaw - error_yaw_prev)/dt;
-  yaw_PID = .01*(Kp_yaw*error_yaw + Ki_yaw*integral_yaw + Kd_yaw*derivative_yaw); //Scaled by .01 to bring within -1 to 1 range
+  yaw_PID = 0.01*(Kp_yaw*error_yaw + Ki_yaw*integral_yaw + Kd_yaw*derivative_yaw); //Scaled by .01 to bring within -1 to 1 range
 
   //Update roll variables
   integral_roll_prev = integral_roll;
@@ -557,7 +574,7 @@ void controlANGLE2() {
   //Roll
   error_roll = roll_des - roll_IMU;
   integral_roll_ol = integral_roll_prev_ol + error_roll*dt;
-  if (buildIntegral()) {   //Don't let integrator build if throttle is too low
+  if (!buildIntegral()) {   //Don't let integrator build if throttle is too low
     integral_roll_ol = 0;
   }
   integral_roll_ol = constrain(integral_roll_ol, -i_limit, i_limit); //Saturate integrator to prevent unsafe buildup
@@ -567,7 +584,7 @@ void controlANGLE2() {
   //Pitch
   error_pitch = pitch_des - pitch_IMU;
   integral_pitch_ol = integral_pitch_prev_ol + error_pitch*dt;
-  if (buildIntegral()) {   //Don't let integrator build if throttle is too low
+  if (!buildIntegral()) {   //Don't let integrator build if throttle is too low
     integral_pitch_ol = 0;
   }
   integral_pitch_ol = constrain(integral_pitch_ol, -i_limit, i_limit); //saturate integrator to prevent unsafe buildup
@@ -587,32 +604,32 @@ void controlANGLE2() {
   //Roll
   error_roll = roll_des_ol - GyroX;
   integral_roll_il = integral_roll_prev_il + error_roll*dt;
-  if (buildIntegral()) {   //Don't let integrator build if throttle is too low
+  if (!buildIntegral()) {   //Don't let integrator build if throttle is too low
     integral_roll_il = 0;
   }
   integral_roll_il = constrain(integral_roll_il, -i_limit, i_limit); //Saturate integrator to prevent unsafe buildup
   derivative_roll = (error_roll - error_roll_prev)/dt;
-  roll_PID = .01*(Kp_roll_rate*error_roll + Ki_roll_rate*integral_roll_il + Kd_roll_rate*derivative_roll); //Scaled by .01 to bring within -1 to 1 range
+  roll_PID = 0.01*(Kp_roll_rate*error_roll + Ki_roll_rate*integral_roll_il + Kd_roll_rate*derivative_roll); //Scaled by .01 to bring within -1 to 1 range
 
   //Pitch
   error_pitch = pitch_des_ol + GyroY;
   integral_pitch_il = integral_pitch_prev_il + error_pitch*dt;
-  if (buildIntegral()) {   //Don't let integrator build if throttle is too low
+  if (!buildIntegral()) {   //Don't let integrator build if throttle is too low
     integral_pitch_il = 0;
   }
   integral_pitch_il = constrain(integral_pitch_il, -i_limit, i_limit); //Saturate integrator to prevent unsafe buildup
   derivative_pitch = (error_pitch - error_pitch_prev)/dt;
-  pitch_PID = .01*(Kp_pitch_rate*error_pitch + Ki_pitch_rate*integral_pitch_il + Kd_pitch_rate*derivative_pitch); //Scaled by .01 to bring within -1 to 1 range
+  pitch_PID = 0.01*(Kp_pitch_rate*error_pitch + Ki_pitch_rate*integral_pitch_il + Kd_pitch_rate*derivative_pitch); //Scaled by .01 to bring within -1 to 1 range
 
   //Yaw
   error_yaw = yaw_des - GyroZ;
   integral_yaw = integral_yaw_prev + error_yaw*dt;
-  if (buildIntegral()) {   //Don't let integrator build if throttle is too low
+  if (!buildIntegral()) {   //Don't let integrator build if throttle is too low
     integral_yaw = 0;
   }
   integral_yaw = constrain(integral_yaw, -i_limit, i_limit); //Saturate integrator to prevent unsafe buildup
   derivative_yaw = (error_yaw - error_yaw_prev)/dt;
-  yaw_PID = .01*(Kp_yaw*error_yaw + Ki_yaw*integral_yaw + Kd_yaw*derivative_yaw); //Scaled by .01 to bring within -1 to 1 range
+  yaw_PID = 0.01*(Kp_yaw*error_yaw + Ki_yaw*integral_yaw + Kd_yaw*derivative_yaw); //Scaled by .01 to bring within -1 to 1 range
 
   //Update roll variables
   integral_roll_prev_ol = integral_roll_ol;
@@ -639,32 +656,32 @@ void controlRATE() {
   //Roll
   error_roll = roll_des - GyroX;
   integral_roll = integral_roll_prev + error_roll*dt;
-  if (buildIntegral()) {   //Don't let integrator build if throttle is too low
+  if (!buildIntegral()) {   //Don't let integrator build if throttle is too low
     integral_roll = 0;
   }
   integral_roll = constrain(integral_roll, -i_limit, i_limit); //Saturate integrator to prevent unsafe buildup
   derivative_roll = (error_roll - error_roll_prev)/dt; 
-  roll_PID = .01*(Kp_roll_rate*error_roll + Ki_roll_rate*integral_roll + Kd_roll_rate*derivative_roll); //Scaled by .01 to bring within -1 to 1 range
+  roll_PID = 0.01*(Kp_roll_rate*error_roll + Ki_roll_rate*integral_roll + Kd_roll_rate*derivative_roll); //Scaled by .01 to bring within -1 to 1 range
 
   //Pitch
   error_pitch = pitch_des - GyroY;
   integral_pitch = integral_pitch_prev + error_pitch*dt;
-  if (buildIntegral()) {   //Don't let integrator build if throttle is too low
+  if (!buildIntegral()) {   //Don't let integrator build if throttle is too low
     integral_pitch = 0;
   }
   integral_pitch = constrain(integral_pitch, -i_limit, i_limit); //Saturate integrator to prevent unsafe buildup
   derivative_pitch = (error_pitch - error_pitch_prev)/dt; 
-  pitch_PID = .01*(Kp_pitch_rate*error_pitch + Ki_pitch_rate*integral_pitch + Kd_pitch_rate*derivative_pitch); //Scaled by .01 to bring within -1 to 1 range
+  pitch_PID = 0.01*(Kp_pitch_rate*error_pitch + Ki_pitch_rate*integral_pitch + Kd_pitch_rate*derivative_pitch); //Scaled by .01 to bring within -1 to 1 range
 
   //Yaw, stablize on rate from GyroZ
   error_yaw = yaw_des - GyroZ;
   integral_yaw = integral_yaw_prev + error_yaw*dt;
-  if (buildIntegral()) {   //Don't let integrator build if throttle is too low
+  if (!buildIntegral()) {   //Don't let integrator build if throttle is too low
     integral_yaw = 0;
   }
   integral_yaw = constrain(integral_yaw, -i_limit, i_limit); //Saturate integrator to prevent unsafe buildup
   derivative_yaw = (error_yaw - error_yaw_prev)/dt; 
-  yaw_PID = .01*(Kp_yaw*error_yaw + Ki_yaw*integral_yaw + Kd_yaw*derivative_yaw); //Scaled by .01 to bring within -1 to 1 range
+  yaw_PID = 0.01*(Kp_yaw*error_yaw + Ki_yaw*integral_yaw + Kd_yaw*derivative_yaw); //Scaled by .01 to bring within -1 to 1 range
 
   //Update roll variables
   error_roll_prev = error_roll;
@@ -692,58 +709,93 @@ void positionHold() {
   
   // X-Axis (Horizontal)
   error_positionX = positionX_des - positionX_cur;
+  
+  const float XY_DEADBAND = 0.02;  // 2cm deadband
+  if (abs(error_positionX) < XY_DEADBAND) {
+    error_positionX = 0;
+  }
+  
   integral_positionX = integral_positionX_prev + error_positionX*dt;
-  // Don't let integrator build if throttle is too low
-  if (buildIntegral())
-  {
+  if (!buildIntegral()) {
     integral_positionX = 0;
   }
-  // Saturate integrator to prevent unsafe buildup
-  integral_positionX = constrain(integral_positionX, -i_limit, i_limit);
-  derivative_positionX = (positionX_cur - positionX_prev) / dt;
-  positionX_PID = (Kp_positionX*error_positionX + 
-                        Ki_positionX*integral_positionX - 
-                        Kd_positionX*derivative_positionX); 
+  integral_positionX = constrain(integral_positionX, -3.0, 3.0);
+  
+  // Calculate velocity with low-pass filter
+  float velocityX_raw = (positionX_cur - positionX_prev) / dt;
+  static float velocityX_filtered = 0;
+  velocityX_filtered = 0.75 * velocityX_filtered + 0.25 * velocityX_raw;
+  
+  // PID with direct velocity damping
+  positionX_PID = constrain(
+    Kp_positionX * error_positionX +
+    Ki_positionX * integral_positionX -
+    Kd_positionX * velocityX_filtered,  // Damp velocity!
+    -1.0, 1.0  // Output is normalized for roll command
+  );
 
-  // Update X-Position variables
   integral_positionX_prev = integral_positionX;
   positionX_prev = positionX_cur;
   
-  // Y-Axis (Forward)
+  // Y-Axis (Forward) - WITH VELOCITY DAMPING
   error_positionY = positionY_des - positionY_cur;
+  
+  if (abs(error_positionY) < XY_DEADBAND) {
+    error_positionY = 0;
+  }
+  
   integral_positionY = integral_positionY_prev + error_positionY*dt;
-  // Don't let integrator build if throttle is too low
-  if (buildIntegral())
-  {
+  if (!buildIntegral()) {
     integral_positionY = 0;
   }
-  // Saturate integrator to prevent unsafe buildup
-  integral_positionY = constrain(integral_positionY, -i_limit, i_limit);
-  derivative_positionY = (positionY_cur - positionY_prev) / dt;
-  positionY_PID = (Kp_positionY*error_positionY + 
-                        Ki_positionY*integral_positionY - 
-                        Kd_positionY*derivative_positionY); 
-
-  // Update Y-Position variables
-  integral_positionY_prev = integral_positionY;
-  positionY_prev = positionY_cur;
+  // Prevent Saturation of Integral Term
+  integral_positionY = constrain(integral_positionY, -3.0, 3.0);
   
+  // Calculate velocity with low-pass filter
+  float velocityY_raw = (positionY_cur - positionY_prev) / dt;
+  static float velocityY_filtered = 0;
+  velocityY_filtered = 0.75 * velocityY_filtered + 0.25 * velocityY_raw;
+  
+  // PID with direct velocity damping
+  positionY_PID = constrain(
+    Kp_positionY * error_positionY +
+    Ki_positionY * integral_positionY -
+    Kd_positionY * velocityY_filtered,  // Damp velocity!
+    -1.0, 1.0  // Output is normalized for pitch command
+  );
+
+  integral_positionY_prev = integral_positionY;
+  positionY_prev = positionY_cur;  
+
   // Z-Axis (Altitude)
   error_positionZ = positionZ_des - positionZ_cur;
+  
+  // Deadband
+  const float Z_DEADBAND = 0.01;
+  if (abs(error_positionZ) < Z_DEADBAND) {
+    error_positionZ = 0;
+  }
+  
   integral_positionZ = integral_positionZ_prev + error_positionZ*dt;
-  // Don't let integrator build if throttle is too low
-  if (buildIntegral())
-  {
+  if (!buildIntegral()) {
     integral_positionZ = 0;
   }
-  // Saturate integrator to prevent unsafe buildup
-  integral_positionZ = constrain(integral_positionZ, -i_limit, i_limit);
-  derivative_positionZ = (positionZ_cur - positionZ_prev) / dt;
-  positionZ_PID = (Kp_positionZ*error_positionZ + 
-                        Ki_positionZ*integral_positionZ - 
-                        Kd_positionZ*derivative_positionZ); 
+  integral_positionZ = constrain(integral_positionZ, -3.0, 3.0);
+  
+  // Calculate velocity with low-pass filter
+  float velocityZ_raw = (positionZ_cur - positionZ_prev) / dt;
+  static float velocityZ_filtered = 0;
+  velocityZ_filtered = 0.75 * velocityZ_filtered + 0.25 * velocityZ_raw;
+  
+  // PID with direct velocity damping
+  positionZ_PID = constrain(
+    Kp_positionZ * error_positionZ +      // Position error
+    Ki_positionZ * integral_positionZ -   // Steady-state error
+    Kd_positionZ * velocityZ_filtered,    // Velocity damping (fights inertia!)
+    -0.25, 0.25
+  );
 
-  // Update Z-Position variables
+  error_positionZ_prev = error_positionZ;
   integral_positionZ_prev = integral_positionZ;
   positionZ_prev = positionZ_cur;
 }
@@ -795,10 +847,10 @@ void droneStateUpdate() {
     droneState = ARMED;
     // If the channel is not armed, there's no reason to check throttle values
     // Otherwise, let's see the state of our drone.
-    if (abs(thro_des) >= 0.05) {
+    if (abs(thro_des) >= 0.025) {
       droneState = FLYING;
     }
-    if (abs(thro_des) < 0.05 && (positionZ_cur > RANGEFINDER_INITIAL_HEIGHT_M)) {
+    if (abs(thro_des) < 0.025 && (positionZ_cur > RANGEFINDER_INITIAL_HEIGHT_M)) {
       droneState = POSITION_HOLD;
     }
   }
@@ -822,6 +874,47 @@ void IMUinit() {
   // do is set the desired fullscale ranges
   mpu6050.setFullScaleGyroRange(GYRO_SCALE);
   mpu6050.setFullScaleAccelRange(ACCEL_SCALE);
+}
+
+void getIMUdataSim(float AcX, float AcY, float AcZ, float GyX, float GyY, float GyZ) {
+  //DESCRIPTION: Scale Gazebo IMU to match MPU6050 data sheet and LP filter gyro, accelerometer data
+  /* We first grab the Gazebo sensor data in the NWD (North - X, West - Y, Down - Z) Orientation
+   * We need to scale Linear Accel from m/s^2 in the world frame to G's
+   * We then need to scale Angular Gyro data from rad/sec to deg/sec
+   */
+
+  // Accelerometer - Convert m/s^s to g's
+  float GRAVITY_SCALAR = 9.80665;
+  AccX = AcX / GRAVITY_SCALAR;
+  AccY = AcY / GRAVITY_SCALAR;
+  AccZ = AcZ / GRAVITY_SCALAR;
+  // Correct the outputs with the calculated error values
+  AccX = AccX - AccErrorX*0.0;
+  AccY = AccY - AccErrorY*0.0;
+  AccZ = AccZ - AccErrorZ*0.0;
+  // LP filter accelerometer data
+  AccX = (1.0 - B_accel)*AccX_prev + B_accel*AccX;
+  AccY = (1.0 - B_accel)*AccY_prev + B_accel*AccY;
+  AccZ = (1.0 - B_accel)*AccZ_prev + B_accel*AccZ;
+  AccX_prev = AccX;
+  AccY_prev = AccY;
+  AccZ_prev = AccZ;
+
+  // Gyro - Convert from radian/sec to degrees/sec
+  GyroX = GyX * (180.0/3.14159);
+  GyroY = GyY * (180.0/3.14159);
+  GyroZ = GyZ * (180.0/3.14159);
+ // Correct the outputs with the calculated error values
+  GyroX = GyroX - GyroErrorX*0.0;
+  GyroY = GyroY - GyroErrorY*0.0;
+  GyroZ = GyroZ - GyroErrorZ*0.0;
+  // LP filter gyro data
+  GyroX = (1.0 - B_gyro)*GyroX_prev + B_gyro*GyroX;
+  GyroY = (1.0 - B_gyro)*GyroY_prev + B_gyro*GyroY;
+  GyroZ = (1.0 - B_gyro)*GyroZ_prev + B_gyro*GyroZ;
+  GyroX_prev = GyroX;
+  GyroY_prev = GyroY;
+  GyroZ_prev = GyroZ;
 }
 
 void getIMUdata() {
@@ -941,13 +1034,13 @@ void calculate_IMU_error() {
 }
 
 void calibrateAttitude() {
-  //DESCRIPTION: Used to warm up the main loop to allow the madwick filter to converge before commands can be sent to the actuators
-  //Assuming vehicle is powered up on level surface!
+  // DESCRIPTION: Used to warm up the main loop to allow the madwick filter to converge before commands can be sent to the actuators
+  // Assuming vehicle is powered up on level surface!
   /*
    * This function is used on startup to warm up the attitude estimation and is what causes startup to take a few seconds
    * to boot.
    */
-  //Warm up IMU and madgwick filter in simulated main loop
+  // Warm up IMU and madgwick filter in simulated main loop
   for (int i = 0; i <= 10000; i++) {
     prev_time = current_time;
     current_time = micros();
@@ -959,7 +1052,7 @@ void calibrateAttitude() {
 }
 
 void Madgwick(float gx, float gy, float gz, float ax, float ay, float az, float invSampleFreq) {
-  //DESCRIPTION: Attitude estimation through sensor fusion - 6DOF
+  // DESCRIPTION: Attitude estimation through sensor fusion - 6DOF
   /*
    * available (for example when using the recommended MPU6050 IMU for the default setup).
    */
@@ -968,26 +1061,26 @@ void Madgwick(float gx, float gy, float gz, float ax, float ay, float az, float 
   float qDot1, qDot2, qDot3, qDot4;
   float _2q0, _2q1, _2q2, _2q3, _4q0, _4q1, _4q2 ,_8q1, _8q2, q0q0, q1q1, q2q2, q3q3;
 
-  //Convert gyroscope degrees/sec to radians/sec
+  // Convert gyroscope degrees/sec to radians/sec
   gx *= 0.0174533f;
   gy *= 0.0174533f;
   gz *= 0.0174533f;
 
-  //Rate of change of quaternion from gyroscope
+  // Rate of change of quaternion from gyroscope
   qDot1 = 0.5f * (-q1 * gx - q2 * gy - q3 * gz);
   qDot2 = 0.5f * (q0 * gx + q2 * gz - q3 * gy);
   qDot3 = 0.5f * (q0 * gy - q1 * gz + q3 * gx);
   qDot4 = 0.5f * (q0 * gz + q1 * gy - q2 * gx);
 
-  //Compute feedback only if accelerometer measurement valid (avoids NaN in accelerometer normalisation)
+  // Compute feedback only if accelerometer measurement valid (avoids NaN in accelerometer normalisation)
   if(!((ax == 0.0f) && (ay == 0.0f) && (az == 0.0f))) {
-    //Normalise accelerometer measurement
+    // Normalise accelerometer measurement
     recipNorm = invSqrt(ax * ax + ay * ay + az * az);
     ax *= recipNorm;
     ay *= recipNorm;
     az *= recipNorm;
 
-    //Auxiliary variables to avoid repeated arithmetic
+    // Auxiliary variables to avoid repeated arithmetic
     _2q0 = 2.0f * q0;
     _2q1 = 2.0f * q1;
     _2q2 = 2.0f * q2;
@@ -1020,20 +1113,20 @@ void Madgwick(float gx, float gy, float gz, float ax, float ay, float az, float 
     qDot4 -= B_madgwick * s3;
   }
 
-  //Integrate rate of change of quaternion to yield quaternion
+  // Integrate rate of change of quaternion to yield quaternion
   q0 += qDot1 * invSampleFreq;
   q1 += qDot2 * invSampleFreq;
   q2 += qDot3 * invSampleFreq;
   q3 += qDot4 * invSampleFreq;
 
-  //Normalise quaternion
+  // Normalize quaternion
   recipNorm = invSqrt(q0 * q0 + q1 * q1 + q2 * q2 + q3 * q3);
   q0 *= recipNorm;
   q1 *= recipNorm;
   q2 *= recipNorm;
   q3 *= recipNorm;
 
-  //Compute angles
+  // Compute angles
   roll_IMU = atan2(q0*q1 + q2*q3, 0.5f - q1*q1 - q2*q2)*57.29577951; //degrees
   pitch_IMU = -asin(constrain(-2.0f * (q1*q3 - q0*q2),-0.999999,0.999999))*57.29577951; //degrees
   yaw_IMU = -atan2(q1*q2 + q0*q3, 0.5f - q2*q2 - q3*q3)*57.29577951; //degrees
@@ -1066,15 +1159,24 @@ void opticalFlowUpdate()
       // For small angles, velocity ~ (flow * range) * scale
       current_velocityX = FLOW_SCALE_X * fx * range_m;
       current_velocityY = FLOW_SCALE_Y * fy * range_m;
+
       positionZ_cur = range_m + rangeErrorZ;
+
+      // Integrate velocity to get position
+      positionX_cur += current_velocityX * dt;
+      positionY_cur += current_velocityY * dt;
+      
+      // Apply low-pass filter to reduce integration drift
+      positionX_cur = (1.0 - A_positionX) * positionX_prev + A_positionX * positionX_cur;
+      positionY_cur = (1.0 - A_positionY) * positionY_prev + A_positionY * positionY_cur;
+      
       valid_flow = true;
     } else {
       valid_flow = false;
     }
   }
 
-  //  Add a velocity-damping term to roll/pitch commands:
-  //
+  //   Add a velocity-damping term to roll/pitch commands:
   //   roll_cmd  += K_vx * (-current_velocityX);
   //   pitch_cmd += K_vy * (+current_velocityY);
   //  
@@ -1117,26 +1219,52 @@ void getDesState()
    * (rate mode). yaw_des is scaled to be within max yaw in degrees/sec. Also creates roll_passthru, pitch_passthru, and
    * yaw_passthru variables, to be used in commanding motors/servos with direct unstabilized commands in controlMixer().
    */
-  thro_des = (channel_pwm[0] - 1500.0)/614.0; //Between -0.5 and 0.5
-  roll_des = (channel_pwm[1] - 1500.0)/307.0; //Between -1 and 1
-  pitch_des = (channel_pwm[2] - 1500.0)/307.0; //Between -1 and 1
-  yaw_des = (channel_pwm[3] - 1500.0)/307.0; //Between -1 and 1
+  thro_des = (channel_pwm[0] - (1106.0))/(410.0);
+  roll_des = (channel_pwm[1] - 1106.0)/205.0;
+  pitch_des = (channel_pwm[2] - 1106.0)/205.0;
+  yaw_des = (channel_pwm[3] - 1106.0)/205.0;
 
-  roll_passthru = roll_des/2.0; //Between -0.5 and 0.5
-  pitch_passthru = pitch_des/2.0; //Between -0.5 and 0.5
-  yaw_passthru = yaw_des/2.0; //Between -0.5 and 0.5
+  roll_passthru = roll_des/2.0;
+  pitch_passthru = pitch_des/2.0;
+  yaw_passthru = yaw_des/2.0;
 
-  //Constrain within normalized bounds
-  thro_des = constrain(thro_des, -0.5, 0.5);  // Between -1 and 1
-  roll_des = constrain(roll_des, -1.0, 1.0)*maxRoll; //Between -maxRoll and +maxRoll
-  pitch_des = constrain(pitch_des, -1.0, 1.0)*maxPitch; //Between -maxPitch and +maxPitch
-  yaw_des = constrain(yaw_des, -1.0, 1.0)*maxYaw; //Between -maxYaw and +maxYaw
+  thro_des = constrain(thro_des, -0.5, 0.5);
+  roll_des = constrain(roll_des, -1.0, 1.0)*maxRoll;
+  pitch_des = constrain(pitch_des, -1.0, 1.0)*maxPitch;
+  yaw_des = constrain(yaw_des, -1.0, 1.0)*maxYaw;
 
-  // Check to see if we want to change altitude
-  if (droneState == FLYING) {
+  // Track previous state to detect transitions
+  static DroneState prevState = DORMANT;
+  
+  // Only capture setpoint on STATE TRANSITION, not every loop
+  if (droneState == FLYING && prevState != FLYING) {
+    // Just transitioned to FLYING - capture INITIAL position
+    positionX_des = positionX_cur;
+    positionY_des = positionY_cur;
     positionZ_des = positionZ_cur;
-    positionZ_des = constrain(positionZ_des, 0, maxZ);  // Between 0 and +maxZ
+    positionZ_des = constrain(positionZ_des, RANGEFINDER_INITIAL_HEIGHT_M, maxZ);
   }
+  
+  if (droneState == POSITION_HOLD && prevState != POSITION_HOLD) {
+    // Just transitioned to POSITION_HOLD - capture position
+    positionX_des = positionX_cur;
+    positionY_des = positionY_cur;
+    positionZ_des = positionZ_cur;
+    positionZ_des = constrain(positionZ_des, RANGEFINDER_INITIAL_HEIGHT_M, maxZ);
+  }
+  
+  // Allow manual altitude adjustment ONLY with throttle stick
+  if (droneState == FLYING || droneState == POSITION_HOLD) {
+    // Only update if stick moved significantly from center
+    if (abs(thro_des) > 0.025) {
+      // Increment altitude setpoint based on stick input
+      positionZ_des += thro_des * 0.005;  // 5mm per loop at full stick
+      positionZ_des = constrain(positionZ_des, RANGEFINDER_INITIAL_HEIGHT_M, maxZ);
+    }
+  }
+  
+  // Update previous state for next iteration
+  prevState = droneState;
 
   roll_passthru = constrain(roll_passthru, -0.5, 0.5);
   pitch_passthru = constrain(pitch_passthru, -0.5, 0.5);
@@ -1159,7 +1287,7 @@ void scaleCommands() {
   for (int i = 0; i < 4; i++)
   {
     // Throttle should start at a very slow speed
-    m_command_PWM[i] = constrain(m_command_PWM[i], 125, 225);
+    m_command_PWM[i] = constrain(m_command_PWM[i], 125, 250);
   }
  }
 
@@ -1321,9 +1449,9 @@ void calibrateESCs() {
       //throttleCut(); //Directly sets motor commands to low based on state of ch5
       commandMotors(); //Sends command pulses to each motor pin using OneShot125 protocol
 
-      //printRadioData();
-      //printMotorCommands();
-      //printDesiredState();
+      printRadioData();
+      printMotorCommands();
+      printDesiredState();
 
       loopRate(2000); //Do not exceed 2000Hz, all filter parameters tuned to 2000Hz by default
    }
@@ -1388,9 +1516,15 @@ void throttleCut() {
       channel_pwm[5] is HIGH then throttle cut is ON and throttle value = 120 only. (ThrottleCut is ACTIVATED), (drone is DISARMED)
   */
   if (droneState == DORMANT) {
+    // Disarm the Motorrs
     for (int i = 0; i < 4; i++)
     {
       m_command_PWM[i] = 120;
+    }
+
+    // Should reset the current values as well since we'll be on the ground
+    if (simulatedEnvironment) {
+      simulationReset();
     }
   }
 }
@@ -1404,11 +1538,30 @@ void odometryUpdate()
   //odom_pub_callback(orientation, position, linear_velocity, angular_velocity);
 }
 
-void writeMotorPWM()
+struct TelemetryPacket {
+  float timestamp;
+  float roll_PID, pitch_PID, yaw_PID;
+  float posZ, desZ, z_PID;
+  uint16_t pwm[4];
+};
+
+void writeTelemetryData()
 {
   // DESCRIPTION: Send the motor PWM values to the Serial port for simulation
-  // *Note* must be in the form of a byte
-  Serial.write((uint8_t *)m_command_PWM, sizeof(m_command_PWM));
+    TelemetryPacket pkt;
+    pkt.timestamp = current_time/1000000.0f;
+    pkt.posZ = positionZ_cur;
+    pkt.desZ = positionZ_des;
+    pkt.roll_PID = roll_PID;
+    pkt.pitch_PID = pitch_PID;
+    pkt.yaw_PID = yaw_PID;
+    pkt.z_PID = positionZ_PID;
+    pkt.pwm[0] = m_command_PWM[0];
+    pkt.pwm[1] = m_command_PWM[1];
+    pkt.pwm[2] = m_command_PWM[2];
+    pkt.pwm[3] = m_command_PWM[3];
+    
+    Serial.write((uint8_t*)&pkt, sizeof(pkt));
 }
 
 void readSimulatedPeripherals()
@@ -1450,35 +1603,34 @@ void readSimulatedPeripherals()
 
 void simulationReset()
 {
-// DESCRIPTION: Reset all of our desired and given values when we crash/hit the reset button
-// Quaternions
-q0 = 1.0f; 
-q1 = 0.0f;
-q2 = 0.0f;
-q3 = 0.0f;
+  // DESCRIPTION: Reset all of our desired and given values when we crash/hit the reset button
+  // Quaternions
+  q0 = 1.0f; 
+  q1 = 0.0f;
+  q2 = 0.0f;
+  q3 = 0.0f;
 
-// Controller:
-error_roll, error_roll_prev, roll_des_prev, integral_roll, integral_roll_il, integral_roll_ol, integral_roll_prev, integral_roll_prev_il, integral_roll_prev_ol, derivative_roll, roll_PID = 0;
-error_pitch, error_pitch_prev, pitch_des_prev, integral_pitch, integral_pitch_il, integral_pitch_ol, integral_pitch_prev, integral_pitch_prev_il, integral_pitch_prev_ol, derivative_pitch, pitch_PID = 0;
-error_yaw, error_yaw_prev, integral_yaw, integral_yaw_prev, derivative_yaw, yaw_PID = 0;
+  // Controller:
+  error_roll, error_roll_prev, roll_des_prev, integral_roll, integral_roll_il, integral_roll_ol, integral_roll_prev, integral_roll_prev_il, integral_roll_prev_ol, derivative_roll, roll_PID = 0;
+  error_pitch, error_pitch_prev, pitch_des_prev, integral_pitch, integral_pitch_il, integral_pitch_ol, integral_pitch_prev, integral_pitch_prev_il, integral_pitch_prev_ol, derivative_pitch, pitch_PID = 0;
+  error_yaw, error_yaw_prev, integral_yaw, integral_yaw_prev, derivative_yaw, yaw_PID = 0;
 
-// Normalized desired state:
-thro_des, roll_des, pitch_des, yaw_des = 0;
-roll_passthru, pitch_passthru, yaw_passthru = 0;
+  // Normalized desired state:
+  thro_des, roll_des, pitch_des, yaw_des = 0;
+  positionX_des, positionY_des, positionZ_des = 0.0f;
+  roll_passthru, pitch_passthru, yaw_passthru = 0;
 
-// Optical Flow Position Information:
-positionX_cur, positionY_cur, positionZ_cur = 0.0f;
-positionX_prev, positionY_prev, positionZ_prev = 0.0f;
+  // Optical Flow Position Information:
+  positionX_cur, positionY_cur, positionZ_cur = 0.0f;
+  positionX_prev, positionY_prev, positionZ_prev = 0.0f;
 
-// Optical Flow Twist Information:
-current_velocityX = 0.0f;
-current_velocityY = 0.0f;
-current_velocityZ = 0.0f;
-current_angular_velocityX = 0.0f;
-current_angular_velocityY = 0.0f;
-current_angular_velocityZ = 0.0f;
-
-
+  // Optical Flow Twist Information:
+  current_velocityX = 0.0f;
+  current_velocityY = 0.0f;
+  current_velocityZ = 0.0f;
+  current_angular_velocityX = 0.0f;
+  current_angular_velocityY = 0.0f;
+  current_angular_velocityZ = 0.0f;
 }
 
 void loopRate(int freq) {
@@ -1560,6 +1712,24 @@ void printAccelData() {
     Serial.print(AccY);
     Serial.print(F(" AccZ:"));
     Serial.println(AccZ);
+  }
+}
+
+void printIMUData() {
+  if (current_time - print_counter > 10000) {
+    print_counter = micros();
+    Serial.print(F("GyroX:"));
+    Serial.print(GyroX, 8);
+    Serial.print(F(" GyroY:"));
+    Serial.print(GyroY, 8);
+    Serial.print(F(" GyroZ:"));
+    Serial.println(GyroZ, 8);
+    Serial.print(F("AccX:"));
+    Serial.print(AccX, 8);
+    Serial.print(F(" AccY:"));
+    Serial.print(AccY, 8);
+    Serial.print(F(" AccZ:"));
+    Serial.println(AccZ, 8);
   }
 }
 
@@ -1645,9 +1815,11 @@ float invSqrt(float x) {
 
 bool buildIntegral()
 {
-  bool shouldBuild = true;
-  if (channel_pwm[0] > 1470 && channel_pwm[0] < 1530) {
-    shouldBuild = false;
+  if (channel_pwm[0] > 1075 && channel_pwm[0] < 1125) {
+    return false; 
   }
-  return shouldBuild;
+  if (droneState == DORMANT) {
+    return false;
+  }
+  return true;
 }
