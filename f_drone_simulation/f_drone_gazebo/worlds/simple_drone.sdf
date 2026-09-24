@@ -1,0 +1,204 @@
+<?xml version="1.0" ?>
+<sdf version="1.11">
+  <world name="simple_drone_world">
+    <physics name="1ms" type="ignored">
+      <max_step_size>0.001</max_step_size>
+      <real_time_factor>1.0</real_time_factor>
+    </physics>
+    <plugin
+      filename="gz-sim-physics-system"
+      name="gz::sim::systems::Physics">
+    </plugin>
+    <plugin
+      filename="gz-sim-user-commands-system"
+      name="gz::sim::systems::UserCommands">
+    </plugin>
+    <plugin
+      filename="gz-sim-scene-broadcaster-system"
+      name="gz::sim::systems::SceneBroadcaster">
+    </plugin>
+
+    <light type="directional" name="sun">
+      <cast_shadows>true</cast_shadows>
+      <pose>0 0 10 0 0 0</pose>
+      <diffuse>0.8 0.8 0.8 1</diffuse>
+      <specular>0.2 0.2 0.2 1</specular>
+      <attenuation>
+        <range>1000</range>
+        <constant>0.9</constant>
+        <linear>0.01</linear>
+        <quadratic>0.001</quadratic>
+      </attenuation>
+      <direction>-0.5 0.1 -0.9</direction>
+    </light>
+
+    <model name="ground_plane">
+      <static>true</static>
+      <link name="link">
+        <collision name="collision">
+          <geometry>
+            <plane>
+              <normal>0 0 1</normal>
+              <size>100 100</size>
+            </plane>
+          </geometry>
+        </collision>
+        <visual name="visual">
+          <geometry>
+            <plane>
+              <normal>0 0 1</normal>
+              <size>100 100</size>
+            </plane>
+          </geometry>
+          <material>
+            <ambient>0.8 0.8 0.8 1</ambient>
+            <diffuse>0.8 0.8 0.8 1</diffuse>
+            <specular>0.8 0.8 0.8 1</specular>
+          </material>
+        </visual>
+      </link>
+    </model>
+    <include>
+      <uri>model://drone/urdf/drone.sdf</uri>
+      <name>drone</name>
+      <pose>0 0 1.047 0 0 -1.5708</pose>
+      <!-- Controller lives here, not in drone.sdf, so the model stays pure CAD.
+           SDF 1.9+ attaches <plugin> elements inside <include> to the included model. -->
+      <!-- Motor and controller parameters carried over from f_drone/model_teleop.sdf:
+           same 5760 rad/s ceiling, 6.0e-08 thrust constant and 0.005964552 moment
+           constant measured for these rotors. -->
+      <plugin
+        filename="gz-sim-multicopter-motor-model-system"
+        name="gz::sim::systems::MulticopterMotorModel">
+        <robotNamespace>drone</robotNamespace>
+        <jointName>dof_motor_prop_1</jointName>
+        <linkName>prop__1_</linkName>
+        <turningDirection>ccw</turningDirection>
+        <maxRotVelocity>5760</maxRotVelocity>
+        <motorConstant>6.0e-08</motorConstant>
+        <momentConstant>0.005964552</momentConstant>
+        <rotorDragCoefficient>8.06428e-05</rotorDragCoefficient>
+        <rollingMomentCoefficient>0.0000001</rollingMomentCoefficient>
+        <rotorVelocitySlowdownSim>20</rotorVelocitySlowdownSim>
+        <actuator_number>0</actuator_number>
+        <commandSubTopic>gazebo/command/motor_speed</commandSubTopic>
+        <motorSpeedPubTopic>motor_speed/0</motorSpeedPubTopic>
+        <motorType>velocity</motorType>
+      </plugin>
+      <plugin
+        filename="gz-sim-multicopter-motor-model-system"
+        name="gz::sim::systems::MulticopterMotorModel">
+        <robotNamespace>drone</robotNamespace>
+        <jointName>dof_motor_prop_2</jointName>
+        <linkName>prop__2_</linkName>
+        <turningDirection>cw</turningDirection>
+        <maxRotVelocity>5760</maxRotVelocity>
+        <motorConstant>6.0e-08</motorConstant>
+        <momentConstant>0.005964552</momentConstant>
+        <rotorDragCoefficient>8.06428e-05</rotorDragCoefficient>
+        <rollingMomentCoefficient>0.0000001</rollingMomentCoefficient>
+        <rotorVelocitySlowdownSim>20</rotorVelocitySlowdownSim>
+        <actuator_number>1</actuator_number>
+        <commandSubTopic>gazebo/command/motor_speed</commandSubTopic>
+        <motorSpeedPubTopic>motor_speed/1</motorSpeedPubTopic>
+        <motorType>velocity</motorType>
+      </plugin>
+      <plugin
+        filename="gz-sim-multicopter-motor-model-system"
+        name="gz::sim::systems::MulticopterMotorModel">
+        <robotNamespace>drone</robotNamespace>
+        <jointName>dof_motor_prop_3</jointName>
+        <linkName>prop__3_</linkName>
+        <turningDirection>cw</turningDirection>
+        <maxRotVelocity>5760</maxRotVelocity>
+        <motorConstant>6.0e-08</motorConstant>
+        <momentConstant>0.005964552</momentConstant>
+        <rotorDragCoefficient>8.06428e-05</rotorDragCoefficient>
+        <rollingMomentCoefficient>0.0000001</rollingMomentCoefficient>
+        <rotorVelocitySlowdownSim>20</rotorVelocitySlowdownSim>
+        <actuator_number>2</actuator_number>
+        <commandSubTopic>gazebo/command/motor_speed</commandSubTopic>
+        <motorSpeedPubTopic>motor_speed/2</motorSpeedPubTopic>
+        <motorType>velocity</motorType>
+      </plugin>
+      <plugin
+        filename="gz-sim-multicopter-motor-model-system"
+        name="gz::sim::systems::MulticopterMotorModel">
+        <robotNamespace>drone</robotNamespace>
+        <jointName>dof_motor_prop_4</jointName>
+        <linkName>prop__4_</linkName>
+        <turningDirection>ccw</turningDirection>
+        <maxRotVelocity>5760</maxRotVelocity>
+        <motorConstant>6.0e-08</motorConstant>
+        <momentConstant>0.005964552</momentConstant>
+        <rotorDragCoefficient>8.06428e-05</rotorDragCoefficient>
+        <rollingMomentCoefficient>0.0000001</rollingMomentCoefficient>
+        <rotorVelocitySlowdownSim>20</rotorVelocitySlowdownSim>
+        <actuator_number>3</actuator_number>
+        <commandSubTopic>gazebo/command/motor_speed</commandSubTopic>
+        <motorSpeedPubTopic>motor_speed/3</motorSpeedPubTopic>
+        <motorType>velocity</motorType>
+      </plugin>
+      <!-- Velocity controller driven by the Gazebo Teleop pad. -->
+      <plugin
+        filename="gz-sim-multicopter-control-system"
+        name="gz::sim::systems::MulticopterVelocityControl">
+        <robotNamespace>drone</robotNamespace>
+        <commandSubTopic>gazebo/command/twist</commandSubTopic>
+        <enableSubTopic>enable</enableSubTopic>
+        <comLinkName>root</comLinkName>
+        <velocityGain>1.25 1.25 0.2425</velocityGain>
+        <attitudeGain>0.02 0.02 0.02</attitudeGain>
+        <angularRateGain>0.005 0.005 0.005</angularRateGain>
+        <!-- REQUIRED: without these the commanded velocity is clamped to the
+             plugin defaults and the rotors barely spin. -->
+        <maximumLinearAcceleration>2 2 2</maximumLinearAcceleration>
+        <maximumLinearVelocity>2 2 2</maximumLinearVelocity>
+        <maximumAngularVelocity>3 3 3</maximumAngularVelocity>
+        <rotorConfiguration>
+          <rotor>
+            <jointName>dof_motor_prop_1</jointName>
+            <forceConstant>6.0e-08</forceConstant>
+            <momentConstant>0.005964552</momentConstant>
+            <direction>1</direction>
+          </rotor>
+          <rotor>
+            <jointName>dof_motor_prop_2</jointName>
+            <forceConstant>6.0e-08</forceConstant>
+            <momentConstant>0.005964552</momentConstant>
+            <direction>-1</direction>
+          </rotor>
+          <rotor>
+            <jointName>dof_motor_prop_3</jointName>
+            <forceConstant>6.0e-08</forceConstant>
+            <momentConstant>0.005964552</momentConstant>
+            <direction>-1</direction>
+          </rotor>
+          <rotor>
+            <jointName>dof_motor_prop_4</jointName>
+            <forceConstant>6.0e-08</forceConstant>
+            <momentConstant>0.005964552</momentConstant>
+            <direction>1</direction>
+          </rotor>
+        </rotorConfiguration>
+      </plugin>
+      <!-- Match ROS's URDF frames; this model's base_link is at its origin. -->
+      <plugin filename="gz-sim-odometry-publisher-system"
+              name="gz::sim::systems::OdometryPublisher">
+        <dimensions>3</dimensions>
+        <odom_frame>world</odom_frame>
+        <robot_base_frame>root</robot_base_frame>
+        <odom_topic>/drone/odometry</odom_topic>
+        <tf_topic>/drone/tf</tf_topic>
+        <odom_publish_frequency>50</odom_publish_frequency>
+      </plugin>
+
+      <!-- Publish measured rotor angles, not synthetic visualization states. -->
+      <plugin filename="gz-sim-joint-state-publisher-system"
+              name="gz::sim::systems::JointStatePublisher">
+        <topic>/drone/joint_states</topic>
+        <update_rate>50</update_rate>
+      </plugin>
+    </include>
+  </world>
+</sdf>

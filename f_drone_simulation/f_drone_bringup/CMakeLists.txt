@@ -19,6 +19,7 @@ install(
 if(BUILD_TESTING)
   find_package(ament_cmake_pytest REQUIRED)
   ament_add_pytest_test(mini_shell_tf test/test_mini_shell_tf.py TIMEOUT 90)
+  ament_add_pytest_test(mini_shell_hil test/test_mini_shell_hil.py TIMEOUT 50)
 endif()
 
 ament_package()

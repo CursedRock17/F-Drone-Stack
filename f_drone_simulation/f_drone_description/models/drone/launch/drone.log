@@ -1,0 +1,3 @@
+Circuit: <launch>
+
+Fatal Error: Unknown SPICE device type "<" in "<arg name="urdf_file" default="$(find drone)/urdf/drone.urdf"/>"

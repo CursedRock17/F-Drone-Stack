@@ -49,6 +49,12 @@ ROS–Gazebo bridge and produces upward motion. The integration test checks
 that the URDF, clock, joint states, and all five link transforms are
 available and that the body transform follows Gazebo odometry during flight.
 
+A separate WebSocket check received the live URDF, all five TF edges, and
+all nine referenced mesh files through the Foxglove bridge. Desktop rendering
+has not yet been visually confirmed: the isolated desktop test profile
+stopped at Foxglove's sign-in screen. Use your signed-in session to import
+the layout and confirm that the model stays assembled during teleop.
+
 From the repository root, build and start the example:
 
 ```bash

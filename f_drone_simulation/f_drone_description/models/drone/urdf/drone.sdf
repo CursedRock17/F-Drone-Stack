@@ -1,0 +1,599 @@
+<?xml version="1.0" ?>
+<sdf version='1.11'>
+  <model name='drone'>
+    <link name='root'>
+      <inertial>
+        <pose>-3.1045139736423291e-05 -0.0024829753933657832 -0.0049944875129489617 0 0 0</pose>
+        <mass>0.100646976</mass>
+        <inertia>
+          <ixx>0.000106358310104841</ixx>
+          <ixy>8.8870867283404449e-08</ixy>
+          <ixz>-6.3492571418337586e-08</ixz>
+          <iyy>6.1792029157155349e-05</iyy>
+          <iyz>3.2288075699432942e-06</iyz>
+          <izz>0.00014803367717369369</izz>
+        </inertia>
+      </inertial>
+      <!-- Simple prisms for contact: one per leg, one around the frame,
+           battery, motors and electronics. -->
+      <collision name='leg_1_collision'>
+        <pose>-0.0404 0.0420 -0.0215 0 0 0</pose>
+        <geometry><box><size>0.0050 0.0129 0.0510</size></box></geometry>
+      </collision>
+      <collision name='leg_2_collision'>
+        <pose>-0.0411 -0.0521 -0.0215 0 0 0</pose>
+        <geometry><box><size>0.0126 0.0126 0.0510</size></box></geometry>
+      </collision>
+      <collision name='leg_3_collision'>
+        <pose>0.0390 0.0420 -0.0215 0 0 0</pose>
+        <geometry><box><size>0.0050 0.0129 0.0510</size></box></geometry>
+      </collision>
+      <collision name='leg_4_collision'>
+        <pose>0.0406 -0.0521 -0.0215 0 0 0</pose>
+        <geometry><box><size>0.0126 0.0126 0.0510</size></box></geometry>
+      </collision>
+      <collision name='body_collision'>
+        <pose>0.0000 -0.0070 -0.0022 0 0 0</pose>
+        <geometry><box><size>0.1215 0.1151 0.0335</size></box></geometry>
+      </collision>
+      <visual name='root_fixed_joint_lump__base_link_visual'>
+        <pose>4.7435500000001852e-06 -0.0054375100000000004 0.0030000000000000001 0 0 0</pose>
+        <geometry>
+          <mesh>
+            <scale>1 1 1</scale>
+            <uri>model://drone/meshes/base_link.stl</uri>
+          </mesh>
+        </geometry>
+        <material>
+          <diffuse>0.328431249 0.352941275 0.377451241 1</diffuse>
+          <ambient>0.328431249 0.352941275 0.377451241 1</ambient>
+        </material>
+      </visual>
+      <visual name='root_fixed_joint_lump__2s_battery_visual_1'>
+        <pose>4.7435499999984106e-06 0.0015624900000000021 -0.019 0 0 0</pose>
+        <geometry>
+          <mesh>
+            <scale>1 1 1</scale>
+            <uri>model://drone/meshes/_2S_Battery.stl</uri>
+          </mesh>
+        </geometry>
+        <material>
+          <diffuse>1 1 1 1</diffuse>
+          <ambient>1 1 1 1</ambient>
+        </material>
+      </visual>
+      <visual name='root_fixed_joint_lump__leg_visual_2'>
+        <pose>-0.037908836499797448 0.038994090816366428 -0.047511590816666727 1.5708 5.5511151231257827e-17 -1.5708</pose>
+        <geometry>
+          <mesh>
+            <scale>1 1 1</scale>
+            <uri>model://drone/meshes/Leg.stl</uri>
+          </mesh>
+        </geometry>
+        <material>
+          <diffuse>0.465686262 0.818627477 0.299019992 1</diffuse>
+          <ambient>0.465686262 0.818627477 0.299019992 1</ambient>
+        </material>
+      </visual>
+      <visual name='root_fixed_joint_lump__leg_1_visual_3'>
+        <pose>-0.037236889241565888 -0.05246212935094758 -0.047511590816666727 1.5708 -2.2204460492503131e-16 -0.78539800000000004</pose>
+        <geometry>
+          <mesh>
+            <scale>1 1 1</scale>
+            <uri>model://drone/meshes/Leg.stl</uri>
+          </mesh>
+        </geometry>
+        <material>
+          <diffuse>0.465686262 0.818627477 0.299019992 1</diffuse>
+          <ambient>0.465686262 0.818627477 0.299019992 1</ambient>
+        </material>
+      </visual>
+      <visual name='root_fixed_joint_lump__leg_3_visual_4'>
+        <pose>0.036496014460566828 0.044994090816325959 -0.047511590816666727 1.5708 -5.5511151231257827e-17 1.5708</pose>
+        <geometry>
+          <mesh>
+            <scale>1 1 1</scale>
+            <uri>model://drone/meshes/Leg.stl</uri>
+          </mesh>
+        </geometry>
+        <material>
+          <diffuse>0.465686262 0.818627477 0.299019992 1</diffuse>
+          <ambient>0.465686262 0.818627477 0.299019992 1</ambient>
+        </material>
+      </visual>
+      <visual name='root_fixed_joint_lump__leg_2_visual_5'>
+        <pose>0.040282187476873017 -0.055997912287613978 -0.047511590816666727 1.5708 8.3266726846886741e-16 -2.3561899999999998</pose>
+        <geometry>
+          <mesh>
+            <scale>1 1 1</scale>
+            <uri>model://drone/meshes/Leg.stl</uri>
+          </mesh>
+        </geometry>
+        <material>
+          <diffuse>0.465686262 0.818627477 0.299019992 1</diffuse>
+          <ambient>0.465686262 0.818627477 0.299019992 1</ambient>
+        </material>
+      </visual>
+      <visual name='root_fixed_joint_lump__motor_1_visual_6'>
+        <pose>-0.051445299999999999 0.042608399999999998 0.0030000000000000001 0 0 0</pose>
+        <geometry>
+          <mesh>
+            <scale>1 1 1</scale>
+            <uri>model://drone/meshes/Motor.stl</uri>
+          </mesh>
+        </geometry>
+        <material>
+          <diffuse>1 1 1 1</diffuse>
+          <ambient>1 1 1 1</ambient>
+        </material>
+      </visual>
+      <visual name='root_fixed_joint_lump__motor_visual_7'>
+        <pose>-0.051445299999999999 -0.0566416 0.0030000000000000001 0 0 0</pose>
+        <geometry>
+          <mesh>
+            <scale>1 1 1</scale>
+            <uri>model://drone/meshes/Motor.stl</uri>
+          </mesh>
+        </geometry>
+        <material>
+          <diffuse>1 1 1 1</diffuse>
+          <ambient>1 1 1 1</ambient>
+        </material>
+      </visual>
+      <visual name='root_fixed_joint_lump__motor_3_visual_8'>
+        <pose>0.051454699999999999 0.042608399999999998 0.0030000000000000001 0 0 0</pose>
+        <geometry>
+          <mesh>
+            <scale>1 1 1</scale>
+            <uri>model://drone/meshes/Motor.stl</uri>
+          </mesh>
+        </geometry>
+        <material>
+          <diffuse>1 1 1 1</diffuse>
+          <ambient>1 1 1 1</ambient>
+        </material>
+      </visual>
+      <visual name='root_fixed_joint_lump__motor_2_visual_9'>
+        <pose>0.051454699999999999 -0.0566416 0.0030000000000000001 0 0 0</pose>
+        <geometry>
+          <mesh>
+            <scale>1 1 1</scale>
+            <uri>model://drone/meshes/Motor.stl</uri>
+          </mesh>
+        </geometry>
+        <material>
+          <diffuse>1 1 1 1</diffuse>
+          <ambient>1 1 1 1</ambient>
+        </material>
+      </visual>
+      <visual name='root_fixed_joint_lump__custom_pcb_visual_10'>
+        <pose>4.7435500000008679e-06 0.0001039149999999981 0.00298 0 0 0</pose>
+        <geometry>
+          <mesh>
+            <scale>1 1 1</scale>
+            <uri>model://drone/meshes/Custom_PCB.stl</uri>
+          </mesh>
+        </geometry>
+        <material>
+          <diffuse>1 0.808823764 0.411765009 1</diffuse>
+          <ambient>1 0.808823764 0.411765009 1</ambient>
+        </material>
+      </visual>
+      <visual name='root_fixed_joint_lump__esc_visual_11'>
+        <pose>4.7435500000101471e-06 -0.029896084999999999 0.0045500000000000002 0 0 0</pose>
+        <geometry>
+          <mesh>
+            <scale>1 1 1</scale>
+            <uri>model://drone/meshes/ESC.stl</uri>
+          </mesh>
+        </geometry>
+        <material>
+          <diffuse>0.328431249 0.352941275 0.377451241 1</diffuse>
+          <ambient>0.328431249 0.352941275 0.377451241 1</ambient>
+        </material>
+      </visual>
+      <visual name='root_fixed_joint_lump__imu_visual_12'>
+        <pose>4.7435500000010449e-06 0.0001039149999999989 0.0045500000000000002 0 0 0</pose>
+        <geometry>
+          <mesh>
+            <scale>1 1 1</scale>
+            <uri>model://drone/meshes/IMU.stl</uri>
+          </mesh>
+        </geometry>
+        <material>
+          <diffuse>0.107843123 0.397058755 0.862744987 1</diffuse>
+          <ambient>0.107843123 0.397058755 0.862744987 1</ambient>
+        </material>
+      </visual>
+      <visual name='root_fixed_joint_lump__mcu_visual_13'>
+        <pose>4.7435499999930947e-06 0.027496987000000001 0.0045500000000000002 0 0 0</pose>
+        <geometry>
+          <mesh>
+            <scale>1 1 1</scale>
+            <uri>model://drone/meshes/MCU.stl</uri>
+          </mesh>
+        </geometry>
+        <material>
+          <diffuse>0.465686262 0.818627477 0.299019992 1</diffuse>
+          <ambient>0.465686262 0.818627477 0.299019992 1</ambient>
+        </material>
+      </visual>
+    </link>
+    <joint name='dof_motor_prop_1' type='revolute'>
+      <pose relative_to='root'>-0.051445300000000041 0.042528406900000003 0.010500000000000001 3.1415899999999999 0 -4.7184499999999998e-16</pose>
+      <parent>root</parent>
+      <child>prop__1_</child>
+      <axis>
+        <xyz>0 0 -1</xyz>
+        <limit>
+          <lower>-inf</lower>
+          <upper>inf</upper>
+        </limit>
+        <dynamics>
+          <spring_reference>0</spring_reference>
+          <spring_stiffness>0</spring_stiffness>
+        </dynamics>
+      </axis>
+    </joint>
+    <link name='prop__1_'>
+      <pose relative_to='dof_motor_prop_1'>0 0 0 0 0 0</pose>
+      <inertial>
+        <pose>0.018199699999999999 -0.00027293599999999999 -0.00024742399999999999 0 0 0</pose>
+        <mass>1.21853e-07</mass>
+        <inertia>
+          <ixx>8.5680899999999999e-13</ixx>
+          <ixy>1.23767e-13</ixy>
+          <ixz>-1.0460399999999999e-14</ixz>
+          <iyy>1.14285e-11</iyy>
+          <iyz>2.6944000000000001e-13</iyz>
+          <izz>1.2066500000000001e-11</izz>
+        </inertia>
+      </inertial>
+      <visual name='prop__1__visual'>
+        <pose>0 0 0 0 0 1.7970600000000001</pose>
+        <geometry>
+          <mesh>
+            <scale>1 1 1</scale>
+            <uri>model://drone/meshes/_.stl</uri>
+          </mesh>
+        </geometry>
+        <material>
+          <diffuse>1 1 1 1</diffuse>
+          <ambient>1 1 1 1</ambient>
+        </material>
+      </visual>
+      <visual name='prop__1__visual_1'>
+        <pose>0 0 0 0 0 1.7970600000000001</pose>
+        <geometry>
+          <mesh>
+            <scale>1 1 1</scale>
+            <uri>model://drone/meshes/__1.stl</uri>
+          </mesh>
+        </geometry>
+        <material>
+          <diffuse>1 1 1 1</diffuse>
+          <ambient>1 1 1 1</ambient>
+        </material>
+      </visual>
+      <visual name='prop__1__visual_2'>
+        <pose>0 0 0 0 0 1.7970600000000001</pose>
+        <geometry>
+          <mesh>
+            <scale>1 1 1</scale>
+            <uri>model://drone/meshes/__2.stl</uri>
+          </mesh>
+        </geometry>
+        <material>
+          <diffuse>1 1 1 1</diffuse>
+          <ambient>1 1 1 1</ambient>
+        </material>
+      </visual>
+    </link>
+    <joint name='dof_motor_prop_2' type='revolute'>
+      <pose relative_to='root'>-0.051445300000000041 -0.056721593100000002 0.010625000000000001 0 0 1.9428900000000001e-16</pose>
+      <parent>root</parent>
+      <child>prop__2_</child>
+      <axis>
+        <xyz>0 0 1</xyz>
+        <limit>
+          <lower>-inf</lower>
+          <upper>inf</upper>
+        </limit>
+        <dynamics>
+          <spring_reference>0</spring_reference>
+          <spring_stiffness>0</spring_stiffness>
+        </dynamics>
+      </axis>
+    </joint>
+    <link name='prop__2_'>
+      <pose relative_to='dof_motor_prop_2'>0 0 0 0 0 0</pose>
+      <inertial>
+        <pose>0.018199699999999999 -0.00027293599999999999 -0.00024742399999999999 0 0 0</pose>
+        <mass>1.21853e-07</mass>
+        <inertia>
+          <ixx>8.5680899999999999e-13</ixx>
+          <ixy>1.23767e-13</ixy>
+          <ixz>-1.0460399999999999e-14</ixz>
+          <iyy>1.14285e-11</iyy>
+          <iyz>2.6944000000000001e-13</iyz>
+          <izz>1.2066500000000001e-11</izz>
+        </inertia>
+      </inertial>
+      <visual name='prop__2__visual'>
+        <pose>0 0 0 0 0 -1.7997300000000001</pose>
+        <geometry>
+          <mesh>
+            <scale>1 1 1</scale>
+            <uri>model://drone/meshes/_.stl</uri>
+          </mesh>
+        </geometry>
+        <material>
+          <diffuse>1 1 1 1</diffuse>
+          <ambient>1 1 1 1</ambient>
+        </material>
+      </visual>
+      <visual name='prop__2__visual_1'>
+        <pose>0 0 0 0 0 -1.7997300000000001</pose>
+        <geometry>
+          <mesh>
+            <scale>1 1 1</scale>
+            <uri>model://drone/meshes/__1.stl</uri>
+          </mesh>
+        </geometry>
+        <material>
+          <diffuse>1 1 1 1</diffuse>
+          <ambient>1 1 1 1</ambient>
+        </material>
+      </visual>
+      <visual name='prop__2__visual_2'>
+        <pose>0 0 0 0 0 -1.7997300000000001</pose>
+        <geometry>
+          <mesh>
+            <scale>1 1 1</scale>
+            <uri>model://drone/meshes/__2.stl</uri>
+          </mesh>
+        </geometry>
+        <material>
+          <diffuse>1 1 1 1</diffuse>
+          <ambient>1 1 1 1</ambient>
+        </material>
+      </visual>
+    </link>
+    <joint name='dof_motor_prop_3' type='revolute'>
+      <pose relative_to='root'>0.051454699999999971 0.042528406900000003 0.010625000000000001 0 0 0</pose>
+      <parent>root</parent>
+      <child>prop__3_</child>
+      <axis>
+        <xyz>0 0 1</xyz>
+        <limit>
+          <lower>-inf</lower>
+          <upper>inf</upper>
+        </limit>
+        <dynamics>
+          <spring_reference>0</spring_reference>
+          <spring_stiffness>0</spring_stiffness>
+        </dynamics>
+      </axis>
+    </joint>
+    <link name='prop__3_'>
+      <pose relative_to='dof_motor_prop_3'>0 0 0 0 0 0</pose>
+      <inertial>
+        <pose>0.018199699999999999 -0.00027293599999999999 -0.00024742399999999999 0 0 0</pose>
+        <mass>1.21853e-07</mass>
+        <inertia>
+          <ixx>8.5680899999999999e-13</ixx>
+          <ixy>1.23767e-13</ixy>
+          <ixz>-1.0460399999999999e-14</ixz>
+          <iyy>1.14285e-11</iyy>
+          <iyz>2.6944000000000001e-13</iyz>
+          <izz>1.2066500000000001e-11</izz>
+        </inertia>
+      </inertial>
+      <visual name='prop__3__visual'>
+        <pose>0 0 0 0 0 -1.7925</pose>
+        <geometry>
+          <mesh>
+            <scale>1 1 1</scale>
+            <uri>model://drone/meshes/_.stl</uri>
+          </mesh>
+        </geometry>
+        <material>
+          <diffuse>1 1 1 1</diffuse>
+          <ambient>1 1 1 1</ambient>
+        </material>
+      </visual>
+      <visual name='prop__3__visual_1'>
+        <pose>0 0 0 0 0 -1.7925</pose>
+        <geometry>
+          <mesh>
+            <scale>1 1 1</scale>
+            <uri>model://drone/meshes/__1.stl</uri>
+          </mesh>
+        </geometry>
+        <material>
+          <diffuse>1 1 1 1</diffuse>
+          <ambient>1 1 1 1</ambient>
+        </material>
+      </visual>
+      <visual name='prop__3__visual_2'>
+        <pose>0 0 0 0 0 -1.7925</pose>
+        <geometry>
+          <mesh>
+            <scale>1 1 1</scale>
+            <uri>model://drone/meshes/__2.stl</uri>
+          </mesh>
+        </geometry>
+        <material>
+          <diffuse>1 1 1 1</diffuse>
+          <ambient>1 1 1 1</ambient>
+        </material>
+      </visual>
+    </link>
+    <joint name='dof_motor_prop_4' type='revolute'>
+      <pose relative_to='root'>0.051454699999999971 -0.056721593100000002 0.010500000000000001 3.1415899999999999 9.4039548065783001e-38 1.9428900000000001e-16</pose>
+      <parent>root</parent>
+      <child>prop__4_</child>
+      <axis>
+        <xyz>0 0 -1</xyz>
+        <limit>
+          <lower>-inf</lower>
+          <upper>inf</upper>
+        </limit>
+        <dynamics>
+          <spring_reference>0</spring_reference>
+          <spring_stiffness>0</spring_stiffness>
+        </dynamics>
+      </axis>
+    </joint>
+    <link name='prop__4_'>
+      <pose relative_to='dof_motor_prop_4'>0 0 0 0 0 0</pose>
+      <inertial>
+        <pose>0.018199699999999999 -0.00027293599999999999 -0.00024742399999999999 0 0 0</pose>
+        <mass>1.21853e-07</mass>
+        <inertia>
+          <ixx>8.5680899999999999e-13</ixx>
+          <ixy>1.23767e-13</ixy>
+          <ixz>-1.0460399999999999e-14</ixz>
+          <iyy>1.14285e-11</iyy>
+          <iyz>2.6944000000000001e-13</iyz>
+          <izz>1.2066500000000001e-11</izz>
+        </inertia>
+      </inertial>
+      <visual name='prop__4__visual'>
+        <pose>0 0 0 0 0 1.79515</pose>
+        <geometry>
+          <mesh>
+            <scale>1 1 1</scale>
+            <uri>model://drone/meshes/_.stl</uri>
+          </mesh>
+        </geometry>
+        <material>
+          <diffuse>1 1 1 1</diffuse>
+          <ambient>1 1 1 1</ambient>
+        </material>
+      </visual>
+      <visual name='prop__4__visual_1'>
+        <pose>0 0 0 0 0 1.79515</pose>
+        <geometry>
+          <mesh>
+            <scale>1 1 1</scale>
+            <uri>model://drone/meshes/__1.stl</uri>
+          </mesh>
+        </geometry>
+        <material>
+          <diffuse>1 1 1 1</diffuse>
+          <ambient>1 1 1 1</ambient>
+        </material>
+      </visual>
+      <visual name='prop__4__visual_2'>
+        <pose>0 0 0 0 0 1.79515</pose>
+        <geometry>
+          <mesh>
+            <scale>1 1 1</scale>
+            <uri>model://drone/meshes/__2.stl</uri>
+          </mesh>
+        </geometry>
+        <material>
+          <diffuse>1 1 1 1</diffuse>
+          <ambient>1 1 1 1</ambient>
+        </material>
+      </visual>
+    </link>
+    <frame name='fix_battery' attached_to='base_link'>
+      <pose>4.7435499999999997e-06 0.0015624899999999999 0 0 0 0</pose>
+    </frame>
+    <frame name='2s_battery' attached_to='fix_battery'>
+      <pose>0 0 0 0 0 0</pose>
+    </frame>
+    <frame name='fix_leg1' attached_to='base_link'>
+      <pose>-0.040409 0.041994099999999999 0 1.5708 5.5511151231257827e-17 -1.5708</pose>
+    </frame>
+    <frame name='leg' attached_to='fix_leg1'>
+      <pose>0 0 0 0 0 0</pose>
+    </frame>
+    <frame name='fix_leg2' attached_to='base_link'>
+      <pose>-0.041126099999999999 -0.052108700000000001 0 1.5708 -5.5511151231257827e-17 -0.78539800000000004</pose>
+    </frame>
+    <frame name='leg_1' attached_to='fix_leg2'>
+      <pose>0 0 0 0 0 0</pose>
+    </frame>
+    <frame name='fix_leg3' attached_to='base_link'>
+      <pose>0.038996200000000002 0.041994099999999999 0 1.5708 -5.5511151231257827e-17 1.5708</pose>
+    </frame>
+    <frame name='leg_3' attached_to='fix_leg3'>
+      <pose>0 0 0 0 0 0</pose>
+    </frame>
+    <frame name='fix_leg4' attached_to='base_link'>
+      <pose>0.040635600000000001 -0.052108700000000001 0 1.5708 8.3266726846886741e-16 -2.3561899999999998</pose>
+    </frame>
+    <frame name='leg_2' attached_to='fix_leg4'>
+      <pose>0 0 0 0 0 0</pose>
+    </frame>
+    <frame name='fix_motor_1' attached_to='base_link'>
+      <pose>-0.051445299999999999 0.042608399999999998 0.0030000000000000001 0 0 0</pose>
+    </frame>
+    <frame name='motor_1' attached_to='fix_motor_1'>
+      <pose>0 0 0 0 0 0</pose>
+    </frame>
+    <frame name='fix_motor_2' attached_to='base_link'>
+      <pose>-0.051445299999999999 -0.0566416 0.0030000000000000001 0 0 0</pose>
+    </frame>
+    <frame name='motor' attached_to='fix_motor_2'>
+      <pose>0 0 0 0 0 0</pose>
+    </frame>
+    <frame name='fix_motor_3' attached_to='base_link'>
+      <pose>0.051454699999999999 0.042608399999999998 0.0030000000000000001 0 0 0</pose>
+    </frame>
+    <frame name='motor_3' attached_to='fix_motor_3'>
+      <pose>0 0 0 0 0 0</pose>
+    </frame>
+    <frame name='fix_motor_4' attached_to='base_link'>
+      <pose>0.051454699999999999 -0.0566416 0.0030000000000000001 0 0 0</pose>
+    </frame>
+    <frame name='motor_2' attached_to='fix_motor_4'>
+      <pose>0 0 0 0 0 0</pose>
+    </frame>
+    <frame name='fix_esc' attached_to='custom_pcb'>
+      <pose>1.0223700000000001e-17 -0.029999999999999999 0 0 0 0</pose>
+    </frame>
+    <frame name='esc' attached_to='fix_esc'>
+      <pose>0 0 0 0 0 0</pose>
+    </frame>
+    <frame name='fix_imu' attached_to='custom_pcb'>
+      <pose>0 -5.6920599999999998e-19 0 0 0 0</pose>
+    </frame>
+    <frame name='imu' attached_to='fix_imu'>
+      <pose>0 0 0 0 0 0</pose>
+    </frame>
+    <frame name='fix_teensy' attached_to='custom_pcb'>
+      <pose>-7.1235499999999994e-18 0.0275 0 0 0 0</pose>
+    </frame>
+    <frame name='mcu' attached_to='fix_teensy'>
+      <pose>0 0 0 0 0 0</pose>
+    </frame>
+    <frame name='fix_pcb' attached_to='base_link'>
+      <pose>4.7435499999999997e-06 0.000103915 0.0045500000000000002 0 0 0</pose>
+    </frame>
+    <frame name='custom_pcb' attached_to='fix_pcb'>
+      <pose>0 0 0 0 0 0</pose>
+    </frame>
+    <frame name='mate_connector_1' attached_to='base_link'>
+      <pose>-0.040409 0.041994099999999999 3.9031299999999997e-18 0 0 0</pose>
+    </frame>
+    <frame name='mate_connector_2' attached_to='base_link'>
+      <pose>-0.036176399999999997 -0.047159 3.9031299999999997e-18 3.1415899999999999 0 -0.78539800000000004</pose>
+    </frame>
+    <frame name='mate_connector_3' attached_to='base_link'>
+      <pose>0.038996200000000002 0.041994099999999999 3.9031299999999997e-18 3.1415899999999999 0 0</pose>
+    </frame>
+    <frame name='mate_connector_4' attached_to='base_link'>
+      <pose>0.035685799999999997 -0.047159 3.9031299999999997e-18 3.1415899999999999 0 -0.78539800000000004</pose>
+    </frame>
+    <frame name='fix_base_link' attached_to='root'>
+      <pose>1.855e-19 0 0 0 0 0</pose>
+    </frame>
+    <frame name='base_link' attached_to='fix_base_link'>
+      <pose>0 0 0 0 0 0</pose>
+    </frame>
+  </model>
+</sdf>

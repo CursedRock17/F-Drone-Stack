@@ -47,9 +47,9 @@ public:
   gz::sim::Model droneModel {gz::sim::kNullEntity};
 
   // Teensy receives:
-  SensorSerial sensorSerial;
+  SensorSerial sensorSerial{};
   // Teensy sends:
-  RotorPacket rotorPacket;
+  RotorPacket rotorPacket{};
 
   // Data Logging
   CsvLogger logger = CsvLogger(
@@ -113,7 +113,7 @@ void DroneSerial::Configure(const gz::sim::Entity & entity,
   }
 
   // IMU Node Setup
-  this->dataPtr->imuTopicName = "/imu";
+  this->dataPtr->imuTopicName = element->Get<std::string>("imu_topic", "/imu").first;
   auto imuTopic = gz::transport::TopicUtils::AsValidTopic(
     this->dataPtr->imuTopicName.c_str());
   if (imuTopic.empty())
@@ -129,7 +129,8 @@ void DroneSerial::Configure(const gz::sim::Entity & entity,
          << "]" << std::endl;
   
   // Rangefinder Node Setup
-  this->dataPtr->rangefinderTopicName = "/radar";
+  this->dataPtr->rangefinderTopicName =
+    element->Get<std::string>("rangefinder_topic", "/radar").first;
   auto rangefinderTopic = gz::transport::TopicUtils::AsValidTopic(
     this->dataPtr->rangefinderTopicName.c_str());
   if (rangefinderTopic.empty())
@@ -146,7 +147,8 @@ void DroneSerial::Configure(const gz::sim::Entity & entity,
          << "]" << std::endl;
   
   // Actuator Node Setup
-  this->dataPtr->actuatorTopicName = "/drone/gazebo/command/motor_speed";
+  this->dataPtr->actuatorTopicName = element->Get<std::string>(
+    "actuator_topic", "/drone/gazebo/command/motor_speed").first;
   this->dataPtr->actuatorPub = this->dataPtr->actuatorNode.Advertise<
     gz::msgs::Actuators>(this->dataPtr->actuatorTopicName);
   if (!this->dataPtr->actuatorPub) {
